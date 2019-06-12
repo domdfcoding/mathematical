@@ -491,7 +491,6 @@ def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826,
 	return ad_from_median
 
 
-
 def within1min(value1, value2):
 	if value1 not in [0, None, ''] and value2 not in [0, None, '']:
 		return (float(value1) - 1) < (float(value2)) < (float(value1) + 1)

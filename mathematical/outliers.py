@@ -36,10 +36,6 @@ import numpy
 from . import utils
 from . import stats
 
-MAD = 1
-QUARTILES = 2
-STDEV2 = 3
-
 def mad_outliers(dataset, strip_zero=True, threshold=3,):
 	"""
 	Using the Median Absolute Deviation to Find Outliers
@@ -99,7 +95,7 @@ def two_stdev(dataset, strip_zero=True):
 	return stdev_outlier(dataset, strip_zero=strip_zero)
 	
 
-def stdev_outlier(dataset, rng=int(2), strip_zero=True):
+def stdev_outlier(dataset, strip_zero=True, rng=int(2)):
 	"""
 	Outliers are greater than rng*stdev from mean
 	
@@ -170,7 +166,7 @@ def quartile_outliers(dataset, strip_zero=True):
 	return outliers, data_exc_outliers
 
 
-def spss_outliers(dataset, mode="all"):
+def spss_outliers(dataset, strip_zero=True, mode="all"):
 	"""
 	Based on IBM SPSS method for detecting outliers
 	Outliers more than 1.5*IQR from Q1 or Q3

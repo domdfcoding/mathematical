@@ -10,7 +10,6 @@
 #		http://jonathansoma.com/lede/foundations/classes/pandas%20columns%20and%20functions/apply-a-function-to-every-row-in-a-pandas-dataframe/
 #		Copyright 2016 Jonathan Soma
 #
-#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 3 of the License, or
@@ -138,7 +137,7 @@ def df_log_stdev(row, column_label_list=None):
 	return nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]])
 
 
-def df_percentage_new(row, column_label, total):
+def df_percentage(row, column_label, total):
 	"""
 	Returns the value of the specified column as a percentage of the given total
 	The total is usually the sum of the specified column
@@ -162,30 +161,7 @@ def df_percentage_new(row, column_label, total):
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_percentage(row, total, column_label):
-	"""
-	Returns the value of the specified column as a percentage of the given total
-	The total is usually the sum of the specified column
-
-	Do not call this function directly; use it with df.apply() instead.
-
-	data_frame["Bob Percentage"] = data_frame.apply(df_percentage, args=(
-				13, "Bob"), axis=1)
-
-	:param row: row of the data frame
-	:type row: pandas.core.series.Series
-	:param total: total value
-	:param column_label: column label to calculate percentage for
-	:type column_label: str
-
-	:return: Percentage * 100
-	:rtype: float
-	"""
-	
-	return df_percentage_new(row, column_label=column_label, total=total)
-
-
-def df_log_new(row, column_label_list=None, base=10):
+def df_log(row, column_label_list=None, base=10):
 	"""
 	Calculate the logarithm of the values in each row for the specified columns of a data frame
 
@@ -216,29 +192,6 @@ def df_log_new(row, column_label_list=None, base=10):
 		return 0
 
 
-def df_log(row, base, column_label_list):
-	"""
-	Calculate the logarithm of the values in each row for the specified columns of a data frame
-
-	Do not call this function directly; use it with df.apply() instead.
-
-	data_frame["Log10"] = data_frame.apply(df_log, args=(
-				10, ["Bob", "Alice"]), axis=1)
-
-	:param row: row of the data frame
-	:type row: pandas.core.series.Series
-	:param base: logarithmic base
-	:type base: float
-	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
-
-	:return: logarithmic value
-	:rtype: float
-	"""
-	
-	return df_log_new(row, column_label_list=column_label_list, base=base)
-
-
 def df_data_points(row, column_label_list):
 	"""
 	Compile the values for the specified columns in each row into a list
@@ -260,7 +213,7 @@ def df_data_points(row, column_label_list):
 	return [row[column_label] for column_label in column_label_list]
 
 
-def df_outliers_new(row, column_label_list=None, outlier_mode=MAD):
+def df_outliers(row, column_label_list=None, outlier_mode=MAD):
 	"""
 	Identify outliers in each row
 
@@ -281,7 +234,7 @@ def df_outliers_new(row, column_label_list=None, outlier_mode=MAD):
 	"""
 	
 	import pandas as pd
-	from utils import outliers
+	from . import outliers
 	
 	if column_label_list is None:
 		column_label_list = list(row.index)
@@ -296,36 +249,6 @@ def df_outliers_new(row, column_label_list=None, outlier_mode=MAD):
 		return None
 	
 	return pd.Series(list(x))
-
-
-def df_outliers(row, outlier_mode):
-	"""
-	Identify outliers in each row
-
-	Do not call this function directly; use it with df.apply() instead.
-
-	data_frame["Outliers"] = data_frame.apply(df_outliers, args=(
-				["Bob", "Alice"],), axis=1)
-
-	:param row: row of the data frame
-	:type row: pandas.core.series.Series
-	:param outlier_mode: outlier detection method to use
-	:type outlier_mode: str
-
-	:return: outliers
-	:rtype: pandas.core.series.Series
-	"""
-	
-	if outlier_mode == "mad":
-		outlier_mode = MAD
-	elif outlier_mode == "quartiles":
-		outlier_mode = QUARTILES
-	elif outlier_mode == "2stdev":
-		outlier_mode = STDEV2
-	else:
-		raise ValueError("outlier_mode bust be one of MAD, QUARTILES or STDEV2")
-		
-	return df_outliers_new(row, outlier_mode=outlier_mode)
 
 
 def df_count(row, column_label_list=None):
