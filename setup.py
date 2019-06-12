@@ -20,4 +20,8 @@ setup(
         "Operating System :: OS Independent",
 		"Development Status :: 4 - Beta",
     ],
+	install_requires=[
+		"scipy >= 1.3.0",
+		"numpy >= 1.16.0",
+	],
 )
