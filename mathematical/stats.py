@@ -63,21 +63,23 @@ def mean_none(dataset):
 	return np.nanmean(dataset)
 
 
-def std_none(dataset):
+def std_none(dataset, ddof=1):
 	"""
 	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
 
 	:param dataset: list to calculate mean from
 	:type dataset: list
-
+	:param ddof: Means Delta Degrees of Freedom. The divisor used in calculations is N - ddof, where N represents the number of elements. By default ddof is 1.
+	:type ddof: int
 	:return: standard deviation
 	:rtype float
 	"""
 	
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
+	print(dataset)
 	
-	return np.nanstd(dataset, ddof=1)
+	return np.nanstd(dataset, ddof=ddof)
 
 
 def median_none(dataset):
@@ -130,9 +132,11 @@ def percentile_none(dataset, percentage):
 	:rtype float
 	
 	"""
+	import numpy
 	
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
+	dataset = [x for x in dataset if not numpy.isnan(x)]
 	
 	if len(dataset) < 2:
 		raise ValueError("Dataset too small")

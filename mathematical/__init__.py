@@ -32,4 +32,4 @@ __license__ = "GPL"
 __version__ = "0.1.0"
 __email__ = "dominic@davis-foster.co.uk"
 
-from . import *
+from . import data_frames, outliers, stats, utils
