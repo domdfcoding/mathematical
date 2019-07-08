@@ -5,9 +5,9 @@ python:
 - '3.7'
 - "3.8-dev"
 install:
-- pip install -U coveralls pytest
+- pip install -U coveralls pytest numpy scipy pandas
 script:
-- coverage run --source=domdf_python_tools -m pytest
+- coverage run --source=mathematical -m pytest
 after_success:
 - coveralls
 deploy:
