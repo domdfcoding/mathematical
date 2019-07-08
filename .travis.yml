@@ -3,7 +3,7 @@ dist: xenial
 python:
 - '3.6'
 - '3.7'
-- "3.8-dev"
+- 3.8-dev
 install:
 - pip install -U coveralls pytest numpy scipy pandas
 script:
@@ -12,11 +12,11 @@ after_success:
 - coveralls
 deploy:
   provider: pypi
-  user: "DomDF"
+  user: DomDF
   password:
-    secure: GQVX7JKDfUWcHQzjmZ8yadF4eIM/AUaXu/Zl8U2hwhB6NavbzUayvMXalT+pfgZ6NaWFMPZOETlxv5d+hf98Io/5HIV4i1KB98ze90KXpUU2Icz7IdxWDWGhc36Vkhb7hU0HUfXLu8WxcxQCJB3t7uIB9SO36dh/cMayW5YvBy3HhluaTvgLax4nOJYjN/FJCgs9kTCBYrjJzheS0pgj37bXZCrB06H0bsxgnbaAiL8FiG6tgJLABDLfqPhtJgVRhtdYeuqGv31/OV0vkj1zG6bExp9ENQ4/5L7FijLRznW+DnsRJt6BdTBtxNxK+v1ZccTdVJzTzhoUH/TbXdI+qtBeatTYz880du7TujKoxfFxGZ9+bSaYURaClMHn7/Ndj7ioj5f51jLf8+BCEk3cWEfUL7yeKF6RBWLww6cFKQ9yDNOiXgrsndz6Oh535LV28rKXS1qeGBppMAv09RmR/YfHu+XMp5yWa+vDwjmrQDH7qEkA3wYYMfMRnwi9+LrOHtS7IqFkgbAXZPmh3C0X1UEqD4cuARcyD9FRU2PAXM1tBprxEFi1L/sv4O8KRP+I3jXXsBHTmzbWWVqXiySGOlX6R9vOma35WS3mkllS/Oz7IyhUtONrwpaLHnuBLKMgi+RnsoEYgLx6KgSXVSQ0JUZq8cP2yewC8nx626w675w=
+    secure: EUc8A5PPUpJh0bcrYcBWCToUnkpakzTcU03vtheJG95nT2Jtn/Hq8UcC7vDLSqUWFQEHYCL3i0g1DLSdQYtPMAbKfWXI5ieuVgMM2OEeNF5O2flPi2LberAtoLxNuisVsJkhh0uURXi5EDCX3PcTqtP0N3chawXGWD2MJAfx3VAHyHobb4xX8VM6eQJvKBS4OXf38OcZQwJdGwDtrmgPrbJoHQHBPYyPuvI9dwxw53JSWzTYPo5/HfXAEotiXM2PJDgl9WZygd4c9hP+tGckJtIBucF9k1eCAE3vC2kqBaiJepp2LG7GzAbzek+ky2eFj3y8RViOLm0SewsfVtU9/Ik39DQP27y5lx2G80u0D819Qpq19AIU/ZLJdlFyN+7RtXDNt+cz+s564PH6wnoYNLwYktktJILOQu3RIxi/DUash/cc1Gr12v1B0TSUotCpYrt0oPkC1y6AlPZNgOKf/IY0HgeJFxsYZYQ9xMmv6voXTQkSflKq+8gPNzFwJI4asC5cEElh0rn2IY1LaZaOzF790DF1sgm6MbqXECt2JLewK5ky59Cw6ksyb9DPEZso8IRKo3yDdAfZliM5mY/6fmLJSP4PItr3IjERjVivflyzLDz5cbtQsjP5+ph2+RrZFSc47oNgXij3VJpoXIzJF96tB+qRifuotGX+h707T88=
   on:
     tags: true
-    python: "3.6"
-  distributions: "sdist bdist_wheel"
+    python: '3.6'
+  distributions: sdist bdist_wheel
   skip_existing: true
