@@ -3,13 +3,13 @@ Downloading source code
 *******************************
 
 PyMS source code resides on publicly accessible GitHub servers,
-and can be accessed from the following URL: https://github.com/domdfcoding/domdf_python_tools/
+and can be accessed from the following URL: https://github.com/domdfcoding/mathematical/
 
 If you have ``git`` installed, you can clone the repository with the following command:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/domdfcoding/domdf_python_tools/
+    $ git clone https://github.com/domdfcoding/mathematical/
     > Cloning into 'pyms'...
     > remote: Enumerating objects: 47, done.
     > remote: Counting objects: 100% (47/47), done.
