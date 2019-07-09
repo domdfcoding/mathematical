@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-test_init
+test_stats
 ~~~~~~~~~~~~~~~
 
-Test functions in __init__.py
+Test functions in stats.py
 
 """
 import numpy

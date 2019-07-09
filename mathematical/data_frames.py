@@ -161,14 +161,14 @@ def df_percentage(row, column_label, total):
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_log(row, column_label_list=None, base=10):
+def df_log(row, column_label_list, base=10):
 	"""
 	Calculate the logarithm of the values in each row for the specified columns of a data frame
 
 	Do not call this function directly; use it with df.apply() instead.
 
-	data_frame["Log10"] = data_frame.apply(df_log, args=(
-				10, ["Bob", "Alice"]), axis=1)
+	data_frame["Bob Log10"] = data_frame.apply(df_log, args=(
+				["Bob"],10), axis=1)
 
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
@@ -180,13 +180,11 @@ def df_log(row, column_label_list=None, base=10):
 	:return: logarithmic value
 	:rtype: float
 	"""
-	
+
 	from math import log
 	
-	if column_label_list is None:
-		column_label_list = list(row.index)
 	
-	if row[column_label_list] > 0.0:
+	if row[column_label_list][0] > 0.0:
 		return log(row[column_label_list], base)
 	else:
 		return 0
