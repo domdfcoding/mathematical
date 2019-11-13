@@ -1,27 +1,24 @@
+#!/usr/bin/env python
+"""Setup script"""
+
+from __pkginfo__ import \
+    author,           author_email,       install_requires,          \
+    license,          long_description,   classifiers,               \
+    entry_points,     modname,            py_modules,                \
+    short_desc,       VERSION,            web
+
 from setuptools import setup, find_packages
-
-with open("README.rst", "r") as fh:
-    long_description = fh.read()
-
 setup(
-	name="mathematical",
-	version="0.1.5",
-    author='Dominic Davis-Foster',
-	author_email="dominic@davis-foster.co.uk",
-	packages=find_packages(),
-	license="GNU Lesser General Public License v3 or later (LGPLv3+)",
-	url="https://github.com/domdfcoding/mathematical",
-	description='Mathematical tools for python',
-	long_description=long_description,
-	long_description_content_type="text/x-rst",
-	classifiers=[
-        "Programming Language :: Python :: 3",
-		"License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
-        "Operating System :: OS Independent",
-		"Development Status :: 4 - Beta",
-    ],
-	install_requires=[
-		"scipy >= 1.3.0",
-		"numpy >= 1.16.0",
-	],
-)
+       author             = author,
+       author_email       = author_email,
+       classifiers        = classifiers,
+       description        = short_desc,
+       entry_points       = entry_points,
+       install_requires   = install_requires,
+       license            = license,
+       long_description   = long_description,
+       name               = modname,
+       packages           = find_packages(exclude=("tests",)),
+       py_modules         = py_modules,
+       url                = web,
+       version            = VERSION)
