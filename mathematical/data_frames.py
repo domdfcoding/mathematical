@@ -172,7 +172,7 @@ def df_log(row, column_label_list, base=10):
 
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
-	:param column_label_list: list of column labels to calculate standard deviation for
+	:param column_label_list: list of column labels to calculate log for
 	:type column_label_list: list
 	:param base: logarithmic base
 	:type base: float
@@ -183,8 +183,7 @@ def df_log(row, column_label_list, base=10):
 
 	from math import log
 	
-	
-	if row[column_label_list][0] > 0.0:
+	if all(row[column_label_list][i] > 0.0 for i in range(len(row[column_label_list]))):
 		return log(row[column_label_list], base)
 	else:
 		return 0
