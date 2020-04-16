@@ -29,7 +29,7 @@ __author__ = "Dominic Davis-Foster"
 __copyright__ = "Copyright 2014-2019 Dominic Davis-Foster"
 
 __license__ = "GPL"
-__version__ = "0.1.9"
+__version__ = "0.1.10"
 __email__ = "dominic@davis-foster.co.uk"
 
 from . import data_frames, outliers, stats, utils
