@@ -5,9 +5,9 @@ python:
 - '3.7'
 - '3.8'
 install:
-- pip install -U coveralls pytest numpy scipy pandas
+  - pip install coveralls tox tox-travis
 script:
-- coverage run --source=mathematical -m pytest
+  - tox
 after_success:
 - coveralls
 deploy:
