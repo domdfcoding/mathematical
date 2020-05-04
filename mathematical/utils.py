@@ -4,8 +4,7 @@
 #  utils.py
 """Utilities for Mathematical Operations"""
 #
-#  Copyright 2014-2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
-#
+#  Copyright 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,6 +22,77 @@
 #  MA 02110-1301, USA.
 #
 #
+#  intdiv, roman, and equiv_operators based on ChemPy (https://github.com/bjodah/chempy)
+#  |  Copyright (c) 2015-2018, Björn Dahlgren
+#  |  All rights reserved.
+#  |
+#  |  Redistribution and use in source and binary forms, with or without modification,
+#  |  are permitted provided that the following conditions are met:
+#  |
+#  |    Redistributions of source code must retain the above copyright notice, this
+#  |    list of conditions and the following disclaimer.
+#  |
+#  |    Redistributions in binary form must reproduce the above copyright notice, this
+#  |    list of conditions and the following disclaimer in the documentation and/or
+#  |    other materials provided with the distribution.
+#  |
+#  |  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+#  |  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+#  |  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#  |  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+#  |  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+#  |  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#  |  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+#  |  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#  |  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#  |  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#  gcd_array based on
+#     https://www.geeksforgeeks.org/python-program-for-gcd-of-more-than-two-or-array-numbers/
+#
+
+import math
+from operator import eq, ge, gt, le, lt, ne
+
+
+def intdiv(p, q):
+	"""
+	Integer divsions which rounds toward zero
+
+	Examples
+	--------
+	>>> intdiv(3, 2)
+	1
+	>>> intdiv(-3, 2)
+	-1
+	>>> -3 // 2
+	-2
+
+	"""
+	r = p // q
+	if r < 0 and q * r != p:
+		r += 1
+	return r
+
+
+def roman(num):
+	"""
+	Examples
+	--------
+	>>> roman(4)
+	'IV'
+	>>> roman(17)
+	'XVII'
+	"""
+	
+	tokens = 'M CM D CD C XC L XL X IX V IV I'.split()
+	values = 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
+	result = ''
+	for t, v in zip(tokens, values):
+		cnt = num // v
+		result += t * cnt
+		num -= v * cnt
+	return result
 
 
 def magnitude(x):
@@ -40,6 +110,9 @@ def magnitude(x):
 		return int(log10(x))
 	else:
 		return 0
+	
+# def _mag(num):
+# 	return int(math.floor(math.log10(abs(num))))
 
 
 def remove_zero(inputlist):
@@ -164,8 +237,6 @@ def strip_none_bool_string(ls):
 	return ls
 
 
-# The following functions copied from domdfcoding/Python_Modules
-
 def gcd(a, b):
 	"""
 	Returns the GCD (HCF) of a and b using Euclid's Algorithm
@@ -176,9 +247,32 @@ def gcd(a, b):
 	:return:
 	"""
 
-	while a != 0:
-		a, b = b % a, a
-	return b
+	# while a != 0:
+	# 	a, b = b % a, a
+	# return b
+	return math.gcd(a, b)
+
+
+def gcd_array(array):
+	"""
+	Returns the GCD for an array of numbers using Euclid's Algorithm
+	
+	Based on https://www.geeksforgeeks.org/python-program-for-gcd-of-more-than-two-or-array-numbers/
+	
+	:param array:
+	:type array:
+	:return:
+	:rtype:
+	"""
+	
+	a = array[0]
+	b = array[1]
+	x = math.gcd(a, b)
+	
+	for i in range(2, len(array)):
+		x = math.gcd(x, array[i])
+	
+	return x
 
 
 def gcd2(numbers):
@@ -259,3 +353,4 @@ def modInverse(a, m):
 	return u1 % m
 
 
+equiv_operators = dict(zip('< <= == != >= >'.split(), (lt, le, eq, ne, ge, gt)))
