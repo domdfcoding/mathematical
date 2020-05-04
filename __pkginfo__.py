@@ -21,7 +21,7 @@ copyright = """
 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-VERSION = "0.1.10"
+VERSION = "0.1.11"
 
 modname = "mathematical"
 py_modules = None
