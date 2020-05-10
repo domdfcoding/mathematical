@@ -13,7 +13,7 @@ declare -a warnings=(
   E703 E711 E712 E713 E714 E721 E722 W503 W504
   )
 
-if [ -z "$(git status --porcelain --untracked-files=no)" ]; then
+if [ -z "$(git status --porcelain --untracked-files=no)" ] || [ $1 == "-f" ]; then
   # Working directory clean
 
   for error in "${errors[@]}"

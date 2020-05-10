@@ -57,8 +57,11 @@ import pytest
 # this package
 from mathematical import linear_regression
 
-psms = list(zip(count(), string.ascii_uppercase + string.ascii_lowercase,
-				numpy.arange(0.01, 0.062, 0.001)))
+psms = list(zip(
+		count(),
+		string.ascii_uppercase + string.ascii_lowercase,
+		numpy.arange(0.01, 0.062, 0.001)
+		))
 
 
 class Data:
