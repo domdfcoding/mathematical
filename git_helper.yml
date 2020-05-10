@@ -24,7 +24,7 @@ python_versions:
   - '3.6'
   - '3.7'
   - "3.8"
-  - "pypy3"
+#  - "pypy3"
 
 # travis secure password for PyPI
 travis_pypi_secure: "EUc8A5PPUpJh0bcrYcBWCToUnkpakzTcU03vtheJG95nT2Jtn/Hq8UcC7vDLSqUWFQEHYCL3i0g1DLSdQYtPMAbKfWXI5ieuVgMM2OEeNF5O2flPi2LberAtoLxNuisVsJkhh0uURXi5EDCX3PcTqtP0N3chawXGWD2MJAfx3VAHyHobb4xX8VM6eQJvKBS4OXf38OcZQwJdGwDtrmgPrbJoHQHBPYyPuvI9dwxw53JSWzTYPo5/HfXAEotiXM2PJDgl9WZygd4c9hP+tGckJtIBucF9k1eCAE3vC2kqBaiJepp2LG7GzAbzek+ky2eFj3y8RViOLm0SewsfVtU9/Ik39DQP27y5lx2G80u0D819Qpq19AIU/ZLJdlFyN+7RtXDNt+cz+s564PH6wnoYNLwYktktJILOQu3RIxi/DUash/cc1Gr12v1B0TSUotCpYrt0oPkC1y6AlPZNgOKf/IY0HgeJFxsYZYQ9xMmv6voXTQkSflKq+8gPNzFwJI4asC5cEElh0rn2IY1LaZaOzF790DF1sgm6MbqXECt2JLewK5ky59Cw6ksyb9DPEZso8IRKo3yDdAfZliM5mY/6fmLJSP4PItr3IjERjVivflyzLDz5cbtQsjP5+ph2+RrZFSc47oNgXij3VJpoXIzJF96tB+qRifuotGX+h707T88="
