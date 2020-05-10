@@ -49,18 +49,13 @@
 # stdlib
 import string
 from itertools import count
-from os import path
 
 # 3rd party
 import numpy
 import pytest
 
 # this package
-import pyteomics
-
-pyteomics.__path__ = [path.abspath(path.join(path.dirname(__file__), path.pardir, 'pyteomics'))]
-
-from chemistry_tools import linear_regression
+from mathematical import linear_regression
 
 psms = list(zip(count(), string.ascii_uppercase + string.ascii_lowercase,
 				numpy.arange(0.01, 0.062, 0.001)))
