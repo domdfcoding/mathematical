@@ -1,0 +1,68 @@
+modname: mathematical
+copyright_years: "2019-2020"
+author: "Dominic Davis-Foster"
+email: "dominic@davis-foster.co.uk"
+version: "0.1.11"
+username: "domdfcoding"
+license: 'LGPLv3+'
+short_desc: 'Mathematical tools for python'
+
+conda_channels:
+  - domdfcoding
+  - conda-forge
+
+python_deploy_version: 3.6
+
+# Additional lines for .gitignore
+additional_ignore:
+  - Scribble
+  - "*/output"
+
+
+# Versions to run tests for
+python_versions:
+  - '3.6'
+  - '3.7'
+  - "3.8"
+  - "pypy3"
+
+# travis secure password for PyPI
+travis_pypi_secure: "EUc8A5PPUpJh0bcrYcBWCToUnkpakzTcU03vtheJG95nT2Jtn/Hq8UcC7vDLSqUWFQEHYCL3i0g1DLSdQYtPMAbKfWXI5ieuVgMM2OEeNF5O2flPi2LberAtoLxNuisVsJkhh0uURXi5EDCX3PcTqtP0N3chawXGWD2MJAfx3VAHyHobb4xX8VM6eQJvKBS4OXf38OcZQwJdGwDtrmgPrbJoHQHBPYyPuvI9dwxw53JSWzTYPo5/HfXAEotiXM2PJDgl9WZygd4c9hP+tGckJtIBucF9k1eCAE3vC2kqBaiJepp2LG7GzAbzek+ky2eFj3y8RViOLm0SewsfVtU9/Ik39DQP27y5lx2G80u0D819Qpq19AIU/ZLJdlFyN+7RtXDNt+cz+s564PH6wnoYNLwYktktJILOQu3RIxi/DUash/cc1Gr12v1B0TSUotCpYrt0oPkC1y6AlPZNgOKf/IY0HgeJFxsYZYQ9xMmv6voXTQkSflKq+8gPNzFwJI4asC5cEElh0rn2IY1LaZaOzF790DF1sgm6MbqXECt2JLewK5ky59Cw6ksyb9DPEZso8IRKo3yDdAfZliM5mY/6fmLJSP4PItr3IjERjVivflyzLDz5cbtQsjP5+ph2+RrZFSc47oNgXij3VJpoXIzJF96tB+qRifuotGX+h707T88="
+
+# additional lines for MANIFEST.in
+#manifest_additional:
+#  -
+
+# directory that contains tests
+tests_dir: "tests"
+
+# Additional arguments for setup.py
+#additional_setup_args:
+#  foo: bar
+
+conda_description: "Mathematical tools for python
+
+
+
+Before installing please ensure you have added the \"conda-forge\" channel.
+"
+
+classifiers:
+  - 'Development Status :: 4 - Beta'
+#  - "Development Status :: 5 - Production/Stable"
+#  - "Development Status :: 6 - Mature"
+#  - "Development Status :: 7 - Inactive"
+  - 'Intended Audience :: Developers'
+  - "Intended Audience :: Education"
+  - "Intended Audience :: End Users/Desktop"
+  - "Intended Audience :: Science/Research"
+  - "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)"
+  - 'Operating System :: OS Independent'
+  - 'Programming Language :: Python'
+  - 'Programming Language :: Python :: 3.6'
+  - 'Programming Language :: Python :: 3.7'
+  - 'Programming Language :: Python :: 3.8'
+  - "Programming Language :: Python :: 3 :: Only"
+  - "Programming Language :: Python :: Implementation :: CPython"
+#  - "Programming Language :: Python :: Implementation :: PyPy"
+  - 'Topic :: Software Development :: Libraries :: Python Modules'

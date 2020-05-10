@@ -50,9 +50,39 @@
 #  gcd_array based on
 #     https://www.geeksforgeeks.org/python-program-for-gcd-of-more-than-two-or-array-numbers/
 #
+#  _precalc_fact, log_factorial, _log_pi_r, _log_pi, _expectation,
+#  and _confidence_value based on Pyteomics (https://github.com/levitsky/pyteomics)
+#  |  Copyright (c) 2011-2015, Anton Goloborodko & Lev Levitsky
+#  |  Licensed under the Apache License, Version 2.0 (the "License");
+#  |  you may not use this file except in compliance with the License.
+#  |  You may obtain a copy of the License at
+#  |
+#  |    http://www.apache.org/licenses/LICENSE-2.0
+#  |
+#  |  Unless required by applicable law or agreed to in writing, software
+#  |  distributed under the License is distributed on an "AS IS" BASIS,
+#  |  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  |  See the License for the specific language governing permissions and
+#  |  limitations under the License.
+#  |
+#  |  See also:
+#  |  Goloborodko, A.A.; Levitsky, L.I.; Ivanov, M.V.; and Gorshkov, M.V. (2013)
+#  |  "Pyteomics - a Python Framework for Exploratory Data Analysis and Rapid Software
+#  |  Prototyping in Proteomics", Journal of The American Society for Mass Spectrometry,
+#  |  24(2), 301–304. DOI: `10.1007/s13361-012-0516-6 <http://dx.doi.org/10.1007/s13361-012-0516-6>`_
+#  |
+#  |  Levitsky, L.I.; Klein, J.; Ivanov, M.V.; and Gorshkov, M.V. (2018)
+#  |  "Pyteomics 4.0: five years of development of a Python proteomics framework",
+#  |  Journal of Proteome Research.
+#  |  DOI: `10.1021/acs.jproteome.8b00717 <http://dx.doi.org/10.1021/acs.jproteome.8b00717>`_
+#
 
+# stdlib
 import math
 from operator import eq, ge, gt, le, lt, ne
+
+# 3rd party
+import numpy
 
 
 def intdiv(p, q):
@@ -110,7 +140,8 @@ def magnitude(x):
 		return int(log10(x))
 	else:
 		return 0
-	
+
+
 # def _mag(num):
 # 	return int(math.floor(math.log10(abs(num))))
 
@@ -246,7 +277,7 @@ def gcd(a, b):
 	
 	:return:
 	"""
-
+	
 	# while a != 0:
 	# 	a, b = b % a, a
 	# return b
@@ -354,3 +385,44 @@ def modInverse(a, m):
 
 
 equiv_operators = dict(zip('< <= == != >= >'.split(), (lt, le, eq, ne, ge, gt)))
+
+_precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
+
+
+def log_factorial(x):
+	x = numpy.array(x)
+	pf = _precalc_fact
+	m = (x >= pf.size)
+	out = numpy.empty(x.shape)
+	out[~m] = pf[x[~m].astype(int)]
+	x = x[m]
+	out[m] = x * numpy.log(x) - x + 0.5 * numpy.log(2 * numpy.pi * x)
+	return out
+
+
+def _log_pi_r(d, k, p=0.5):
+	return k * math.log(p) + log_factorial(k + d) - log_factorial(k) - log_factorial(d)
+
+
+def _log_pi(d, k, p=0.5):
+	return _log_pi_r(d, k, p) + (d + 1) * math.log(1 - p)
+
+
+def _expectation(d, T, p=0.5):
+	if T is None:
+		return d + 1
+	T = numpy.array(T, dtype=int)
+	m = numpy.arange(T.max() + 1, dtype=int)
+	pi = numpy.exp(_log_pi(d, m, p))
+	return ((m * pi).cumsum() / pi.cumsum())[T]
+
+
+def _confidence_value(conf, d, T, p=0.5):
+	if T is not None:
+		T = numpy.array(T, dtype=int)
+		m = numpy.arange(T.max() + 1, dtype=int)
+	else:
+		m = numpy.arange(max(50 * d, 10000))
+	log_pi = _log_pi(d, m, p)
+	pics = numpy.exp(log_pi).cumsum()
+	return numpy.searchsorted(pics, conf * (pics[T] if T is not None else 1))

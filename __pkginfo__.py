@@ -1,4 +1,5 @@
-# Copyright (C) 2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+# This file is managed by `git_helper`. Don't edit it directly
+# Copyright (C) 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -24,13 +25,8 @@ copyright = """
 VERSION = "0.1.11"
 
 modname = "mathematical"
-py_modules = None
+py_modules = []
 entry_points = None
-# py_modules         = [modname]
-# entry_points       = {
-#	'console_scripts': [
-#		'package_name=package_name:main',
-#	]}
 
 license = 'LGPLv3+'
 
@@ -39,44 +35,40 @@ short_desc = 'Mathematical tools for python'
 author = "Dominic Davis-Foster"
 author_email = "dominic@davis-foster.co.uk"
 github_username = "domdfcoding"
-web = github_url = f"https://github.com/{github_username}/{modname}"
+web = github_url = f"https://github.com/domdfcoding/mathematical"
 project_urls = {
-		"Documentation": f"https://{modname}.readthedocs.io",  # TODO: Make this link match the package version
+		"Documentation": f"https://mathematical.readthedocs.io",  # TODO: Make this link match the package version
 		"Issue Tracker": f"{github_url}/issues",
 		"Source Code": github_url,
 		}
 
-# Get info from files; set: long_description
-if pathlib.Path.cwd().name == "doc-source":
-	print(pathlib.Path.cwd().parent / "README.rst")
-	install_requires = (pathlib.Path.cwd().parent / "requirements.txt").read_text().split("\n")
-	long_description = (pathlib.Path.cwd().parent / "README.rst").read_text() + '\n'
-else:
-	print(pathlib.Path("README.rst"))
-	install_requires = pathlib.Path("requirements.txt").read_text().split("\n")
-	long_description = pathlib.Path("README.rst").read_text() + '\n'
+repo_root = pathlib.Path(__file__).parent
 
+# Get info from files; set: long_description
+long_description = (repo_root / "README.rst").read_text() + '\n'
+conda_description = """Mathematical tools for python
+
+
+Before installing please ensure you have added the "conda-forge" channel. """
+install_requires = (repo_root / "requirements.txt").read_text().split('\n')
+extras_require = {'all': []}
 
 classifiers = [
-		"Development Status :: 4 - Beta",
-		# "Development Status :: 5 - Production/Stable",
-		# "Development Status :: 6 - Mature",
-		# "Development Status :: 7 - Inactive",
+		'Development Status :: 4 - Beta',
+		'Intended Audience :: Developers',
+		'Intended Audience :: Education',
+		'Intended Audience :: End Users/Desktop',
+		'Intended Audience :: Science/Research',
+		'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
+		'Operating System :: OS Independent',
+		'Programming Language :: Python',
+		'Programming Language :: Python :: 3.6',
+		'Programming Language :: Python :: 3.7',
+		'Programming Language :: Python :: 3.8',
+		'Programming Language :: Python :: 3 :: Only',
+		'Programming Language :: Python :: Implementation :: CPython',
+		'Topic :: Software Development :: Libraries :: Python Modules',
 		
-		"Operating System :: OS Independent",
-		
-		"Intended Audience :: Developers",
-		"Intended Audience :: Education",
-		"Intended Audience :: End Users/Desktop",
-		"Intended Audience :: Science/Research",
-		
-		"License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
-		
-		"Programming Language :: Python :: 3.6",
-		"Programming Language :: Python :: 3.7",
-		"Programming Language :: Python :: 3.8",
-		"Programming Language :: Python :: 3 :: Only",
-		"Programming Language :: Python :: Implementation :: CPython",
-		
-		"Topic :: Software Development :: Libraries :: Python Modules",
 		]
+
+keywords = ""
