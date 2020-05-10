@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 #
 #  stats.py
-"""Functions for Calculating Statistics"""
+"""
+Functions for Calculating Statistics
+"""
 #
-#  Copyright 2014-2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  _contains_nan, median_absolute_deviation, absolute_deviation and
 #  absolute_deviation_from_median from SciPy
@@ -499,4 +501,3 @@ def within1min(value1, value2):
 		return (float(value1) - 1) < (float(value2)) < (float(value1) + 1)
 	else:
 		return False
-

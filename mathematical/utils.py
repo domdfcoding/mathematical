@@ -114,7 +114,7 @@ def roman(num):
 	>>> roman(17)
 	'XVII'
 	"""
-	
+
 	tokens = 'M CM D CD C XC L XL X IX V IV I'.split()
 	values = 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
 	result = ''
@@ -134,7 +134,7 @@ def magnitude(x):
 	:return: magnitude
 	:rtype: int
 	"""
-	
+
 	from math import log10
 	if x > 0.0:
 		return int(log10(x))
@@ -157,7 +157,7 @@ def remove_zero(inputlist):
 	:return: list without zero values
 	:rtype: list
 	"""
-	
+
 	import numpy as np
 	inputlist = np.array(inputlist)
 	return list(inputlist[np.nonzero(inputlist)])
@@ -172,7 +172,7 @@ def isint(num):  # Only works with floating point numbers
 
 	:rtype: Boolean
 	"""
-	
+
 	if num == int(num):
 		return True
 	else:
@@ -205,7 +205,7 @@ def rounders(val_to_round, round_format):
 	:return: the rounded value
 	:rtype: decimal.Decimal
 	"""
-	
+
 	from decimal import Decimal, ROUND_HALF_UP
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
@@ -220,7 +220,7 @@ def strip_strings(ls):
 	:return: list without strings
 	:rtype: list
 	"""
-	
+
 	return [x for x in ls if not type(x) == str]
 
 
@@ -234,7 +234,7 @@ def strip_booleans(ls):
 	:return: list without booleans
 	:rtype: list
 	"""
-	
+
 	return [x for x in ls if not type(x) == bool]
 
 
@@ -248,7 +248,7 @@ def strip_nonetype(ls):
 	:return: list without None
 	:rtype: list
 	"""
-	
+
 	return [x for x in ls if x is not None]
 
 
@@ -261,7 +261,7 @@ def strip_none_bool_string(ls):
 
 	:rtype: list
 	"""
-	
+
 	ls = strip_nonetype(ls)
 	ls = strip_booleans(ls)
 	ls = strip_strings(ls)
@@ -277,7 +277,7 @@ def gcd(a, b):
 
 	:return:
 	"""
-	
+
 	# while a != 0:
 	# 	a, b = b % a, a
 	# return b
@@ -295,14 +295,14 @@ def gcd_array(array):
 	:return:
 	:rtype:
 	"""
-	
+
 	a = array[0]
 	b = array[1]
 	x = math.gcd(a, b)
-	
+
 	for i in range(2, len(array)):
 		x = math.gcd(x, array[i])
-	
+
 	return x
 
 
@@ -314,7 +314,7 @@ def gcd2(numbers):
 
 	:return:
 	"""
-	
+
 	c = numbers[0]
 	for i in range(1, (len(numbers))):
 		c = gcd(c, numbers[i])
@@ -328,7 +328,7 @@ def lcm(numbers):
 
 	:return:
 	"""
-	
+
 	product = numbers[0]
 	for i in range(1, len(numbers)):
 		product = product * numbers[i]
@@ -348,7 +348,7 @@ def hcf(a, b):
 
 	:return:
 	"""
-	
+
 	gcd(a, b)
 
 
@@ -359,7 +359,7 @@ def hcf2(numbers):
 
 	:return:
 	"""
-	
+
 	gcd2(numbers)
 
 
@@ -371,10 +371,10 @@ def modInverse(a, m):
 
 	:return:
 	"""
-	
+
 	if gcd(a, m) != 1:
 		return None  # No mod inverse exists if a & m aren't relatively prime
-	
+
 	# Calculation using the Extended Euclidean Algorithm
 	u1, u2, u3 = 1, 0, a
 	v1, v2, v3 = 0, 1, m
