@@ -239,7 +239,7 @@ def df_outliers(row, column_label_list=None, outlier_mode=MAD):
 
 	data = row[column_label_list]
 	if all(all(y == 0.0 for y in x) for x in data):
-		return pd.Series([[], [0.0]*len(data[0])])
+		return pd.Series([[], [0.0] * len(data[0])])
 
 	if outlier_mode == MAD:
 		x = outliers.mad_outliers(data)
