@@ -7,13 +7,13 @@
 #  Copyright 2018-2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  mad_outliers based on https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
-#		Copyright 2013 Peter Rosenmai
+# 		Copyright 2013 Peter Rosenmai
 #
 #  quartile_outliers based on http://www.itl.nist.gov/div898/handbook/prc/section1/prc16.htm
-#		Copyright 2012 NIST
+# 		Copyright 2012 NIST
 #
 #  spss_outliers based on http://www.unige.ch/ses/sococ/cl/spss/concepts/outliers.html
-#		Copyright 2018 Eugene Horber, U. of Geneva
+# 		Copyright 2018 Eugene Horber, U. of Geneva
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -36,10 +36,11 @@ import numpy
 from . import utils
 from . import stats
 
-def mad_outliers(dataset, strip_zero=True, threshold=3,):
+
+def mad_outliers(dataset, strip_zero=True, threshold=3, ):
 	"""
 	Using the Median Absolute Deviation to Find Outliers
-	
+
 	:param dataset:
 	:type dataset: list
 	:param threshold: The multiple of MAD above which values are considered to be outliers
@@ -57,7 +58,7 @@ def mad_outliers(dataset, strip_zero=True, threshold=3,):
 				between outliers and the selected threshold)
 		See https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
 	:type threshold: int
-	
+
 	:return:
 	"""
 	
@@ -68,7 +69,7 @@ def mad_outliers(dataset, strip_zero=True, threshold=3,):
 	
 	if len(dataset) < 2:
 		return [], dataset
-		
+	
 	abs_mad = stats.absolute_deviation_from_median(dataset, scale=1)
 	
 	outliers = []
@@ -86,22 +87,22 @@ def mad_outliers(dataset, strip_zero=True, threshold=3,):
 def two_stdev(dataset, strip_zero=True):
 	"""
 	Outliers are greater than 2x stdev from mean
-	
+
 	:param dataset:
-	
+
 	:return:
 	"""
 	
 	return stdev_outlier(dataset, strip_zero=strip_zero)
-	
+
 
 def stdev_outlier(dataset, strip_zero=True, rng=int(2)):
 	"""
 	Outliers are greater than rng*stdev from mean
-	
+
 	:param dataset:
 	:param rng:
-	
+
 	:return:
 	"""
 	
@@ -112,7 +113,7 @@ def stdev_outlier(dataset, strip_zero=True, rng=int(2)):
 	
 	if len(dataset) < 2:
 		return [], dataset
-		
+	
 	data_mean = numpy.mean(dataset)
 	data_stdev = numpy.std(dataset, ddof=1)
 	
@@ -131,9 +132,9 @@ def stdev_outlier(dataset, strip_zero=True, rng=int(2)):
 def quartile_outliers(dataset, strip_zero=True):
 	"""
 	outliers are more than 3x inter-quartile range from upper or lower quartile
-	
+
 	:param dataset:
-	
+
 	:return:
 	"""
 	
@@ -171,10 +172,10 @@ def spss_outliers(dataset, strip_zero=True, mode="all"):
 	Based on IBM SPSS method for detecting outliers
 	Outliers more than 1.5*IQR from Q1 or Q3
 	"Extreme values" more than 3*IQR from Q1 or Q3
-	
+
 	:param dataset:
 	:param mode:
-	
+
 	:return:
 	"""
 	
@@ -225,22 +226,23 @@ def spss_outliers(dataset, strip_zero=True, mode="all"):
 def main(args):
 	# my_data = [70,72,74,76,80,114]
 	my_data = [1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90]
-	#	print("two stdev")
-	#	print(two_stdev(my_data))
-	#	print(numpy.mean(two_stdev(my_data)[1]))
-	#	print(numpy.median(two_stdev(my_data)[1]))
-	#	print("mad")
-	#	print(mad_outliers(my_data))
-	#	print(numpy.mean(mad_outliers(my_data)[1]))
-	#	print(numpy.median(mad_outliers(my_data)[1]))
-	#	print("quartile")
-	#	print(quartile_outliers(my_data))
-	#	print(numpy.mean(quartile_outliers(my_data)[1]))
-	#	print(numpy.median(quartile_outliers(my_data)[1]))
+	# print("two stdev")
+	# print(two_stdev(my_data))
+	# print(numpy.mean(two_stdev(my_data)[1]))
+	# print(numpy.median(two_stdev(my_data)[1]))
+	# print("mad")
+	# print(mad_outliers(my_data))
+	# print(numpy.mean(mad_outliers(my_data)[1]))
+	# print(numpy.median(mad_outliers(my_data)[1]))
+	# print("quartile")
+	# print(quartile_outliers(my_data))
+	# print(numpy.mean(quartile_outliers(my_data)[1]))
+	# print(numpy.median(quartile_outliers(my_data)[1]))
 	
 	print(spss_outliers(my_data))
 	
 	return 0
+
 
 if __name__ == '__main__':
 	import sys

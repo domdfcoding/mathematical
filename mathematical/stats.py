@@ -17,7 +17,7 @@
 #  interpret_d based on Sullivan, G. and Feinn, R. (2012). Using Effect Size—or
 #  		Why the P Value Is Not Enough. Journal of Graduate Medical Education,
 #  		4(3), pp.279-282.
-#	and https://www.psychometrica.de/effect_size.html#transform
+# 	and https://www.psychometrica.de/effect_size.html#transform
 #
 #  d_cohen based on Cohen, J. (1988). Statistical power analysis for the
 #  		behavioral sciences (2nd Edition). Hillsdale, NJ: Lawrence Erlbaum Associates
@@ -56,10 +56,10 @@ def mean_none(dataset):
 	:return: mean
 	:rtype float
 	"""
-	
+
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
-	
+
 	return np.nanmean(dataset)
 
 
@@ -74,11 +74,11 @@ def std_none(dataset, ddof=1):
 	:return: standard deviation
 	:rtype float
 	"""
-	
+
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 	print(dataset)
-	
+
 	return np.nanstd(dataset, ddof=ddof)
 
 
@@ -92,28 +92,28 @@ def median_none(dataset):
 	:return: standard deviation
 	:rtype float
 	"""
-	
+
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
-	
+
 	return np.nanmedian(dataset)
 
 
 def iqr_none(dataset):
 	"""
 	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros
-	
+
 	:param dataset: list to calculate iqr from
 	:type dataset: list
 
 	:return: interquartile range
 	:rtype float
 	"""
-	
+
 	q1 = percentile_none(dataset, 25)
 	q3 = percentile_none(dataset, 75)
 	iq = q3 - q1
-	
+
 	return iq
 
 
@@ -121,7 +121,7 @@ def percentile_none(dataset, percentage):
 	"""
 
 	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
-	
+
 	:param dataset: list to calculate percentile from
 	:type dataset: list
 
@@ -130,17 +130,17 @@ def percentile_none(dataset, percentage):
 
 	:return: interquartile range
 	:rtype float
-	
+
 	"""
 	import numpy
-	
+
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 	dataset = [x for x in dataset if not numpy.isnan(x)]
-	
+
 	if len(dataset) < 2:
 		raise ValueError("Dataset too small")
-		
+
 	return np.percentile(dataset, percentage)
 
 
@@ -159,12 +159,12 @@ def pooled_sd(sample1, sample2, weighted=False):
 	:return: Pooled Standard Deviation
 	:rtype: float
 	"""
-	
+
 	sd1 = np.std(sample1)
 	sd2 = np.std(sample2)
 	n1 = len(sample1)
 	n2 = len(sample2)
-	
+
 	if weighted:
 		return np.sqrt((((n1 - 1) * (sd1 ** 2)) + ((n2 - 1) * (sd2 ** 2))) / (n1 + n2 - 2))
 	else:
@@ -189,28 +189,28 @@ def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
 	:return: Cohen's d-Statistic
 	:rtype: float
 	"""
-	
+
 	mean1 = np.mean(sample1)
 	mean2 = np.mean(sample2)
-	
+
 	if sd == 1:
 		sd = np.std(sample1)
 	else:
 		sd = np.std(sample2)
-	
+
 	if pooled:
 		sd = pooled_sd(sample1, sample2)
-	
+
 	if tail == 2:
 		return np.abs(mean1 - mean2) / sd
-	
+
 	return (mean1 - mean2) / sd
 
 
 def g_hedge(sample1, sample2):
 	"""
 	Hedge's g-Statistic
-	
+
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 
 	:param sample1: datapoints for first sample
@@ -218,7 +218,7 @@ def g_hedge(sample1, sample2):
 	:param sample2: datapoints for second sample
 	:return:
 	"""
-	
+
 	mean1 = np.mean(sample1)
 	mean2 = np.mean(sample2)
 	return (mean1 - mean2) / pooled_sd(sample1, sample2, True)
@@ -228,18 +228,18 @@ def g_durlak_bias(g, n):
 	"""
 	Application of Durlak's bias correction to the Hedge's g statistic.
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
-	
+
 	n = n1+n2
-	
+
 	:param g:
 	:type g:
 	:param n:
 	:type n:
-	
+
 	:return:
 	:rtype:
 	"""
-	
+
 	Durlak = ((n - 3) / (n - 2.25)) * np.sqrt((n - 2) / n)
 	return g * Durlak
 
@@ -248,14 +248,14 @@ def interpret_d(d_or_g):
 	"""
 	Interpret Cohen's d or Hedge's g values using Table 1
 	from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3444174/
-	
+
 	:param d_or_g:
 	:type d_or_g:
-	
+
 	:return:
 	:rtype:
 	"""
-	
+
 	if d_or_g < 0:
 		return f"{interpret_d(np.abs(d_or_g)).split(' ')[0]} Adverse Effect"
 	elif 0.0 <= d_or_g < 0.2:
@@ -271,8 +271,9 @@ def interpret_d(d_or_g):
 def _contains_nan(a, nan_policy='propagate'):
 	policies = ['propagate', 'raise', 'omit']
 	if nan_policy not in policies:
-		raise ValueError("nan_policy must be one of {%s}" %
-						 ', '.join("'%s'" % s for s in policies))
+		raise ValueError(
+				"nan_policy must be one of {%s}" %
+				', '.join(f"'{s}'" for s in policies))
 	try:
 		# Calling np.sum to avoid creating a huge array into memory
 		# e.g. np.isnan(a).any()
@@ -288,17 +289,17 @@ def _contains_nan(a, nan_policy='propagate'):
 			# issue a warning.
 			contains_nan = False
 			nan_policy = 'omit'
-			warnings.warn("The input array could not be properly checked for nan "
-						  "values. nan values will be ignored.", RuntimeWarning)
-	
+			warnings.warn(
+					"The input array could not be properly checked for nan "
+					"values. nan values will be ignored.", RuntimeWarning)
+
 	if contains_nan and nan_policy == 'raise':
 		raise ValueError("The input contains nan values")
-	
-	return (contains_nan, nan_policy)
+
+	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826,
-							  nan_policy='propagate'):
+def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_policy='propagate'):
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -365,20 +366,19 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826,
 	Axis handling example:
 	>>> x = np.array([[10, 7, 4], [3, 2, 1]])
 	>>> x
-	array([[10,  7,  4],
-		   [ 3,  2,  1]])
+	array([[10,  7,  4], [ 3,  2,  1],])
 	>>> stats.median_absolute_deviation(x)
 	array([5.1891, 3.7065, 2.2239])
 	>>> stats.median_absolute_deviation(x, axis=None)
 	2.9652
 	"""
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
-	
+
 	if axis is None:
 		mad = np.median(ad)
 	else:
 		mad = np.median(ad, axis=axis)
-	
+
 	return scale * mad
 
 
@@ -416,34 +416,33 @@ def absolute_deviation(x, axis=0, center=np.median, nan_policy='propagate'):
 	absolute deviation.
 	"""
 	x = np.asarray(x)
-	
+
 	# Consistent with `np.var` and `np.std`.
 	if not x.size:
 		return np.nan
-	
+
 	contains_nan, nan_policy = _contains_nan(x, nan_policy)
-	
+
 	if contains_nan and nan_policy == 'propagate':
 		return np.nan
-	
+
 	if contains_nan and nan_policy == 'omit':
 		# Way faster than carrying the masks around
 		arr = np.ma.masked_invalid(x).compressed()
 	else:
 		arr = x
-	
+
 	if axis is None:
 		med = center(arr)
 		ad = np.abs(arr - med)
 	else:
 		med = np.apply_over_axes(center, arr, axis)
 		ad = np.abs(arr - med)
-	
+
 	return ad
 
 
-def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826,
-								   nan_policy='propagate'):
+def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826, nan_policy='propagate'):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.
@@ -484,14 +483,14 @@ def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826,
 	absolute deviation.
 	"""
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
-	
+
 	if axis is None:
 		mad = np.median(ad)
 	else:
 		mad = np.median(ad, axis=axis)
-	
+
 	ad_from_median = ad / mad
-	
+
 	return ad_from_median
 
 

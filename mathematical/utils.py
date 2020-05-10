@@ -271,10 +271,10 @@ def strip_none_bool_string(ls):
 def gcd(a, b):
 	"""
 	Returns the GCD (HCF) of a and b using Euclid's Algorithm
-	
+
 	:param a:
 	:param b:
-	
+
 	:return:
 	"""
 	
@@ -287,9 +287,9 @@ def gcd(a, b):
 def gcd_array(array):
 	"""
 	Returns the GCD for an array of numbers using Euclid's Algorithm
-	
+
 	Based on https://www.geeksforgeeks.org/python-program-for-gcd-of-more-than-two-or-array-numbers/
-	
+
 	:param array:
 	:type array:
 	:return:
@@ -309,9 +309,9 @@ def gcd_array(array):
 def gcd2(numbers):
 	"""
 	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
-	
+
 	:param numbers:
-	
+
 	:return:
 	"""
 	
@@ -325,7 +325,7 @@ def lcm(numbers):
 	"""
 	Returns the LCM of a list of numbers using Euclid's Algorithm
 	:param numbers:
-	
+
 	:return:
 	"""
 	
@@ -342,10 +342,10 @@ def lcm(numbers):
 
 def hcf(a, b):
 	"""
-	
+
 	:param a:
 	:param b:
-	
+
 	:return:
 	"""
 	
@@ -354,9 +354,9 @@ def hcf(a, b):
 
 def hcf2(numbers):
 	"""
-	
+
 	:param numbers:
-	
+
 	:return:
 	"""
 	
@@ -368,7 +368,7 @@ def modInverse(a, m):
 	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
 	:param a:
 	:param m:
-	
+
 	:return:
 	"""
 	

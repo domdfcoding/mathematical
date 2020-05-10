@@ -59,7 +59,7 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 	"""
 	Calculate coefficients of a linear regression y = a * x + b.
 	The fit minimizes *vertical* distances between the points and the line.
-	
+
 	:param x: 1-D array of floats.
 	:type x: array_like of float
 	:param y: 1-D array of floats.
@@ -78,7 +78,7 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 		stderr -- standard deviation.
 	:rtype: tuple
 	"""
-	
+
 	x = numpy.array(x, copy=False)
 	if y is not None:
 		y = numpy.array(y, copy=False)
@@ -94,10 +94,10 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 		pass
 	else:
 		a, b = numpy.polyfit(x, y, 1)
-	
+
 	r = numpy.corrcoef(x, y)[0, 1]
 	stderr = (y - a * x - b).std()
-	
+
 	return a, b, r, stderr
 
 
@@ -110,14 +110,14 @@ def linear_regression_perpendicular(x, y=None):
 	"""
 	Calculate coefficients of a linear regression y = a * x + b.
 	The fit minimizes *perpendicular* distances between the points and the line.
-	
+
 	:param x: 1-D array of floats.
 	:type x: array_like of float
 	:param y: 1-D array of floats.
 	:type y: array_like of float
-	
+
 	If `y` is omitted, `x` must be a 2-D array of shape (N, 2).
-	
+
 	If `y` is omitted, `x` must be a 2-D array of shape (N, 2).
 
 	:return: (a, b, r, stderr), where
@@ -127,7 +127,7 @@ def linear_regression_perpendicular(x, y=None):
 		stderr -- standard deviation.
 	:rtype: tuple
 	"""
-	
+
 	x = numpy.array(x, copy=False)
 	if y is not None:
 		y = numpy.array(y, copy=False)
@@ -142,8 +142,8 @@ def linear_regression_perpendicular(x, y=None):
 	a = eigenvectors[0][1] / eigenvectors[0][0]
 	xm, ym = data.mean(axis=0)
 	b = ym - a * xm
-	
+
 	r = numpy.corrcoef(data[:, 0], data[:, 1])[0, 1]
 	stderr = ((data[:, 1] - a * data[:, 0] - b) / numpy.sqrt(a**2 + 1)).std()
-	
+
 	return a, b, r, stderr

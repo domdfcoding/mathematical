@@ -7,8 +7,8 @@
 #  Copyright 2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  Based on
-#		http://jonathansoma.com/lede/foundations/classes/pandas%20columns%20and%20functions/apply-a-function-to-every-row-in-a-pandas-dataframe/
-#		Copyright 2016 Jonathan Soma
+# 		http://jonathansoma.com/lede/foundations/classes/pandas%20columns%20and%20functions/apply-a-function-to-every-row-in-a-pandas-dataframe/
+# 		Copyright 2016 Jonathan Soma
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ MAD = 1
 QUARTILES = 2
 STDEV2 = 3
 
+
 def df_mean(row, column_label_list=None):
 	"""
 	Calculate the mean of each row for the specified columns of a data frame
@@ -49,12 +50,12 @@ def df_mean(row, column_label_list=None):
 	:return: Mean
 	:rtype: float
 	"""
-	
+
 	from numpy import nanmean
-	
+
 	if column_label_list is None:
 		column_label_list = list(row.index)
-	
+
 	return nanmean(row[column_label_list])
 
 
@@ -65,7 +66,7 @@ def df_median(row, column_label_list=None):
 	Do not call this function directly; use it with df.apply() instead.
 
 	data_frame["Median"] = data_frame.apply(df_median, args=(
-				["Bob", "Alice"],), axis=1)
+							["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
@@ -75,12 +76,12 @@ def df_median(row, column_label_list=None):
 	:return: Median
 	:rtype: float
 	"""
-	
+
 	from numpy import nanmedian
-	
+
 	if column_label_list is None:
 		column_label_list = list(row.index)
-	
+
 	return nanmedian(row[column_label_list])
 
 
@@ -91,7 +92,7 @@ def df_stdev(row, column_label_list=None):
 	Do not call this function directly; use it with df.apply() instead.
 
 	data_frame["Stdev"] = data_frame.apply(df_stdev, args=(
-				["Bob", "Alice"],), axis=1)
+							["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
@@ -101,12 +102,12 @@ def df_stdev(row, column_label_list=None):
 	:return: Standard deviation
 	:rtype: float
 	"""
-	
+
 	from numpy import nanstd
-	
+
 	if column_label_list is None:
 		column_label_list = list(row.index)
-	
+
 	return nanstd(row[column_label_list])
 
 
@@ -127,13 +128,13 @@ def df_log_stdev(row, column_label_list=None):
 	:return: Standard deviation
 	:rtype: float
 	"""
-	
+
 	from numpy import nanstd, nan
 	from math import log10
-	
+
 	if column_label_list is None:
 		column_label_list = list(row.index)
-	
+
 	return nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]])
 
 
@@ -157,7 +158,7 @@ def df_percentage(row, column_label, total):
 	:return: Percentage * 100
 	:rtype: float
 	"""
-	
+
 	return (row[column_label] / float(total)) * 100.0
 
 
@@ -182,7 +183,7 @@ def df_log(row, column_label_list, base=10):
 	"""
 
 	from math import log
-	
+
 	if all(row[column_label_list][i] > 0.0 for i in range(len(row[column_label_list]))):
 		return log(row[column_label_list], base)
 	else:
@@ -206,7 +207,7 @@ def df_data_points(row, column_label_list):
 	:return: data points
 	:rtype: list
 	"""
-	
+
 	return [row[column_label] for column_label in column_label_list]
 
 
@@ -229,17 +230,17 @@ def df_outliers(row, column_label_list=None, outlier_mode=MAD):
 	:return: outliers
 	:rtype: pandas.core.series.Series
 	"""
-	
+
 	import pandas as pd
 	from . import outliers
-	
+
 	if column_label_list is None:
 		column_label_list = list(row.index)
-	
+
 	data = row[column_label_list]
 	if all(all(y == 0.0 for y in x) for x in data):
 		return pd.Series([[], [0.0]*len(data[0])])
-	
+
 	if outlier_mode == MAD:
 		x = outliers.mad_outliers(data)
 	elif outlier_mode == QUARTILES:
@@ -248,7 +249,7 @@ def df_outliers(row, column_label_list=None, outlier_mode=MAD):
 		x = outliers.stdev_outlier(data, 2)  # outlier classed as more than 2 stdev away from mean
 	else:
 		return None
-	
+
 	return pd.Series(list(x))
 
 
@@ -269,15 +270,14 @@ def df_count(row, column_label_list=None):
 	:return: Count of the occurrences of non-NaN values
 	:rtype: int
 	"""
-	
+
 	import numpy
-	
+
 	if column_label_list is None:
 		column_label_list = list(row.index)
-	
+
 	count = 0
 	for column_label in column_label_list:
 		if row[column_label] and not numpy.isnan(row[column_label]):
 			count += 1
 	return count
-
