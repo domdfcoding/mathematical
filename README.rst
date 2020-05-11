@@ -31,7 +31,6 @@ mathematical
 .. image:: https://coveralls.io/repos/github/domdfcoding/mathematical/badge.svg?branch=master
     :target: https://coveralls.io/github/domdfcoding/mathematical?branch=master
     :alt: Coverage
-
 .. image:: https://img.shields.io/github/license/domdfcoding/mathematical
     :alt: License
     :target: https://github.com/domdfcoding/mathematical/blob/master/LICENSE
