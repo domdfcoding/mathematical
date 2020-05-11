@@ -5,7 +5,7 @@ email: "dominic@davis-foster.co.uk"
 version: "0.1.11"
 username: "domdfcoding"
 license: 'LGPLv3+'
-short_desc: 'Mathematical tools for python'
+short_desc: 'Mathematical tools for Python'
 
 conda_channels:
   - domdfcoding
@@ -40,12 +40,7 @@ tests_dir: "tests"
 #additional_setup_args:
 #  foo: bar
 
-conda_description: "Mathematical tools for python
-
-
-
-Before installing please ensure you have added the \"conda-forge\" channel.
-"
+conda_description: "Mathematical tools for Python"
 
 classifiers:
   - 'Development Status :: 4 - Beta'

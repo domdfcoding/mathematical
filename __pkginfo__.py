@@ -30,7 +30,7 @@ entry_points = None
 
 license = 'LGPLv3+'
 
-short_desc = 'Mathematical tools for python'
+short_desc = 'Mathematical tools for Python'
 
 author = "Dominic Davis-Foster"
 author_email = "dominic@davis-foster.co.uk"
@@ -46,10 +46,10 @@ repo_root = pathlib.Path(__file__).parent
 
 # Get info from files; set: long_description
 long_description = (repo_root / "README.rst").read_text() + '\n'
-conda_description = """Mathematical tools for python
+conda_description = """Mathematical tools for Python
 
 
-Before installing please ensure you have added the "conda-forge" channel. """
+Before installing please ensure you have added the following channels: domdfcoding, conda-forge"""
 install_requires = (repo_root / "requirements.txt").read_text().split('\n')
 extras_require = {'all': []}
 
