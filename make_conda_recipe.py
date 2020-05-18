@@ -8,10 +8,7 @@ import sys
 from docutils.core import publish_file
 from io import StringIO
 
-from __pkginfo__ import (
-	author, long_description, conda_description, extras_require, install_requires, modname, project_urls, repo_root, short_desc, VERSION,
-	web,
-	)
+from __pkginfo__ import *
 
 recipe_dir = repo_root / "conda"
 
@@ -34,8 +31,8 @@ requirements_block = "\n".join(f"    - {req}" for req in all_requirements if req
 description_block = conda_description.replace('"', '\\"')
 
 with open(recipe_dir / "meta.yaml", "w") as fp:
-	fp.write(f"""{{% set name = "{modname}" %}}
-{{% set version = "{VERSION}" %}}
+	fp.write(f"""{{% set name = "{pypi_name}" %}}
+{{% set version = "{__version__}" %}}
 
 package:
   name: "{{{{ name|lower }}}}"
@@ -46,7 +43,7 @@ source:
 
 build:
 #  entry_points:
-#    - {modname} = {modname}:main
+#    - {import_name} = {import_name}:main
 #  skip_compile_pyc:
 #    - "*/templates/*.py"          # These should not (and cannot) be compiled
   noarch: python
@@ -67,12 +64,12 @@ requirements:
 
 test:
   imports:
-    - {modname}
+    - {import_name}
 
 about:
   home: "{web}"
-  license: "GNU Lesser General Public v3 (LGPLv3)"
-  license_family: LGPL
+  license: "{__license__}"
+  # license_family: LGPL
   # license_file: requirements.txt
   summary: "{short_desc}"
   description: "{description_block}"

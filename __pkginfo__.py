@@ -18,21 +18,49 @@
 
 import pathlib
 
-copyright = """
+__all__ = [
+		"__copyright__",
+		"__version__",
+		"modname",
+		"pypi_name",
+		"py_modules",
+		"entry_points",
+		"__license__",
+		"short_desc",
+		"author",
+		"author_email",
+		"github_username",
+		"web",
+		"github_url",
+		"project_urls",
+		"repo_root",
+		"long_description",
+		"install_requires",
+		"extras_require",
+		"classifiers",
+		"keywords",
+		"import_name",
+		]
+
+__copyright__ = """
 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-VERSION = "0.1.11"
+__version__ = "0.1.11"
 
 modname = "mathematical"
+pypi_name = "mathematical"
+import_name = "mathematical"
 py_modules = []
-entry_points = None
+entry_points = {
+		"console_scripts": []
+		}
 
-license = 'LGPLv3+'
+__license__ = "GNU Lesser General Public License v3 or later (LGPLv3+)"
 
-short_desc = 'Mathematical tools for Python'
+short_desc = "Mathematical tools for Python"
 
-author = "Dominic Davis-Foster"
+__author__ = author = "Dominic Davis-Foster"
 author_email = "dominic@davis-foster.co.uk"
 github_username = "domdfcoding"
 web = github_url = f"https://github.com/domdfcoding/mathematical"
@@ -45,11 +73,13 @@ project_urls = {
 repo_root = pathlib.Path(__file__).parent
 
 # Get info from files; set: long_description
-long_description = (repo_root / "README.rst").read_text() + '\n'
+long_description = (repo_root / "README.rst").read_text().replace("0.1.11", __version__) + '\n'
 conda_description = """Mathematical tools for Python
 
 
 Before installing please ensure you have added the following channels: domdfcoding, conda-forge"""
+__all__.append("conda_description")
+
 install_requires = (repo_root / "requirements.txt").read_text().split('\n')
 extras_require = {'all': []}
 
@@ -68,7 +98,7 @@ classifiers = [
 		'Programming Language :: Python :: 3 :: Only',
 		'Programming Language :: Python :: Implementation :: CPython',
 		'Topic :: Software Development :: Libraries :: Python Modules',
-		
+
 		]
 
 keywords = ""

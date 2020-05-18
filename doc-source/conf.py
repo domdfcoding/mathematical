@@ -12,7 +12,8 @@ sys.path.append(os.path.abspath('..'))
 
 from sphinx.locale import _
 
-from __pkginfo__ import VERSION
+from __pkginfo__ import __version__
+
 
 
 github_url = f"https://github.com/domdfcoding/mathematical"
@@ -26,7 +27,7 @@ rst_prolog = f""".. |pkgname| replace:: mathematical
 author = "Dominic Davis-Foster"
 project = "mathematical"
 slug = re.sub(r'\W+', '-', project.lower())
-release = version = VERSION
+release = version = __version__
 copyright = "Copyright 2019-2020 Dominic Davis-Foster"
 language = 'en'
 
@@ -36,7 +37,7 @@ extensions = [
 		'sphinx.ext.mathjax',
 		'sphinx.ext.viewcode',
 		'sphinxcontrib.httpdomain',
-		
+
 		]
 
 templates_path = ['_templates']
@@ -52,12 +53,21 @@ intersphinx_mapping = {
 		'rtd': ('https://docs.readthedocs.io/en/latest/', None),
 		'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
 		'python': ('https://docs.python.org/3/', None),
-		
+		"NumPy": ('https://numpy.org/doc/stable/', None),
+		"SciPy": ('https://docs.scipy.org/doc/scipy/reference', None),
+		"matplotlib": ('https://matplotlib.org', None),
+		"h5py": ('https://docs.h5py.org/en/latest/', None),
+		"Sphinx": ('https://www.sphinx-doc.org/en/stable/', None),
+		"Django": ('https://docs.djangoproject.com/en/dev/', 'https://docs.djangoproject.com/en/dev/_objects/'),
+		"sarge": ('https://sarge.readthedocs.io/en/latest/', None),
+		"attrs": ('https://www.attrs.org/en/stable/', None),
+
 		}
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_options = {
 		'logo_only': False,  # True will show just the logo
+
 		}
 html_theme_path = ["../.."]
 # html_logo = "logo/pyms.png"
@@ -91,7 +101,7 @@ texinfo_documents = [
 def setup(app):
 	from sphinx.domains.python import PyField
 	from sphinx.util.docfields import Field
-	
+
 	app.add_object_type(
 			'confval',
 			'confval',
