@@ -43,8 +43,13 @@ Functions for Calculating Statistics
 #
 
 
+# stdlib
 import warnings
-import numpy as np
+
+# 3rd party
+import numpy
+
+# this package
 from . import utils
 
 
@@ -62,7 +67,7 @@ def mean_none(dataset):
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 
-	return np.nanmean(dataset)
+	return numpy.nanmean(dataset)
 
 
 def std_none(dataset, ddof=1):
@@ -81,7 +86,7 @@ def std_none(dataset, ddof=1):
 	dataset = utils.remove_zero(dataset)
 	print(dataset)
 
-	return np.nanstd(dataset, ddof=ddof)
+	return numpy.nanstd(dataset, ddof=ddof)
 
 
 def median_none(dataset):
@@ -98,7 +103,7 @@ def median_none(dataset):
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 
-	return np.nanmedian(dataset)
+	return numpy.nanmedian(dataset)
 
 
 def iqr_none(dataset):
@@ -134,7 +139,6 @@ def percentile_none(dataset, percentage):
 	:rtype float
 
 	"""
-	import numpy
 
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
@@ -143,7 +147,7 @@ def percentile_none(dataset, percentage):
 	if len(dataset) < 2:
 		raise ValueError("Dataset too small")
 
-	return np.percentile(dataset, percentage)
+	return numpy.percentile(dataset, percentage)
 
 
 def pooled_sd(sample1, sample2, weighted=False):
@@ -162,15 +166,15 @@ def pooled_sd(sample1, sample2, weighted=False):
 	:rtype: float
 	"""
 
-	sd1 = np.std(sample1)
-	sd2 = np.std(sample2)
+	sd1 = numpy.std(sample1)
+	sd2 = numpy.std(sample2)
 	n1 = len(sample1)
 	n2 = len(sample2)
 
 	if weighted:
-		return np.sqrt((((n1 - 1) * (sd1 ** 2)) + ((n2 - 1) * (sd2 ** 2))) / (n1 + n2 - 2))
+		return numpy.sqrt((((n1 - 1) * (sd1 ** 2)) + ((n2 - 1) * (sd2 ** 2))) / (n1 + n2 - 2))
 	else:
-		return np.sqrt(((sd1 ** 2) + (sd2 ** 2)) / 2)
+		return numpy.sqrt(((sd1 ** 2) + (sd2 ** 2)) / 2)
 
 
 def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
@@ -192,19 +196,19 @@ def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
 	:rtype: float
 	"""
 
-	mean1 = np.mean(sample1)
-	mean2 = np.mean(sample2)
+	mean1 = numpy.mean(sample1)
+	mean2 = numpy.mean(sample2)
 
 	if sd == 1:
-		sd = np.std(sample1)
+		sd = numpy.std(sample1)
 	else:
-		sd = np.std(sample2)
+		sd = numpy.std(sample2)
 
 	if pooled:
 		sd = pooled_sd(sample1, sample2)
 
 	if tail == 2:
-		return np.abs(mean1 - mean2) / sd
+		return numpy.abs(mean1 - mean2) / sd
 
 	return (mean1 - mean2) / sd
 
@@ -221,8 +225,8 @@ def g_hedge(sample1, sample2):
 	:return:
 	"""
 
-	mean1 = np.mean(sample1)
-	mean2 = np.mean(sample2)
+	mean1 = numpy.mean(sample1)
+	mean2 = numpy.mean(sample2)
 	return (mean1 - mean2) / pooled_sd(sample1, sample2, True)
 
 
@@ -242,7 +246,7 @@ def g_durlak_bias(g, n):
 	:rtype:
 	"""
 
-	Durlak = ((n - 3) / (n - 2.25)) * np.sqrt((n - 2) / n)
+	Durlak = ((n - 3) / (n - 2.25)) * numpy.sqrt((n - 2) / n)
 	return g * Durlak
 
 
@@ -259,7 +263,7 @@ def interpret_d(d_or_g):
 	"""
 
 	if d_or_g < 0:
-		return f"{interpret_d(np.abs(d_or_g)).split(' ')[0]} Adverse Effect"
+		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
 	elif 0.0 <= d_or_g < 0.2:
 		return "No Effect"
 	elif 0.2 <= d_or_g < 0.5:
@@ -277,15 +281,15 @@ def _contains_nan(a, nan_policy='propagate'):
 				"nan_policy must be one of {%s}" %
 				', '.join(f"'{s}'" for s in policies))
 	try:
-		# Calling np.sum to avoid creating a huge array into memory
-		# e.g. np.isnan(a).any()
-		with np.errstate(invalid='ignore'):
-			contains_nan = np.isnan(np.sum(a))
+		# Calling numpy.sum to avoid creating a huge array into memory
+		# e.g. numpy.isnan(a).any()
+		with numpy.errstate(invalid='ignore'):
+			contains_nan = numpy.isnan(numpy.sum(a))
 	except TypeError:
 		# This can happen when attempting to sum things which are not
 		# numbers (e.g. as in the function `mode`). Try an alternative method:
 		try:
-			contains_nan = np.nan in set(a.ravel())
+			contains_nan = numpy.nan in set(a.ravel())
 		except TypeError:
 			# Don't know what to do. Fall back to omitting nan values and
 			# issue a warning.
@@ -301,13 +305,13 @@ def _contains_nan(a, nan_policy='propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_policy='propagate'):
+def median_absolute_deviation(x, axis=0, center=numpy.median, scale=1.4826, nan_policy='propagate'):
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
 	absolute deviations from the median. It is a measure of dispersion
 	similar to the standard deviation, but is more robust to outliers [2]_.
-	The MAD of an empty array is ``np.nan``.
+	The MAD of an empty array is ``numpy.nan``.
 	.. versionadded:: 1.3.0
 	Parameters
 	----------
@@ -318,7 +322,7 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_pol
 		the MAD over the entire array.
 	center : callable, optional
 		A function that will return the central value. The default is to use
-		np.median. Any user defined function used will need to have the function
+		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
 	scale : int, optional
 		The scaling factor applied to the MAD. The default scale (1.4826)
@@ -332,8 +336,8 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_pol
 	-------
 	mad : scalar or ndarray
 		If ``axis=None``, a scalar is returned. If the input contains
-		integers or floats of smaller precision than ``np.float64``, then the
-		output data-type is ``np.float64``. Otherwise, the output data-type is
+		integers or floats of smaller precision than ``numpy.float64``, then the
+		output data-type is ``numpy.float64``. Otherwise, the output data-type is
 		the same as that of the input.
 	See Also
 	--------
@@ -342,7 +346,7 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_pol
 	Notes
 	-----
 	The `center` argument only affects the calculation of the central value
-	around which the MAD is calculated. That is, passing in ``center=np.mean``
+	around which the MAD is calculated. That is, passing in ``center=numpy.mean``
 	will calculate the MAD around the mean - it will not calculate the *mean*
 	absolute deviation.
 	References
@@ -351,7 +355,7 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_pol
 	.. [2] "Robust measures of scale" https://en.wikipedia.org/wiki/Robust_measures_of_scale
 	Examples
 	--------
-	When comparing the behavior of `median_absolute_deviation` with ``np.std``,
+	When comparing the behavior of `median_absolute_deviation` with ``numpy.std``,
 	the latter is affected when we change a single value of an array to have an
 	outlier value while the MAD hardly changes:
 	>>> from scipy import stats
@@ -366,7 +370,7 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_pol
 	>>> stats.median_absolute_deviation(x)
 	1.2340335571164334
 	Axis handling example:
-	>>> x = np.array([[10, 7, 4], [3, 2, 1]])
+	>>> x = numpy.array([[10, 7, 4], [3, 2, 1]])
 	>>> x
 	array([[10,  7,  4], [ 3,  2,  1],])
 	>>> stats.median_absolute_deviation(x)
@@ -377,14 +381,14 @@ def median_absolute_deviation(x, axis=0, center=np.median, scale=1.4826, nan_pol
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
 	if axis is None:
-		mad = np.median(ad)
+		mad = numpy.median(ad)
 	else:
-		mad = np.median(ad, axis=axis)
+		mad = numpy.median(ad, axis=axis)
 
 	return scale * mad
 
 
-def absolute_deviation(x, axis=0, center=np.median, nan_policy='propagate'):
+def absolute_deviation(x, axis=0, center=numpy.median, nan_policy='propagate'):
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -397,7 +401,7 @@ def absolute_deviation(x, axis=0, center=np.median, nan_policy='propagate'):
 		the MAD over the entire array.
 	center : callable, optional
 		A function that will return the central value. The default is to use
-		np.median. Any user defined function used will need to have the function
+		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
 	nan_policy : {'propagate', 'raise', 'omit'}, optional
 		Defines how to handle when input contains nan. 'propagate'
@@ -407,44 +411,44 @@ def absolute_deviation(x, axis=0, center=np.median, nan_policy='propagate'):
 	-------
 	ad : scalar or ndarray
 		If ``axis=None``, a scalar is returned. If the input contains
-		integers or floats of smaller precision than ``np.float64``, then the
-		output data-type is ``np.float64``. Otherwise, the output data-type is
+		integers or floats of smaller precision than ``numpy.float64``, then the
+		output data-type is ``numpy.float64``. Otherwise, the output data-type is
 		the same as that of the input.
 	Notes
 	-----
 	The `center` argument only affects the calculation of the central value
-	around which the absolute deviation is calculated. That is, passing in ``center=np.mean``
+	around which the absolute deviation is calculated. That is, passing in ``center=numpy.mean``
 	will calculate the absolute around the mean - it will not calculate the *mean*
 	absolute deviation.
 	"""
-	x = np.asarray(x)
+	x = numpy.asarray(x)
 
-	# Consistent with `np.var` and `np.std`.
+	# Consistent with `numpy.var` and `numpy.std`.
 	if not x.size:
-		return np.nan
+		return numpy.nan
 
 	contains_nan, nan_policy = _contains_nan(x, nan_policy)
 
 	if contains_nan and nan_policy == 'propagate':
-		return np.nan
+		return numpy.nan
 
 	if contains_nan and nan_policy == 'omit':
 		# Way faster than carrying the masks around
-		arr = np.ma.masked_invalid(x).compressed()
+		arr = numpy.ma.masked_invalid(x).compressed()
 	else:
 		arr = x
 
 	if axis is None:
 		med = center(arr)
-		ad = np.abs(arr - med)
+		ad = numpy.abs(arr - med)
 	else:
-		med = np.apply_over_axes(center, arr, axis)
-		ad = np.abs(arr - med)
+		med = numpy.apply_over_axes(center, arr, axis)
+		ad = numpy.abs(arr - med)
 
 	return ad
 
 
-def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826, nan_policy='propagate'):
+def absolute_deviation_from_median(x, axis=0, center=numpy.median, scale=1.4826, nan_policy='propagate'):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.
@@ -460,7 +464,7 @@ def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826, na
 		the MAD over the entire array.
 	center : callable, optional
 		A function that will return the central value. The default is to use
-		np.median. Any user defined function used will need to have the function
+		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
 	scale : int, optional
 		The scaling factor applied to the MAD. The default scale (1.4826)
@@ -474,22 +478,22 @@ def absolute_deviation_from_median(x, axis=0, center=np.median, scale=1.4826, na
 	-------
 	ad_from_median : scalar or ndarray
 		If ``axis=None``, a scalar is returned. If the input contains
-		integers or floats of smaller precision than ``np.float64``, then the
-		output data-type is ``np.float64``. Otherwise, the output data-type is
+		integers or floats of smaller precision than ``numpy.float64``, then the
+		output data-type is ``numpy.float64``. Otherwise, the output data-type is
 		the same as that of the input.
 	Notes
 	-----
 	The `center` argument only affects the calculation of the central value
-	around which the MAD is calculated. That is, passing in ``center=np.mean``
+	around which the MAD is calculated. That is, passing in ``center=numpy.mean``
 	will calculate the MAD around the mean - it will not calculate the *mean*
 	absolute deviation.
 	"""
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
 	if axis is None:
-		mad = np.median(ad)
+		mad = numpy.median(ad)
 	else:
-		mad = np.median(ad, axis=axis)
+		mad = numpy.median(ad, axis=axis)
 
 	ad_from_median = ad / mad
 

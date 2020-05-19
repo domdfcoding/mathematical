@@ -158,9 +158,8 @@ def remove_zero(inputlist):
 	:rtype: list
 	"""
 
-	import numpy as np
-	inputlist = np.array(inputlist)
-	return list(inputlist[np.nonzero(inputlist)])
+	inputlist = numpy.array(inputlist)
+	return list(inputlist[numpy.nonzero(inputlist)])
 
 
 def isint(num):  # Only works with floating point numbers
@@ -173,10 +172,7 @@ def isint(num):  # Only works with floating point numbers
 	:rtype: Boolean
 	"""
 
-	if num == int(num):
-		return True
-	else:
-		return False
+	return num == int(num)
 
 
 def RepresentsInt(s):
@@ -221,7 +217,7 @@ def strip_strings(ls):
 	:rtype: list
 	"""
 
-	return [x for x in ls if not type(x) == str]
+	return [x for x in ls if not isinstance(x, str)]
 
 
 def strip_booleans(ls):
@@ -235,7 +231,7 @@ def strip_booleans(ls):
 	:rtype: list
 	"""
 
-	return [x for x in ls if not type(x) == bool]
+	return [x for x in ls if not isinstance(x, bool)]
 
 
 def strip_nonetype(ls):
