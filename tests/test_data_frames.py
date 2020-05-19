@@ -28,19 +28,19 @@ def base_df():
 
 
 parametrize = [
-		(4739.6, "Sample Mean", df_mean),
-		(5265.0, "Sample Median", df_median),
-		(2369.3493284022093, "Sample Stdev", df_stdev),
-		(0.2515430004296598, "Sample Log Stdev", df_log_stdev),
+		("Sample Mean", 4739.6, df_mean),
+		("Sample Median", 5265.0, df_median),
+		("Sample Stdev", 2369.3493284022093, df_stdev),
+		("Sample Log Stdev", 0.2515430004296598, df_log_stdev),
 		]
 
 
-@pytest.mark.parametrize("expected, col_name, function", [
+@pytest.mark.parametrize("col_name, expected, function", [
 		*parametrize,
-		([2444, 8196, 6036, 1757, 5265], "Sample Data Points", df_data_points),
-		(5, "Sample Count", df_count),
+		("Sample Data Points", [2444, 8196, 6036, 1757, 5265], df_data_points),
+		("Sample Count", 5, df_count),
 		])
-def test_with_columns(expected, col_name, function, base_df):
+def test_with_columns(col_name, expected, function, base_df):
 	# With Columns Specified
 	print(function)
 	base_df[col_name] = base_df.apply(
@@ -50,8 +50,8 @@ def test_with_columns(expected, col_name, function, base_df):
 	assert base_df[col_name][0] == expected
 
 
-@pytest.mark.parametrize("expected, col_name, function", parametrize)
-def test_without_columns(expected, col_name, function, base_df):
+@pytest.mark.parametrize("col_name, expected, function", parametrize)
+def test_without_columns(col_name, expected, function, base_df):
 	# Without Columns Specified
 	base_df[col_name] = base_df.apply(function, axis=1)
 	assert base_df[col_name][0] == expected
