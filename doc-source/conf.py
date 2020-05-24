@@ -27,8 +27,9 @@ author = "Dominic Davis-Foster"
 project = "mathematical"
 slug = re.sub(r'\W+', '-', project.lower())
 release = version = __version__
-copyright = "Copyright 2019-2020 Dominic Davis-Foster"
+copyright = "2019-2020 Dominic Davis-Foster"
 language = 'en'
+package_root = "mathematical"
 
 extensions = [
 		'sphinx.ext.intersphinx',
@@ -36,8 +37,15 @@ extensions = [
 		'sphinx.ext.mathjax',
 		'sphinx.ext.viewcode',
 		'sphinxcontrib.httpdomain',
+		"sphinxcontrib.extras_require",
+		"sphinx.ext.todo",
+		"sphinxemoji.sphinxemoji",
+		"sphinx_autodoc_typehints",
 
 		]
+
+sphinxemoji_style = 'twemoji'
+todo_include_todos = bool(os.environ.get("SHOW_TODOS", False))
 
 templates_path = ['_templates']
 html_static_path = ['_static']
@@ -50,7 +58,7 @@ pygments_style = 'default'
 
 intersphinx_mapping = {
 		'rtd': ('https://docs.readthedocs.io/en/latest/', None),
-		'sphinx': ('http://www.sphinx-doc.org/en/stable/', None),
+		'sphinx': ('https://www.sphinx-doc.org/en/stable/', None),
 		'python': ('https://docs.python.org/3/', None),
 		"NumPy": ('https://numpy.org/doc/stable/', None),
 		"SciPy": ('https://docs.scipy.org/doc/scipy/reference', None),
