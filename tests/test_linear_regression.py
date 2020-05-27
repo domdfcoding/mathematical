@@ -45,7 +45,6 @@
 #  |  DOI: `10.1021/acs.jproteome.8b00717 <http://dx.doi.org/10.1021/acs.jproteome.8b00717>`_
 #
 
-
 # stdlib
 import string
 from itertools import count
@@ -57,11 +56,7 @@ import pytest
 # this package
 from mathematical import linear_regression
 
-psms = list(zip(
-		count(),
-		string.ascii_uppercase + string.ascii_lowercase,
-		numpy.arange(0.01, 0.062, 0.001)
-		))
+psms = list(zip(count(), string.ascii_uppercase + string.ascii_lowercase, numpy.arange(0.01, 0.062, 0.001)))
 
 
 class Data:

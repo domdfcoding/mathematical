@@ -115,4 +115,5 @@ def test_strip_none_bool_string():
 	assert isinstance(utils.strip_none_bool_string(data), list)
 	assert utils.strip_none_bool_string(data) == [1, 2, 3, 4, 5, 0, numpy.nan]
 
+
 # TODO: gcd, gcd2, lcm, hcf, hcf2, modInverse

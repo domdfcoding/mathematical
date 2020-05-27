@@ -37,7 +37,11 @@ from . import utils
 from . import stats
 
 
-def mad_outliers(dataset, strip_zero=True, threshold=3, ):
+def mad_outliers(
+		dataset,
+		strip_zero=True,
+		threshold=3,
+		):
 	"""
 	Using the Median Absolute Deviation to Find Outliers
 

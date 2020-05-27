@@ -49,7 +49,6 @@ Functions for performing linear regression
 #  |  DOI: `10.1021/acs.jproteome.8b00717 <http://dx.doi.org/10.1021/acs.jproteome.8b00717>`_
 #
 
-
 # 3rd party
 import numpy
 from domdf_python_tools.doctools import is_documented_by
@@ -84,8 +83,7 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 		y = numpy.array(y, copy=False)
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
-			raise TypeError(
-					'If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
+			raise TypeError('If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
 		y = x[:, 1]
 		x = x[:, 0]
 	if a is not None and b is None:
@@ -134,8 +132,7 @@ def linear_regression_perpendicular(x, y=None):
 		data = numpy.hstack((x.reshape((-1, 1)), y.reshape((-1, 1))))
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
-			raise TypeError(
-					'If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
+			raise TypeError('If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
 		data = x
 	mu = data.mean(axis=0)
 	eigenvectors, eigenvalues, V = numpy.linalg.svd((data - mu).T, full_matrices=False)

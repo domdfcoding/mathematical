@@ -42,7 +42,6 @@ Functions for Calculating Statistics
 #
 #
 
-
 # stdlib
 import warnings
 
@@ -172,9 +171,9 @@ def pooled_sd(sample1, sample2, weighted=False):
 	n2 = len(sample2)
 
 	if weighted:
-		return numpy.sqrt((((n1 - 1) * (sd1 ** 2)) + ((n2 - 1) * (sd2 ** 2))) / (n1 + n2 - 2))
+		return numpy.sqrt((((n1 - 1) * (sd1**2)) + ((n2 - 1) * (sd2**2))) / (n1 + n2 - 2))
 	else:
-		return numpy.sqrt(((sd1 ** 2) + (sd2 ** 2)) / 2)
+		return numpy.sqrt(((sd1**2) + (sd2**2)) / 2)
 
 
 def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
@@ -277,9 +276,7 @@ def interpret_d(d_or_g):
 def _contains_nan(a, nan_policy='propagate'):
 	policies = ['propagate', 'raise', 'omit']
 	if nan_policy not in policies:
-		raise ValueError(
-				"nan_policy must be one of {%s}" %
-				', '.join(f"'{s}'" for s in policies))
+		raise ValueError("nan_policy must be one of {%s}" % ', '.join(f"'{s}'" for s in policies))
 	try:
 		# Calling numpy.sum to avoid creating a huge array into memory
 		# e.g. numpy.isnan(a).any()
@@ -297,7 +294,9 @@ def _contains_nan(a, nan_policy='propagate'):
 			nan_policy = 'omit'
 			warnings.warn(
 					"The input array could not be properly checked for nan "
-					"values. nan values will be ignored.", RuntimeWarning)
+					"values. nan values will be ignored.",
+					RuntimeWarning
+					)
 
 	if contains_nan and nan_policy == 'raise':
 		raise ValueError("The input contains nan values")
