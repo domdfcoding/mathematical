@@ -1,6 +1,14 @@
-**********************
+=====================
 mathematical
-**********************
+=====================
+
+.. start short_desc
+
+**Mathematical tools for Python**
+
+.. end short_desc
+
+Includes tools for calculating mean, median and standard deviation of rows in data frames, detection of outliers, and statistical calculations
 
 .. start shields 
 
@@ -18,7 +26,7 @@ mathematical
 	  - |conda-version| |conda-platform|
 	* - Other
 	  - |license| |language| |commits-since| |commits-latest| |maintained| 
-	
+
 .. |docs| image:: https://readthedocs.org/projects/mathematical/badge/?version=latest
 	:target: https://mathematical.readthedocs.io/en/latest/?badge=latest
 	:alt: Documentation Status
@@ -26,7 +34,7 @@ mathematical
 .. |travis| image:: https://img.shields.io/travis/com/domdfcoding/mathematical/master?logo=travis
 	:target: https://travis-ci.com/domdfcoding/mathematical
 	:alt: Travis Build Status
-	
+
 .. |requires| image:: https://requires.io/github/domdfcoding/mathematical/requirements.svg?branch=master
 	:target: https://requires.io/github/domdfcoding/mathematical/requirements/?branch=master
 	:alt: Requirements Status
@@ -83,9 +91,36 @@ mathematical
 
 .. end shields
 
-Mathematical tools for python
+Installation
+----------------
 
-Includes tools for calculating mean, median and standard deviation of rows in data frames, detection of outliers, and statistical calculations
+.. start installation
+
+``mathematical`` can be installed from PyPI or Anaconda.
+
+To install with ``pip``:
+
+.. code-block:: bash
+
+	$ python -m pip install mathematical
+
+To install with ``conda``:
+
+	* First add the required channels
+
+	.. code-block:: bash
+
+		$ conda config --add channels http://conda.anaconda.org/domdfcoding
+		$ conda config --add channels http://conda.anaconda.org/conda-forge
+
+	* Then install
+
+	.. code-block:: bash
+
+		$ conda install mathematical
+
+.. end installation
+
 
 
 
