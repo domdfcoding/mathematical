@@ -38,9 +38,9 @@ from . import stats
 
 
 def mad_outliers(
-		dataset,
-		strip_zero=True,
-		threshold=3,
+		dataset: list,
+		strip_zero: bool = True,
+		threshold: int = 3,
 		):
 	"""
 	Using the Median Absolute Deviation to Find Outliers
@@ -63,7 +63,7 @@ def mad_outliers(
 		See https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
 	:type threshold: int
 
-	:return:
+	:return: #TODO
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -88,26 +88,26 @@ def mad_outliers(
 	return outliers, data_exc_outliers
 
 
-def two_stdev(dataset, strip_zero=True):
+def two_stdev(dataset, strip_zero: bool = True):
 	"""
 	Outliers are greater than 2x stdev from mean
 
 	:param dataset:
 
-	:return:
+	:return: #	TODO
 	"""
 
 	return stdev_outlier(dataset, strip_zero=strip_zero)
 
 
-def stdev_outlier(dataset, strip_zero=True, rng=int(2)):
+def stdev_outlier(dataset, strip_zero: bool = True, rng=int(2)):
 	"""
 	Outliers are greater than rng*stdev from mean
 
 	:param dataset:
 	:param rng:
 
-	:return:
+	:return: 'TODO
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -133,13 +133,13 @@ def stdev_outlier(dataset, strip_zero=True, rng=int(2)):
 	return outliers, data_exc_outliers
 
 
-def quartile_outliers(dataset, strip_zero=True):
+def quartile_outliers(dataset, strip_zero: bool = True):
 	"""
 	outliers are more than 3x inter-quartile range from upper or lower quartile
 
-	:param dataset:
+	:param dataset: #
 
-	:return:
+	:return: #TODO
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -171,16 +171,16 @@ def quartile_outliers(dataset, strip_zero=True):
 	return outliers, data_exc_outliers
 
 
-def spss_outliers(dataset, strip_zero=True, mode="all"):
+def spss_outliers(dataset, strip_zero: bool = True, mode: str = "all"):
 	"""
 	Based on IBM SPSS method for detecting outliers
 	Outliers more than 1.5*IQR from Q1 or Q3
 	"Extreme values" more than 3*IQR from Q1 or Q3
 
 	:param dataset:
-	:param mode:
+	:param mode: str
 
-	:return:
+	:return: # TODO
 	"""
 
 	if len(dataset) < 2:

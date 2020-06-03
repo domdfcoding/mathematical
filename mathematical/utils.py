@@ -78,6 +78,7 @@
 #
 
 # stdlib
+import decimal
 import math
 from operator import eq, ge, gt, le, lt, ne
 
@@ -85,7 +86,7 @@ from operator import eq, ge, gt, le, lt, ne
 import numpy
 
 
-def intdiv(p, q):
+def intdiv(p: float, q: float) -> int:
 	"""
 	Integer divsions which rounds toward zero
 
@@ -105,7 +106,7 @@ def intdiv(p, q):
 	return r
 
 
-def roman(num):
+def roman(num: float) -> str:
 	"""
 	Examples
 	--------
@@ -125,7 +126,7 @@ def roman(num):
 	return result
 
 
-def magnitude(x):
+def magnitude(x: float) -> int:
 	"""
 	Determine the magnitude of the given value
 
@@ -146,7 +147,7 @@ def magnitude(x):
 # 	return int(math.floor(math.log10(abs(num))))
 
 
-def remove_zero(inputlist):
+def remove_zero(inputlist: list)-> list:
 	"""
 	Remove zero values from the given list
 	Also removes False and None
@@ -162,7 +163,7 @@ def remove_zero(inputlist):
 	return list(inputlist[numpy.nonzero(inputlist)])
 
 
-def isint(num):  # Only works with floating point numbers
+def isint(num: float) -> bool:  # Only works with floating point numbers
 	"""
 	Checks whether a float is an integer value
 
@@ -175,7 +176,7 @@ def isint(num):  # Only works with floating point numbers
 	return num == int(num)
 
 
-def RepresentsInt(s):
+def RepresentsInt(s: bool):
 	"""
 	Checks whether a value can be converted to int
 
@@ -190,7 +191,7 @@ def RepresentsInt(s):
 		return False
 
 
-def rounders(val_to_round, round_format):
+def rounders(val_to_round: int, round_format: str) -> decimal:
 	"""
 	Round a value to the specified number format, e.g. "0.000" for three decimal places
 
@@ -206,7 +207,7 @@ def rounders(val_to_round, round_format):
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
 
-def strip_strings(ls):
+def strip_strings(ls: list) -> list:
 	"""
 	Remove strings from a list
 
@@ -220,7 +221,7 @@ def strip_strings(ls):
 	return [x for x in ls if not isinstance(x, str)]
 
 
-def strip_booleans(ls):
+def strip_booleans(ls: list) -> list:
 	"""
 	Remove booleans from a list
 
@@ -234,7 +235,7 @@ def strip_booleans(ls):
 	return [x for x in ls if not isinstance(x, bool)]
 
 
-def strip_nonetype(ls):
+def strip_nonetype(ls: list) -> list:
 	"""
 	Remove None from a list
 
@@ -248,7 +249,7 @@ def strip_nonetype(ls):
 	return [x for x in ls if x is not None]
 
 
-def strip_none_bool_string(ls):
+def strip_none_bool_string(ls: list) -> list:
 	"""
 	Remove None, Boolean and strings from a list
 
@@ -264,7 +265,7 @@ def strip_none_bool_string(ls):
 	return ls
 
 
-def gcd(a, b):
+def gcd(a: float, b: float) -> float:
 	"""
 	Returns the GCD (HCF) of a and b using Euclid's Algorithm
 
@@ -280,7 +281,7 @@ def gcd(a, b):
 	return math.gcd(a, b)
 
 
-def gcd_array(array):
+def gcd_array(array) -> float:
 	"""
 	Returns the GCD for an array of numbers using Euclid's Algorithm
 
@@ -289,7 +290,7 @@ def gcd_array(array):
 	:param array:
 	:type array:
 	:return:
-	:rtype:
+	:rtype: float
 	"""
 
 	a = array[0]
@@ -302,13 +303,13 @@ def gcd_array(array):
 	return x
 
 
-def gcd2(numbers):
+def gcd2(numbers: float) -> float:
 	"""
 	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
 
 	:param numbers:
 
-	:return:
+	:return:float
 	"""
 
 	c = numbers[0]
@@ -317,12 +318,12 @@ def gcd2(numbers):
 	return c
 
 
-def lcm(numbers):
+def lcm(numbers: float) -> float:
 	"""
 	Returns the LCM of a list of numbers using Euclid's Algorithm
 	:param numbers:
 
-	:return:
+	:return: float
 	"""
 
 	product = numbers[0]
@@ -336,30 +337,30 @@ def lcm(numbers):
 		return product
 
 
-def hcf(a, b):
+def hcf(a: float, b: float):
 	"""
 
 	:param a:
 	:param b:
 
-	:return:
+	:return:float
 	"""
 
 	gcd(a, b)
 
 
-def hcf2(numbers):
+def hcf2(numbers: float) -> float:
 	"""
 
 	:param numbers:
 
-	:return:
+	:return:float
 	"""
 
 	gcd2(numbers)
 
 
-def modInverse(a, m):
+def modInverse(a: float, m: float):
 	"""
 	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
 	:param a:
@@ -385,7 +386,7 @@ equiv_operators = dict(zip('< <= == != >= >'.split(), (lt, le, eq, ne, ge, gt)))
 _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 
 
-def log_factorial(x):
+def log_factorial(x: float)-> float:
 	x = numpy.array(x)
 	pf = _precalc_fact
 	m = (x >= pf.size)
@@ -396,15 +397,15 @@ def log_factorial(x):
 	return out
 
 
-def _log_pi_r(d, k, p=0.5):
+def _log_pi_r(d: float, k: float, p: float = 0.5) -> float:
 	return k * math.log(p) + log_factorial(k + d) - log_factorial(k) - log_factorial(d)
 
 
-def _log_pi(d, k, p=0.5):
+def _log_pi(d: float, k: float, p: float = 0.5) -> float:
 	return _log_pi_r(d, k, p) + (d + 1) * math.log(1 - p)
 
 
-def _expectation(d, T, p=0.5):
+def _expectation(d: float, T: float, p: float = 0.5):
 	if T is None:
 		return d + 1
 	T = numpy.array(T, dtype=int)
@@ -413,7 +414,7 @@ def _expectation(d, T, p=0.5):
 	return ((m * pi).cumsum() / pi.cumsum())[T]
 
 
-def _confidence_value(conf, d, T, p=0.5):
+def _confidence_value(conf: float, d: float, T: float, p: float = 0.5) :
 	if T is not None:
 		T = numpy.array(T, dtype=int)
 		m = numpy.arange(T.max() + 1, dtype=int)

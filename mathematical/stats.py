@@ -46,13 +46,15 @@ Functions for Calculating Statistics
 import warnings
 
 # 3rd party
+from typing import List
+
 import numpy
 
 # this package
 from . import utils
 
 
-def mean_none(dataset):
+def mean_none(dataset: List[str]):
 	"""
 	Calculate the mean, excluding NaN, strings, boolean values, and zeros
 
@@ -69,7 +71,7 @@ def mean_none(dataset):
 	return numpy.nanmean(dataset)
 
 
-def std_none(dataset, ddof=1):
+def std_none(dataset: List[str], ddof: int = 1):
 	"""
 	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
 
@@ -85,10 +87,10 @@ def std_none(dataset, ddof=1):
 	dataset = utils.remove_zero(dataset)
 	print(dataset)
 
-	return numpy.nanstd(dataset, ddof=ddof)
+	return numpy.nanstd(dataset, ddof = ddof)
 
 
-def median_none(dataset):
+def median_none(dataset:List[str]):
 	"""
 	Calculate the median, excluding NaN, strings, boolean values, and zeros
 
@@ -105,7 +107,7 @@ def median_none(dataset):
 	return numpy.nanmedian(dataset)
 
 
-def iqr_none(dataset):
+def iqr_none(dataset:List[str]) -> float:
 	"""
 	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros
 
@@ -123,7 +125,7 @@ def iqr_none(dataset):
 	return iq
 
 
-def percentile_none(dataset, percentage):
+def percentile_none(dataset: List[str], percentage: float) -> float:
 	"""
 
 	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
@@ -149,7 +151,7 @@ def percentile_none(dataset, percentage):
 	return numpy.percentile(dataset, percentage)
 
 
-def pooled_sd(sample1, sample2, weighted=False):
+def pooled_sd(sample1: List, sample2: List, weighted: List = False) -> float:
 	"""
 	Pooled Standard Deviation
 
@@ -176,7 +178,7 @@ def pooled_sd(sample1, sample2, weighted=False):
 		return numpy.sqrt(((sd1**2) + (sd2**2)) / 2)
 
 
-def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
+def d_cohen(sample1: List, sample2: List, sd: int = 1, tail = 1, pooled = False) -> float:
 	"""
 	Cohen's d-Statistic
 
@@ -212,7 +214,7 @@ def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
 	return (mean1 - mean2) / sd
 
 
-def g_hedge(sample1, sample2):
+def g_hedge(sample1: List, sample2: List): #TODO
 	"""
 	Hedge's g-Statistic
 
@@ -229,7 +231,7 @@ def g_hedge(sample1, sample2):
 	return (mean1 - mean2) / pooled_sd(sample1, sample2, True)
 
 
-def g_durlak_bias(g, n):
+def g_durlak_bias(g :float, n: float) -> float: #TODO
 	"""
 	Application of Durlak's bias correction to the Hedge's g statistic.
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
@@ -249,7 +251,7 @@ def g_durlak_bias(g, n):
 	return g * Durlak
 
 
-def interpret_d(d_or_g):
+def interpret_d(d_or_g: float) -> float:
 	"""
 	Interpret Cohen's d or Hedge's g values using Table 1
 	from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3444174/
@@ -273,7 +275,7 @@ def interpret_d(d_or_g):
 		return "Large Effect"
 
 
-def _contains_nan(a, nan_policy='propagate'):
+def _contains_nan(a, nan_policy = 'propagate'):
 	policies = ['propagate', 'raise', 'omit']
 	if nan_policy not in policies:
 		raise ValueError("nan_policy must be one of {%s}" % ', '.join(f"'{s}'" for s in policies))
@@ -304,7 +306,7 @@ def _contains_nan(a, nan_policy='propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis=0, center=numpy.median, scale=1.4826, nan_policy='propagate'):
+def median_absolute_deviation(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy = 'propagate'): #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -387,7 +389,7 @@ def median_absolute_deviation(x, axis=0, center=numpy.median, scale=1.4826, nan_
 	return scale * mad
 
 
-def absolute_deviation(x, axis=0, center=numpy.median, nan_policy='propagate'):
+def absolute_deviation(x, axis: int = 0, center=numpy.median, nan_policy='propagate'): #TODO
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -447,7 +449,7 @@ def absolute_deviation(x, axis=0, center=numpy.median, nan_policy='propagate'):
 	return ad
 
 
-def absolute_deviation_from_median(x, axis=0, center=numpy.median, scale=1.4826, nan_policy='propagate'):
+def absolute_deviation_from_median(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy = 'propagate'):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.
@@ -499,7 +501,7 @@ def absolute_deviation_from_median(x, axis=0, center=numpy.median, scale=1.4826,
 	return ad_from_median
 
 
-def within1min(value1, value2):
+def within1min(value1: float, value2: float):
 	if value1 not in [0, None, ''] and value2 not in [0, None, '']:
 		return (float(value1) - 1) < (float(value2)) < (float(value1) + 1)
 	else:
