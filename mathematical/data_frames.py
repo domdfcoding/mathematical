@@ -257,7 +257,7 @@ def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: 
 	return Series(list(x))
 
 
-def df_count(row: Series, column_label_list: [str] = None) -> int:
+def df_count(row: Series, column_label_list: List[str] = None) -> int:
 	"""
 	Count the number of occurrences of a non-NaN value in the specified columns of a data frame
 

@@ -46,7 +46,7 @@ Functions for Calculating Statistics
 import warnings
 
 # 3rd party
-from typing import List
+from typing import List, Sequence, Callable
 
 import numpy
 
@@ -54,7 +54,7 @@ import numpy
 from . import utils
 
 
-def mean_none(dataset: List) -> float:
+def mean_none(dataset: Sequence[float]) -> float:
 	"""
 	Calculate the mean, excluding NaN, strings, boolean values, and zeros
 
@@ -71,7 +71,7 @@ def mean_none(dataset: List) -> float:
 	return float(numpy.nanmean(dataset))
 
 
-def std_none(dataset: List[str], ddof: int = 1) -> float:
+def std_none(dataset: Sequence[float], ddof: int = 1) -> float:
 	"""
 	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
 
@@ -90,7 +90,7 @@ def std_none(dataset: List[str], ddof: int = 1) -> float:
 	return float(numpy.nanstd(dataset, ddof=ddof))
 
 
-def median_none(dataset:List[str]):
+def median_none(dataset: Sequence[float]):
 	"""
 	Calculate the median, excluding NaN, strings, boolean values, and zeros
 
@@ -107,7 +107,7 @@ def median_none(dataset:List[str]):
 	return numpy.nanmedian(dataset)
 
 
-def iqr_none(dataset:List[str]) -> float:
+def iqr_none(dataset: Sequence[float]) -> float:
 	"""
 	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros
 
@@ -125,7 +125,7 @@ def iqr_none(dataset:List[str]) -> float:
 	return float(iq)
 
 
-def percentile_none(dataset: List[str], percentage: float) -> float:
+def percentile_none(dataset: Sequence[float], percentage: float) -> float:
 	"""
 
 	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
@@ -151,7 +151,7 @@ def percentile_none(dataset: List[str], percentage: float) -> float:
 	return float(numpy.percentile(dataset, percentage))
 
 
-def pooled_sd(sample1: List, sample2: List, weighted: List = False) -> float:
+def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool = False) -> float:
 	"""
 	Pooled Standard Deviation
 
@@ -178,7 +178,7 @@ def pooled_sd(sample1: List, sample2: List, weighted: List = False) -> float:
 		return numpy.sqrt(((sd1**2) + (sd2**2)) / 2)
 
 
-def d_cohen(sample1: List, sample2: List, sd: int = 1, tail = 1, pooled = False) -> float:
+def d_cohen(sample1: Sequence[float], sample2:Sequence[float], sd: int = 1, tail = 1, pooled: bool = False) -> float:
 	"""
 	Cohen's d-Statistic
 
@@ -214,7 +214,7 @@ def d_cohen(sample1: List, sample2: List, sd: int = 1, tail = 1, pooled = False)
 	return (mean1 - mean2) / sd
 
 
-def g_hedge(sample1: List, sample2: List): #TODO
+def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
 	"""
 	Hedge's g-Statistic
 
@@ -231,7 +231,7 @@ def g_hedge(sample1: List, sample2: List): #TODO
 	return (mean1 - mean2) / pooled_sd(sample1, sample2, True)
 
 
-def g_durlak_bias(g :float, n: float) -> float: #TODO
+def g_durlak_bias(g: float, n: float) -> float:
 	"""
 	Application of Durlak's bias correction to the Hedge's g statistic.
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
@@ -275,7 +275,7 @@ def interpret_d(d_or_g: float) -> float:
 		return "Large Effect"
 
 
-def _contains_nan(a, nan_policy:str = 'propagate'):
+def _contains_nan(a, nan_policy: str = 'propagate'):
 	policies = ['propagate', 'raise', 'omit']
 	if nan_policy not in policies:
 		raise ValueError("nan_policy must be one of {%s}" % ', '.join(f"'{s}'" for s in policies))
@@ -306,7 +306,7 @@ def _contains_nan(a, nan_policy:str = 'propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'): #TODO
+def median_absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'): #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -389,7 +389,7 @@ def median_absolute_deviation(x, axis: int = 0, center = numpy.median, scale: in
 	return scale * mad
 
 
-def absolute_deviation(x, axis: int = 0, center=numpy.median, nan_policy: str = 'propagate'): #TODO
+def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_policy: str = 'propagate'): #TODO
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -449,7 +449,7 @@ def absolute_deviation(x, axis: int = 0, center=numpy.median, nan_policy: str = 
 	return ad
 
 
-def absolute_deviation_from_median(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'):
+def absolute_deviation_from_median(x, axis: int = 0, center: Callable = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.

@@ -31,6 +31,7 @@
 #  MA 02110-1301, USA.
 #
 #
+from typing import Sequence, Tuple, List
 
 import numpy
 from . import utils
@@ -38,10 +39,10 @@ from . import stats
 
 
 def mad_outliers(
-		dataset: List,
+		dataset: Sequence[float],
 		strip_zero: bool = True,
 		threshold: int = 3,
-		):
+		) -> Tuple[List[float], List[float]]:
 	"""
 	Using the Median Absolute Deviation to Find Outliers
 
@@ -88,7 +89,7 @@ def mad_outliers(
 	return outliers, data_exc_outliers
 
 
-def two_stdev(dataset, strip_zero: bool = True):
+def two_stdev(dataset: Sequence[float], strip_zero: bool = True):
 	"""
 	Outliers are greater than 2x stdev from mean
 
@@ -100,7 +101,7 @@ def two_stdev(dataset, strip_zero: bool = True):
 	return stdev_outlier(dataset, strip_zero=strip_zero)
 
 
-def stdev_outlier(dataset, strip_zero: bool = True, rng=int(2)):
+def stdev_outlier(dataset: Sequence[float], strip_zero: bool = True, rng=int(2)):
 	"""
 	Outliers are greater than rng*stdev from mean
 
@@ -133,7 +134,7 @@ def stdev_outlier(dataset, strip_zero: bool = True, rng=int(2)):
 	return outliers, data_exc_outliers
 
 
-def quartile_outliers(dataset, strip_zero: bool = True):
+def quartile_outliers(dataset: Sequence[float], strip_zero: bool = True):
 	"""
 	outliers are more than 3x inter-quartile range from upper or lower quartile
 
@@ -171,7 +172,7 @@ def quartile_outliers(dataset, strip_zero: bool = True):
 	return outliers, data_exc_outliers
 
 
-def spss_outliers(dataset, strip_zero: bool = True, mode: str = "all"):
+def spss_outliers(dataset: Sequence[float], strip_zero: bool = True, mode: str = "all"):
 	"""
 	Based on IBM SPSS method for detecting outliers
 	Outliers more than 1.5*IQR from Q1 or Q3

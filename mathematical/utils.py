@@ -83,7 +83,7 @@ import math
 from operator import eq, ge, gt, le, lt, ne
 
 # 3rd party
-from typing import List
+from typing import List, Sequence, Any, Union, Optional
 
 import numpy
 
@@ -149,7 +149,7 @@ def magnitude(x: float) -> int:
 # 	return int(math.floor(math.log10(abs(num))))
 
 
-def remove_zero(inputlist: List)-> List:
+def remove_zero(inputlist: Sequence[float]) -> List[float]:
 	"""
 	Remove zero values from the given list
 	Also removes False and None
@@ -178,7 +178,7 @@ def isint(num: float) -> bool:  # Only works with floating point numbers
 	return num == int(num)
 
 
-def RepresentsInt(s: bool):
+def RepresentsInt(s: Any) -> bool:
 	"""
 	Checks whether a value can be converted to int
 
@@ -192,12 +192,11 @@ def RepresentsInt(s: bool):
 	except (ValueError, TypeError) as e:
 		return False
 
-
-class Decimal(object):
-	pass
+from decimal import Decimal
 
 
-def rounders(val_to_round: int, round_format: str) -> Decimal:
+
+def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Decimal:
 	"""
 	Round a value to the specified number format, e.g. "0.000" for three decimal places
 
@@ -309,7 +308,7 @@ def gcd_array(array) -> float:
 	return x
 
 
-def gcd2(numbers: float) -> float:
+def gcd2(numbers: Sequence[float]) -> float:
 	"""
 	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
 
@@ -324,7 +323,7 @@ def gcd2(numbers: float) -> float:
 	return c
 
 
-def lcm(numbers: float) -> float:
+def lcm(numbers:Sequence[float]) -> float:
 	"""
 	Returns the LCM of a list of numbers using Euclid's Algorithm
 	:param numbers:
@@ -343,7 +342,7 @@ def lcm(numbers: float) -> float:
 		return product
 
 
-def hcf(a: float, b: float):
+def hcf(a: float, b: float) -> float:
 	"""
 
 	:param a:
@@ -366,7 +365,7 @@ def hcf2(numbers: float) -> float:
 	gcd2(numbers)
 
 
-def modInverse(a: float, m: float):
+def modInverse(a: float, m: float) -> Optional[float]:
 	"""
 	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
 	:param a:
