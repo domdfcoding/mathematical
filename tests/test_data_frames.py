@@ -9,8 +9,8 @@ Test functions in data_frames.py
 
 import copy
 
-import pandas
-import pytest
+import pandas  # type: ignore
+import pytest  # type: ignore
 
 from mathematical.data_frames import (
 		df_count,

@@ -50,8 +50,8 @@ import string
 from itertools import count
 
 # 3rd party
-import numpy
-import pytest
+import numpy  # type: ignore
+import pytest  # type: ignore
 
 # this package
 from mathematical import linear_regression

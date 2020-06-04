@@ -6,7 +6,7 @@ test_stats
 Test functions in stats.py
 
 """
-import numpy
+import numpy  # type: ignore
 from mathematical import stats
 
 data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
@@ -43,7 +43,7 @@ def test_iqr_none():
 
 def test_mad():
 	# Based on example from scipy.median_absolute_deviation docstring
-	import scipy.stats
+	import scipy.stats  # type: ignore
 	x = scipy.stats.norm.rvs(size=100, scale=1, random_state=123456)
 	assert isinstance(stats.median_absolute_deviation(x), float)
 	assert stats.median_absolute_deviation(x) == 1.2280762773108278

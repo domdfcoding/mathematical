@@ -33,7 +33,7 @@
 #
 from typing import Sequence, Tuple, List
 
-import numpy
+import numpy  # type: ignore
 from . import utils
 from . import stats
 

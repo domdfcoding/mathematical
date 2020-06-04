@@ -50,8 +50,8 @@ Test functions in utils.py
 #  |  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-import decimal
-import numpy
+import decimal  # type: ignore
+import numpy  # type: ignore
 
 from mathematical import utils
 

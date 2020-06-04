@@ -85,7 +85,7 @@ from operator import eq, ge, gt, le, lt, ne
 # 3rd party
 from typing import List, Sequence, Any, Union, Optional
 
-import numpy
+import numpy  # type: ignore
 
 
 def intdiv(p: float, q: float) -> int:

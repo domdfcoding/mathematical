@@ -43,12 +43,12 @@ Functions for Calculating Statistics
 #
 
 # stdlib
-import warnings
+import warnings  # type: ignore
 
 # 3rd party
 from typing import List, Sequence, Callable
 
-import numpy
+import numpy  # type: ignore
 
 # this package
 from . import utils

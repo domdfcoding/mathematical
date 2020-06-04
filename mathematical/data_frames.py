@@ -30,7 +30,7 @@
 # Outlier Modes
 from typing import List
 
-from pandas import Series
+from pandas import Series  # type: ignore
 
 MAD = 1
 QUARTILES = 2
@@ -55,7 +55,7 @@ def df_mean(row: Series, column_label_list: List[str] = None) -> float:
 	:rtype: float
 	"""
 
-	from numpy import nanmean
+	from numpy import nanmean  # type: ignore
 
 	if column_label_list is None:
 		column_label_list = list(row.index)

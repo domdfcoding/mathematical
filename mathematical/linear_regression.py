@@ -52,8 +52,8 @@ Functions for performing linear regression
 # 3rd party
 from typing import Tuple
 
-import numpy
-from domdf_python_tools.doctools import is_documented_by
+import numpy  # type: ignore
+from domdf_python_tools.doctools import is_documented_by  # type: ignore
 
 
 def linear_regression_vertical(x: numpy.ndarray, y: numpy.ndarray = None, a = None, b = None) -> Tuple[float, float, float, float]:
