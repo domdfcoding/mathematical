@@ -83,6 +83,8 @@ import math
 from operator import eq, ge, gt, le, lt, ne
 
 # 3rd party
+from typing import List
+
 import numpy
 
 
@@ -147,7 +149,7 @@ def magnitude(x: float) -> int:
 # 	return int(math.floor(math.log10(abs(num))))
 
 
-def remove_zero(inputlist: list)-> list:
+def remove_zero(inputlist: List)-> List:
 	"""
 	Remove zero values from the given list
 	Also removes False and None
@@ -191,7 +193,11 @@ def RepresentsInt(s: bool):
 		return False
 
 
-def rounders(val_to_round: int, round_format: str) -> decimal:
+class Decimal(object):
+	pass
+
+
+def rounders(val_to_round: int, round_format: str) -> Decimal:
 	"""
 	Round a value to the specified number format, e.g. "0.000" for three decimal places
 
@@ -207,7 +213,7 @@ def rounders(val_to_round: int, round_format: str) -> decimal:
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
 
-def strip_strings(ls: list) -> list:
+def strip_strings(ls: List) -> List:
 	"""
 	Remove strings from a list
 
@@ -221,7 +227,7 @@ def strip_strings(ls: list) -> list:
 	return [x for x in ls if not isinstance(x, str)]
 
 
-def strip_booleans(ls: list) -> list:
+def strip_booleans(ls: List) -> List:
 	"""
 	Remove booleans from a list
 
@@ -235,7 +241,7 @@ def strip_booleans(ls: list) -> list:
 	return [x for x in ls if not isinstance(x, bool)]
 
 
-def strip_nonetype(ls: list) -> list:
+def strip_nonetype(ls: List) -> List:
 	"""
 	Remove None from a list
 
@@ -249,7 +255,7 @@ def strip_nonetype(ls: list) -> list:
 	return [x for x in ls if x is not None]
 
 
-def strip_none_bool_string(ls: list) -> list:
+def strip_none_bool_string(ls: List) -> List:
 	"""
 	Remove None, Boolean and strings from a list
 

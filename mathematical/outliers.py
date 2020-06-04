@@ -38,7 +38,7 @@ from . import stats
 
 
 def mad_outliers(
-		dataset: list,
+		dataset: List,
 		strip_zero: bool = True,
 		threshold: int = 3,
 		):

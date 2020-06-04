@@ -37,7 +37,7 @@ QUARTILES = 2
 STDEV2 = 3
 
 
-def df_mean(row: Series, column_label_list: List[str] = None) -> float: #TODO
+def df_mean(row: Series, column_label_list: List[str] = None) -> float:
 	"""
 	Calculate the mean of each row for the specified columns of a data frame
 
@@ -60,10 +60,10 @@ def df_mean(row: Series, column_label_list: List[str] = None) -> float: #TODO
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanmean(row[column_label_list])
+	return float(nanmean(row[column_label_list]))
 
 
-def df_median(row: Series, column_label_list: List[str] = None) -> float: #TODO
+def df_median(row: Series, column_label_list: List[str] = None) -> float:
 	"""
 	Calculate the median of each row for the specified columns of a data frame
 
@@ -86,10 +86,10 @@ def df_median(row: Series, column_label_list: List[str] = None) -> float: #TODO
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanmedian(row[column_label_list])
+	return float(nanmedian(row[column_label_list]))
 
 
-def df_stdev(row: Series, column_label_list: List[str] = None) -> float: #TODO
+def df_stdev(row: Series, column_label_list: List[str] = None) -> float:
 	"""
 	Calculate the standard deviation of each row for the specified columns of a data frame
 
@@ -112,10 +112,10 @@ def df_stdev(row: Series, column_label_list: List[str] = None) -> float: #TODO
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanstd(row[column_label_list])
+	return float(nanstd(row[column_label_list]))
 
 
-def df_log_stdev(row: Series, column_label_list: List[str] = None) -> float: #TODO
+def df_log_stdev(row: Series, column_label_list: List[str] = None) -> float:
 	"""
 	Calculate the standard deviation of the log10 values in each row for the specified columns of a data frame
 
@@ -139,7 +139,7 @@ def df_log_stdev(row: Series, column_label_list: List[str] = None) -> float: #TO
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]])
+	return float(nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]]))
 
 
 def df_percentage(row: Series, column_label: str, total: float) -> float:
@@ -166,7 +166,7 @@ def df_percentage(row: Series, column_label: str, total: float) -> float:
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_log(row: Series, column_label_list: List[str], base = 10) -> float:
+def df_log(row: Series, column_label_list: List[str], base: float = 10) -> float:
 	"""
 	Calculate the logarithm of the values in each row for the specified columns of a data frame
 
@@ -194,7 +194,7 @@ def df_log(row: Series, column_label_list: List[str], base = 10) -> float:
 		return 0
 
 
-def df_data_points(row: Series, column_label_list: List[str]) -> list:
+def df_data_points(row: Series, column_label_list: List[str]) -> List:
 	"""
 	Compile the values for the specified columns in each row into a list
 
@@ -215,7 +215,7 @@ def df_data_points(row: Series, column_label_list: List[str]) -> list:
 	return [row[column_label] for column_label in column_label_list]
 
 
-def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode=MAD): #TODO
+def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: int = MAD) -> Series:
 	"""
 	Identify outliers in each row
 
@@ -254,7 +254,7 @@ def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode=M
 	else:
 		return None
 
-	return pd.Series(list(x))
+	return Series(list(x))
 
 
 def df_count(row: Series, column_label_list: [str] = None) -> int:

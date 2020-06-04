@@ -54,7 +54,7 @@ import numpy
 from domdf_python_tools.doctools import is_documented_by
 
 
-def linear_regression_vertical(x, y=None, a=None, b=None) -> tuple:
+def linear_regression_vertical(x, y = None, a = None, b = None) -> tuple:
 	"""
 	Calculate coefficients of a linear regression y = a * x + b.
 	The fit minimizes *vertical* distances between the points and the line.

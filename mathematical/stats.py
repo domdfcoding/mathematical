@@ -54,7 +54,7 @@ import numpy
 from . import utils
 
 
-def mean_none(dataset: List[str]):
+def mean_none(dataset: List) -> float:
 	"""
 	Calculate the mean, excluding NaN, strings, boolean values, and zeros
 
@@ -68,10 +68,10 @@ def mean_none(dataset: List[str]):
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 
-	return numpy.nanmean(dataset)
+	return float(numpy.nanmean(dataset))
 
 
-def std_none(dataset: List[str], ddof: int = 1):
+def std_none(dataset: List[str], ddof: int = 1) -> float:
 	"""
 	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
 
@@ -87,7 +87,7 @@ def std_none(dataset: List[str], ddof: int = 1):
 	dataset = utils.remove_zero(dataset)
 	print(dataset)
 
-	return numpy.nanstd(dataset, ddof = ddof)
+	return float(numpy.nanstd(dataset, ddof=ddof))
 
 
 def median_none(dataset:List[str]):
@@ -122,7 +122,7 @@ def iqr_none(dataset:List[str]) -> float:
 	q3 = percentile_none(dataset, 75)
 	iq = q3 - q1
 
-	return iq
+	return float(iq)
 
 
 def percentile_none(dataset: List[str], percentage: float) -> float:
@@ -148,7 +148,7 @@ def percentile_none(dataset: List[str], percentage: float) -> float:
 	if len(dataset) < 2:
 		raise ValueError("Dataset too small")
 
-	return numpy.percentile(dataset, percentage)
+	return float(numpy.percentile(dataset, percentage))
 
 
 def pooled_sd(sample1: List, sample2: List, weighted: List = False) -> float:
@@ -275,7 +275,7 @@ def interpret_d(d_or_g: float) -> float:
 		return "Large Effect"
 
 
-def _contains_nan(a, nan_policy = 'propagate'):
+def _contains_nan(a, nan_policy:str = 'propagate'):
 	policies = ['propagate', 'raise', 'omit']
 	if nan_policy not in policies:
 		raise ValueError("nan_policy must be one of {%s}" % ', '.join(f"'{s}'" for s in policies))
@@ -306,7 +306,7 @@ def _contains_nan(a, nan_policy = 'propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy = 'propagate'): #TODO
+def median_absolute_deviation(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'): #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -389,7 +389,7 @@ def median_absolute_deviation(x, axis: int = 0, center = numpy.median, scale: in
 	return scale * mad
 
 
-def absolute_deviation(x, axis: int = 0, center=numpy.median, nan_policy='propagate'): #TODO
+def absolute_deviation(x, axis: int = 0, center=numpy.median, nan_policy: str = 'propagate'): #TODO
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -449,7 +449,7 @@ def absolute_deviation(x, axis: int = 0, center=numpy.median, nan_policy='propag
 	return ad
 
 
-def absolute_deviation_from_median(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy = 'propagate'):
+def absolute_deviation_from_median(x, axis: int = 0, center = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.
@@ -501,7 +501,7 @@ def absolute_deviation_from_median(x, axis: int = 0, center = numpy.median, scal
 	return ad_from_median
 
 
-def within1min(value1: float, value2: float):
+def within1min(value1: float, value2: float) -> bool:
 	if value1 not in [0, None, ''] and value2 not in [0, None, '']:
 		return (float(value1) - 1) < (float(value2)) < (float(value1) + 1)
 	else:
