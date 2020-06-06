@@ -46,7 +46,7 @@ Functions for Calculating Statistics
 import warnings  # type: ignore
 
 # 3rd party
-from typing import List, Sequence, Callable
+from typing import List, Sequence, Callable, Union, Optional
 
 import numpy  # type: ignore
 
@@ -54,7 +54,7 @@ import numpy  # type: ignore
 from . import utils
 
 
-def mean_none(dataset: Sequence[float]) -> float:
+def mean_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
 	Calculate the mean, excluding NaN, strings, boolean values, and zeros
 
@@ -71,7 +71,7 @@ def mean_none(dataset: Sequence[float]) -> float:
 	return float(numpy.nanmean(dataset))
 
 
-def std_none(dataset: Sequence[float], ddof: int = 1) -> float:
+def std_none(dataset: Sequence[Union[float, bool, None]], ddof: int = 1) -> float:
 	"""
 	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
 
@@ -90,7 +90,7 @@ def std_none(dataset: Sequence[float], ddof: int = 1) -> float:
 	return float(numpy.nanstd(dataset, ddof=ddof))
 
 
-def median_none(dataset: Sequence[float]):
+def median_none(dataset: Sequence[Union[float, bool, None]]):
 	"""
 	Calculate the median, excluding NaN, strings, boolean values, and zeros
 
@@ -107,7 +107,7 @@ def median_none(dataset: Sequence[float]):
 	return numpy.nanmedian(dataset)
 
 
-def iqr_none(dataset: Sequence[float]) -> float:
+def iqr_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
 	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros
 
@@ -125,7 +125,7 @@ def iqr_none(dataset: Sequence[float]) -> float:
 	return float(iq)
 
 
-def percentile_none(dataset: Sequence[float], percentage: float) -> float:
+def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: float) -> float:
 	"""
 
 	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
@@ -251,7 +251,7 @@ def g_durlak_bias(g: float, n: float) -> float:
 	return g * Durlak
 
 
-def interpret_d(d_or_g: float) -> float:
+def interpret_d(d_or_g: float) -> Optional[str]:
 	"""
 	Interpret Cohen's d or Hedge's g values using Table 1
 	from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3444174/
@@ -273,6 +273,7 @@ def interpret_d(d_or_g: float) -> float:
 		return "Intermediate Effect"
 	elif 0.8 <= d_or_g:
 		return "Large Effect"
+	return None
 
 
 def _contains_nan(a, nan_policy: str = 'propagate'):
@@ -306,7 +307,7 @@ def _contains_nan(a, nan_policy: str = 'propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'): #TODO
+def median_absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate'): #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -449,7 +450,7 @@ def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_po
 	return ad
 
 
-def absolute_deviation_from_median(x, axis: int = 0, center: Callable = numpy.median, scale: int = 1.4826, nan_policy: str = 'propagate'):
+def absolute_deviation_from_median(x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate'):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.

@@ -105,7 +105,7 @@ def intdiv(p: float, q: float) -> int:
 	r = p // q
 	if r < 0 and q * r != p:
 		r += 1
-	return r
+	return int(r)
 
 
 def roman(num: float) -> str:
@@ -149,7 +149,7 @@ def magnitude(x: float) -> int:
 # 	return int(math.floor(math.log10(abs(num))))
 
 
-def remove_zero(inputlist: Sequence[float]) -> List[float]:
+def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	"""
 	Remove zero values from the given list
 	Also removes False and None
@@ -212,7 +212,7 @@ def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Dec
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
 
-def strip_strings(ls: List) -> List:
+def strip_strings(ls: Sequence[Any]) -> List:
 	"""
 	Remove strings from a list
 
@@ -226,7 +226,7 @@ def strip_strings(ls: List) -> List:
 	return [x for x in ls if not isinstance(x, str)]
 
 
-def strip_booleans(ls: List) -> List:
+def strip_booleans(ls: Sequence[Any]) -> List:
 	"""
 	Remove booleans from a list
 
@@ -240,7 +240,7 @@ def strip_booleans(ls: List) -> List:
 	return [x for x in ls if not isinstance(x, bool)]
 
 
-def strip_nonetype(ls: List) -> List:
+def strip_nonetype(ls: Sequence[Any]) -> List:
 	"""
 	Remove None from a list
 
@@ -254,7 +254,7 @@ def strip_nonetype(ls: List) -> List:
 	return [x for x in ls if x is not None]
 
 
-def strip_none_bool_string(ls: List) -> List:
+def strip_none_bool_string(ls: Sequence[Any]) -> List:
 	"""
 	Remove None, Boolean and strings from a list
 
@@ -270,7 +270,7 @@ def strip_none_bool_string(ls: List) -> List:
 	return ls
 
 
-def gcd(a: float, b: float) -> float:
+def gcd(a: int, b: int) -> int:
 	"""
 	Returns the GCD (HCF) of a and b using Euclid's Algorithm
 
@@ -308,7 +308,7 @@ def gcd_array(array) -> float:
 	return x
 
 
-def gcd2(numbers: Sequence[float]) -> float:
+def gcd2(numbers: int) -> int:
 	"""
 	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
 
@@ -342,30 +342,30 @@ def lcm(numbers:Sequence[float]) -> float:
 		return product
 
 
-def hcf(a: float, b: float) -> float:
+def hcf(a: int, b: int) -> int:
 	"""
 
 	:param a:
 	:param b:
 
-	:return:float
+	:return:int
 	"""
 
 	gcd(a, b)
 
 
-def hcf2(numbers: float) -> float:
+def hcf2(numbers: int) -> int:
 	"""
 
 	:param numbers:
 
-	:return:float
+	:return:int
 	"""
 
 	gcd2(numbers)
 
 
-def modInverse(a: float, m: float) -> Optional[float]:
+def modInverse(a: int, m: int) -> Optional[float]:
 	"""
 	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
 	:param a:

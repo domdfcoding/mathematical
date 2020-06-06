@@ -250,7 +250,7 @@ def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: 
 	elif outlier_mode == QUARTILES:
 		x = outliers.quartile_outliers(data)
 	elif outlier_mode == STDEV2:
-		x = outliers.stdev_outlier(data, 2)  # outlier classed as more than 2 stdev away from mean
+		x = outliers.stdev_outlier(data, rng=2)  # outlier classed as more than 2 stdev away from mean
 	else:
 		return None
 
