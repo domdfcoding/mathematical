@@ -51,7 +51,7 @@ Test functions in utils.py
 #
 
 # stdlib
-import decimal  # type: ignore
+import decimal
 
 # 3rd party
 import numpy  # type: ignore

@@ -29,6 +29,7 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
+
 # stdlib
 #
 #
@@ -104,7 +105,7 @@ def two_stdev(dataset: Sequence[float], strip_zero: bool = True):
 	return stdev_outlier(dataset, strip_zero=strip_zero)
 
 
-def stdev_outlier(dataset: Sequence[float], strip_zero: bool = True, rng=int(2)):
+def stdev_outlier(dataset: Sequence[float], strip_zero: bool = True, rng: int = 2):
 	"""
 	Outliers are greater than rng*stdev from mean
 

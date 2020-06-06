@@ -178,7 +178,11 @@ def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool
 
 
 def d_cohen(
-		sample1: Sequence[float], sample2: Sequence[float], sd: int = 1, tail=1, pooled: bool = False
+		sample1: Sequence[float],
+		sample2: Sequence[float],
+		sd: int = 1,
+		tail=1,
+		pooled: bool = False,
 		) -> float:
 	"""
 	Cohen's d-Statistic
@@ -313,7 +317,7 @@ def median_absolute_deviation(
 		axis: int = 0,
 		center: Callable = numpy.median,
 		scale: float = 1.4826,
-		nan_policy: str = 'propagate'
+		nan_policy: str = 'propagate,'
 		):  #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
@@ -397,7 +401,12 @@ def median_absolute_deviation(
 	return scale * mad
 
 
-def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_policy: str = 'propagate'):  #TODO
+def absolute_deviation(
+		x,
+		axis: int = 0,
+		center: Callable = numpy.median,
+		nan_policy: str = 'propagate',
+		):  #TODO
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -458,7 +467,7 @@ def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_po
 
 
 def absolute_deviation_from_median(
-		x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate'
+		x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate,'
 		):
 	"""
 	Compute the absolute deviation from the median of each point in the data

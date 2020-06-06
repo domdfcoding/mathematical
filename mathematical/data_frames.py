@@ -28,18 +28,19 @@
 #
 
 # stdlib
-# Outlier Modes
-from typing import List
+from typing import List, Optional, Sequence
 
 # 3rd party
 from pandas import Series  # type: ignore
+
+# Outlier Modes
 
 MAD = 1
 QUARTILES = 2
 STDEV2 = 3
 
 
-def df_mean(row: Series, column_label_list: List[str] = None) -> float:
+def df_mean(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the mean of each row for the specified columns of a data frame
 
@@ -65,7 +66,7 @@ def df_mean(row: Series, column_label_list: List[str] = None) -> float:
 	return float(nanmean(row[column_label_list]))
 
 
-def df_median(row: Series, column_label_list: List[str] = None) -> float:
+def df_median(row: Series, column_label_list: Optional[Sequence[list]] = None) -> float:
 	"""
 	Calculate the median of each row for the specified columns of a data frame
 
@@ -91,7 +92,7 @@ def df_median(row: Series, column_label_list: List[str] = None) -> float:
 	return float(nanmedian(row[column_label_list]))
 
 
-def df_stdev(row: Series, column_label_list: List[str] = None) -> float:
+def df_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None) -> float:
 	"""
 	Calculate the standard deviation of each row for the specified columns of a data frame
 
@@ -117,7 +118,7 @@ def df_stdev(row: Series, column_label_list: List[str] = None) -> float:
 	return float(nanstd(row[column_label_list]))
 
 
-def df_log_stdev(row: Series, column_label_list: List[str] = None) -> float:
+def df_log_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None) -> float:
 	"""
 	Calculate the standard deviation of the log10 values in each row for the specified columns of a data frame
 
@@ -196,7 +197,7 @@ def df_log(row: Series, column_label_list: List[str], base: float = 10) -> float
 		return 0
 
 
-def df_data_points(row: Series, column_label_list: List[str]) -> List:
+def df_data_points(row: Series, column_label_list: Optional[Sequence[list]]) -> List:
 	"""
 	Compile the values for the specified columns in each row into a list
 
@@ -259,7 +260,7 @@ def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: 
 	return Series(list(x))
 
 
-def df_count(row: Series, column_label_list: List[str] = None) -> int:
+def df_count(row: Series, column_label_list: Optional[Sequence[list]] = None) -> int:
 	"""
 	Count the number of occurrences of a non-NaN value in the specified columns of a data frame
 
