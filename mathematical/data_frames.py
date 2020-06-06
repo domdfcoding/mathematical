@@ -27,9 +27,11 @@
 #
 #
 
+# stdlib
 # Outlier Modes
 from typing import List
 
+# 3rd party
 from pandas import Series  # type: ignore
 
 MAD = 1

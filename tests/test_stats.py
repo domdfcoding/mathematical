@@ -6,7 +6,10 @@ test_stats
 Test functions in stats.py
 
 """
+# 3rd party
 import numpy  # type: ignore
+
+# this package
 from mathematical import stats
 
 data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]

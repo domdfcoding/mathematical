@@ -80,11 +80,11 @@
 # stdlib
 import decimal
 import math
+from decimal import Decimal
 from operator import eq, ge, gt, le, lt, ne
+from typing import Any, List, Optional, Sequence, Union
 
 # 3rd party
-from typing import List, Sequence, Any, Union, Optional
-
 import numpy  # type: ignore
 
 
@@ -191,9 +191,6 @@ def RepresentsInt(s: Any) -> bool:
 		return True
 	except (ValueError, TypeError) as e:
 		return False
-
-from decimal import Decimal
-
 
 
 def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Decimal:
@@ -323,7 +320,7 @@ def gcd2(numbers: int) -> int:
 	return c
 
 
-def lcm(numbers:Sequence[float]) -> float:
+def lcm(numbers: Sequence[float]) -> float:
 	"""
 	Returns the LCM of a list of numbers using Euclid's Algorithm
 	:param numbers:
@@ -391,7 +388,7 @@ equiv_operators = dict(zip('< <= == != >= >'.split(), (lt, le, eq, ne, ge, gt)))
 _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 
 
-def log_factorial(x: float)-> float:
+def log_factorial(x: float) -> float:
 	x = numpy.array(x)
 	pf = _precalc_fact
 	m = (x >= pf.size)
@@ -419,7 +416,7 @@ def _expectation(d: float, T: float, p: float = 0.5):
 	return ((m * pi).cumsum() / pi.cumsum())[T]
 
 
-def _confidence_value(conf: float, d: float, T: float, p: float = 0.5) :
+def _confidence_value(conf: float, d: float, T: float, p: float = 0.5):
 	if T is not None:
 		T = numpy.array(T, dtype=int)
 		m = numpy.arange(T.max() + 1, dtype=int)

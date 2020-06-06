@@ -44,10 +44,9 @@ Functions for Calculating Statistics
 
 # stdlib
 import warnings  # type: ignore
+from typing import Callable, List, Optional, Sequence, Union
 
 # 3rd party
-from typing import List, Sequence, Callable, Union, Optional
-
 import numpy  # type: ignore
 
 # this package
@@ -178,7 +177,9 @@ def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool
 		return numpy.sqrt(((sd1**2) + (sd2**2)) / 2)
 
 
-def d_cohen(sample1: Sequence[float], sample2:Sequence[float], sd: int = 1, tail = 1, pooled: bool = False) -> float:
+def d_cohen(
+		sample1: Sequence[float], sample2: Sequence[float], sd: int = 1, tail=1, pooled: bool = False
+		) -> float:
 	"""
 	Cohen's d-Statistic
 
@@ -307,7 +308,13 @@ def _contains_nan(a, nan_policy: str = 'propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate'): #TODO
+def median_absolute_deviation(
+		x,
+		axis: int = 0,
+		center: Callable = numpy.median,
+		scale: float = 1.4826,
+		nan_policy: str = 'propagate'
+		):  #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -390,7 +397,7 @@ def median_absolute_deviation(x, axis: int = 0, center: Callable = numpy.median,
 	return scale * mad
 
 
-def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_policy: str = 'propagate'): #TODO
+def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_policy: str = 'propagate'):  #TODO
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -450,7 +457,9 @@ def absolute_deviation(x, axis: int = 0, center: Callable = numpy.median, nan_po
 	return ad
 
 
-def absolute_deviation_from_median(x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate'):
+def absolute_deviation_from_median(
+		x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate'
+		):
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.

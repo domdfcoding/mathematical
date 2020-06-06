@@ -29,13 +29,16 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
+# stdlib
 #
 #
-from typing import Sequence, Tuple, List
+from typing import List, Sequence, Tuple
 
+# 3rd party
 import numpy  # type: ignore
-from . import utils
-from . import stats
+
+# this package
+from . import stats, utils
 
 
 def mad_outliers(
