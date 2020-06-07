@@ -122,7 +122,7 @@ def roman(num: float) -> str:
 	values = 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
 	result = ''
 	for t, v in zip(tokens, values):
-		cnt = num // v
+		cnt = int(num // v)
 		result += t * cnt
 		num -= v * cnt
 	return result
@@ -305,7 +305,7 @@ def gcd_array(array) -> float:
 	return x
 
 
-def gcd2(numbers: int) -> int:
+def gcd2(numbers: Sequence[int]) -> int:
 	"""
 	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
 
@@ -320,7 +320,7 @@ def gcd2(numbers: int) -> int:
 	return c
 
 
-def lcm(numbers: Sequence[float]) -> float:
+def lcm(numbers: Sequence[int]) -> float:
 	"""
 	Returns the LCM of a list of numbers using Euclid's Algorithm
 	:param numbers:
@@ -348,10 +348,10 @@ def hcf(a: int, b: int) -> int:
 	:return:int
 	"""
 
-	gcd(a, b)
+	return gcd(a, b)
 
 
-def hcf2(numbers: int) -> int:
+def hcf2(numbers: Sequence[int]) -> int:
 	"""
 
 	:param numbers:
@@ -359,7 +359,7 @@ def hcf2(numbers: int) -> int:
 	:return:int
 	"""
 
-	gcd2(numbers)
+	return gcd2(numbers)
 
 
 def modInverse(a: int, m: int) -> Optional[float]:
@@ -389,14 +389,14 @@ _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 
 
 def log_factorial(x: float) -> float:
-	x = numpy.array(x)
+	arr = numpy.array(x)
 	pf = _precalc_fact
-	m = (x >= pf.size)
-	out = numpy.empty(x.shape)
-	out[~m] = pf[x[~m].astype(int)]
-	x = x[m]
-	out[m] = x * numpy.log(x) - x + 0.5 * numpy.log(2 * numpy.pi * x)
-	return out
+	m: bool = (arr >= pf.size)
+	out = numpy.empty(arr.shape)
+	out[~m] = pf[arr[~m].astype(int)]
+	arr = arr[m]
+	out[m] = arr * numpy.log(arr) - arr + 0.5 * numpy.log(2 * numpy.pi * arr)
+	return float(out)
 
 
 def _log_pi_r(d: float, k: float, p: float = 0.5) -> float:
@@ -405,23 +405,3 @@ def _log_pi_r(d: float, k: float, p: float = 0.5) -> float:
 
 def _log_pi(d: float, k: float, p: float = 0.5) -> float:
 	return _log_pi_r(d, k, p) + (d + 1) * math.log(1 - p)
-
-
-def _expectation(d: float, T: float, p: float = 0.5):
-	if T is None:
-		return d + 1
-	T = numpy.array(T, dtype=int)
-	m = numpy.arange(T.max() + 1, dtype=int)
-	pi = numpy.exp(_log_pi(d, m, p))
-	return ((m * pi).cumsum() / pi.cumsum())[T]
-
-
-def _confidence_value(conf: float, d: float, T: float, p: float = 0.5):
-	if T is not None:
-		T = numpy.array(T, dtype=int)
-		m = numpy.arange(T.max() + 1, dtype=int)
-	else:
-		m = numpy.arange(max(50 * d, 10000))
-	log_pi = _log_pi(d, m, p)
-	pics = numpy.exp(log_pi).cumsum()
-	return numpy.searchsorted(pics, conf * (pics[T] if T is not None else 1))

@@ -180,7 +180,7 @@ def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool
 def d_cohen(
 		sample1: Sequence[float],
 		sample2: Sequence[float],
-		sd: int = 1,
+		which: int = 1,
 		tail=1,
 		pooled: bool = False,
 		) -> float:
@@ -193,8 +193,8 @@ def d_cohen(
 	:type sample1: list
 	:param sample2: datapoints for second sample
 	:type sample2: list
-	:param sd: Use the standard deviation of the first sample (1) or the second sample (2)
-	:type sd: int
+	:param which: Use the standard deviation of the first sample (1) or the second sample (2)
+	:type which: int
 	:param tail:
 	:param pooled:
 
@@ -205,18 +205,18 @@ def d_cohen(
 	mean1 = numpy.mean(sample1)
 	mean2 = numpy.mean(sample2)
 
-	if sd == 1:
-		sd = numpy.std(sample1)
+	if which == 1:
+		stdev = numpy.std(sample1)
 	else:
-		sd = numpy.std(sample2)
+		stdev = numpy.std(sample2)
 
 	if pooled:
-		sd = pooled_sd(sample1, sample2)
+		stdev = pooled_sd(sample1, sample2)
 
 	if tail == 2:
-		return numpy.abs(mean1 - mean2) / sd
+		return numpy.abs(mean1 - mean2) / stdev
 
-	return (mean1 - mean2) / sd
+	return (mean1 - mean2) / stdev
 
 
 def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
@@ -256,7 +256,7 @@ def g_durlak_bias(g: float, n: float) -> float:
 	return g * Durlak
 
 
-def interpret_d(d_or_g: float) -> Optional[str]:
+def interpret_d(d_or_g: float) -> str:
 	"""
 	Interpret Cohen's d or Hedge's g values using Table 1
 	from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3444174/
@@ -268,9 +268,7 @@ def interpret_d(d_or_g: float) -> Optional[str]:
 	:rtype:
 	"""
 
-	if d_or_g < 0:
-		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
-	elif 0.0 <= d_or_g < 0.2:
+	if 0.0 <= d_or_g < 0.2:
 		return "No Effect"
 	elif 0.2 <= d_or_g < 0.5:
 		return "Small Effect"
@@ -278,7 +276,8 @@ def interpret_d(d_or_g: float) -> Optional[str]:
 		return "Intermediate Effect"
 	elif 0.8 <= d_or_g:
 		return "Large Effect"
-	return None
+	else:  # d_or_g < 0
+		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
 
 
 def _contains_nan(a, nan_policy: str = 'propagate'):
@@ -317,7 +316,7 @@ def median_absolute_deviation(
 		axis: int = 0,
 		center: Callable = numpy.median,
 		scale: float = 1.4826,
-		nan_policy: str = 'propagate,'
+		nan_policy: str = 'propagate'
 		):  #TODO
 	"""
 	Compute the median absolute deviation of the data along the given axis.
@@ -467,7 +466,7 @@ def absolute_deviation(
 
 
 def absolute_deviation_from_median(
-		x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate,'
+		x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate',
 		):
 	"""
 	Compute the absolute deviation from the median of each point in the data
