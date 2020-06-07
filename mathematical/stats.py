@@ -466,8 +466,12 @@ def absolute_deviation(
 
 
 def absolute_deviation_from_median(
-		x, axis: int = 0, center: Callable = numpy.median, scale: float = 1.4826, nan_policy: str = 'propagate',
-		):
+		x,
+		axis: int = 0,
+		center: Callable = numpy.median,
+		scale: float = 1.4826,
+		nan_policy: str = 'propagate',
+		) -> numpy.ndarray:
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.

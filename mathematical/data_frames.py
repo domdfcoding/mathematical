@@ -197,7 +197,7 @@ def df_log(row: Series, column_label_list: List[str], base: float = 10) -> float
 		return 0
 
 
-def df_data_points(row: Series, column_label_list: Optional[Sequence[list]]) -> List:
+def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
 	"""
 	Compile the values for the specified columns in each row into a list
 
