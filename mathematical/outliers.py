@@ -29,10 +29,10 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
+#
+#
 
 # stdlib
-#
-#
 from typing import List, Sequence, Tuple
 
 # 3rd party
@@ -51,7 +51,8 @@ def mad_outliers(
 	Using the Median Absolute Deviation to Find Outliers
 
 	:param dataset:
-	:type dataset: list
+	:param strip_zero:
+	:type strip_zero: bool
 	:param threshold: The multiple of MAD above which values are considered to be outliers
 		Leys et al (2013) make the following recommendations:
 			1 In univariate statistics, the Median Absolute Deviation is the most robust
@@ -68,7 +69,7 @@ def mad_outliers(
 		See https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
 	:type threshold: int
 
-	:return: #TODO
+	:return:
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -93,11 +94,13 @@ def mad_outliers(
 	return outliers, data_exc_outliers
 
 
-def two_stdev(dataset: Sequence[float], strip_zero: bool = True):
+def two_stdev(dataset: Sequence[float], strip_zero: bool = True) -> Tuple[List[float], List[float]]:
 	"""
 	Outliers are greater than 2x stdev from mean
 
 	:param dataset:
+	:param strip_zero:
+	:type strip_zero: bool
 
 	:return: #	TODO
 	"""
@@ -105,12 +108,17 @@ def two_stdev(dataset: Sequence[float], strip_zero: bool = True):
 	return stdev_outlier(dataset, strip_zero=strip_zero)
 
 
-def stdev_outlier(dataset: Sequence[float], strip_zero: bool = True, rng: int = 2):
+def stdev_outlier(dataset: Sequence[float],
+					strip_zero: bool = True,
+					rng: int = 2) -> Tuple[List[float], List[float]]:
 	"""
 	Outliers are greater than rng*stdev from mean
 
 	:param dataset:
+	:param strip_zero:
+	:type strip_zero: bool
 	:param rng:
+	:type rng:
 
 	:return: 'TODO
 	"""
@@ -138,13 +146,15 @@ def stdev_outlier(dataset: Sequence[float], strip_zero: bool = True, rng: int = 
 	return outliers, data_exc_outliers
 
 
-def quartile_outliers(dataset: Sequence[float], strip_zero: bool = True):
+def quartile_outliers(dataset: Sequence[float], strip_zero: bool = True) -> Tuple[List[float], List[float]]:
 	"""
 	outliers are more than 3x inter-quartile range from upper or lower quartile
 
-	:param dataset: #
+	:param dataset:
+	:param strip_zero:
+	:type strip_zero: bool
 
-	:return: #TODO
+	:return:
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -176,16 +186,22 @@ def quartile_outliers(dataset: Sequence[float], strip_zero: bool = True):
 	return outliers, data_exc_outliers
 
 
-def spss_outliers(dataset: Sequence[float], strip_zero: bool = True, mode: str = "all"):
+def spss_outliers(
+		dataset: Sequence[float],
+		strip_zero: bool = True,
+		mode: str = "all",
+		):  # TODO:  -> Tuple[List[float], List[float], List[float]]
 	"""
-	Based on IBM SPSS method for detecting outliers
+	Based on IBM SPSS method for detecting outliers.
+
 	Outliers more than 1.5*IQR from Q1 or Q3
+
 	"Extreme values" more than 3*IQR from Q1 or Q3
 
 	:param dataset:
 	:param mode: str
 
-	:return: # TODO
+	:return:
 	"""
 
 	if len(dataset) < 2:
@@ -199,6 +215,7 @@ def spss_outliers(dataset: Sequence[float], strip_zero: bool = True, mode: str =
 		for val in dataset:
 			if val in ['', 0.0, 0]:
 				dataset.remove(val)
+
 	if len(dataset) == 0:
 		return float('nan')
 	elif dataset == [None]:

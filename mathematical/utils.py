@@ -92,16 +92,15 @@ def intdiv(p: float, q: float) -> int:
 	"""
 	Integer divsions which rounds toward zero
 
-	Examples
-	--------
+	**Examples**
 	>>> intdiv(3, 2)
 	1
 	>>> intdiv(-3, 2)
 	-1
 	>>> -3 // 2
 	-2
-
 	"""
+
 	r = p // q
 	if r < 0 and q * r != p:
 		r += 1
@@ -110,8 +109,7 @@ def intdiv(p: float, q: float) -> int:
 
 def roman(num: float) -> str:
 	"""
-	Examples
-	--------
+	**Examples**
 	>>> roman(4)
 	'IV'
 	>>> roman(17)
@@ -165,7 +163,7 @@ def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	return list(inputlist[numpy.nonzero(inputlist)])
 
 
-def isint(num: float) -> bool:  # Only works with floating point numbers
+def isint(num: float) -> bool:  # Only works with floating-point numbers
 	"""
 	Checks whether a float is an integer value
 
@@ -178,7 +176,7 @@ def isint(num: float) -> bool:  # Only works with floating point numbers
 	return num == int(num)
 
 
-def RepresentsInt(s: Any) -> bool:
+def represents_int(s: Any) -> bool:
 	"""
 	Checks whether a value can be converted to int
 
@@ -191,6 +189,9 @@ def RepresentsInt(s: Any) -> bool:
 		return True
 	except (ValueError, TypeError) as e:
 		return False
+
+
+RepresentsInt = represents_int
 
 
 def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Decimal:
@@ -377,9 +378,11 @@ def modInverse(a: int, m: int) -> Optional[float]:
 	# Calculation using the Extended Euclidean Algorithm
 	u1, u2, u3 = 1, 0, a
 	v1, v2, v3 = 0, 1, m
+
 	while v3 != 0:
 		q = u3 // v3  # // forces integer division in Python 3
 		v1, v2, v3, u1, u2, u3 = (u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
+
 	return u1 % m
 
 

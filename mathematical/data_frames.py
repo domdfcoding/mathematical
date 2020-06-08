@@ -52,7 +52,6 @@ def df_mean(row: Series, column_label_list: Optional[Sequence[str]] = None) -> f
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate mean for
-	:type column_label_list: list
 
 	:return: Mean
 	:rtype: float
@@ -66,7 +65,7 @@ def df_mean(row: Series, column_label_list: Optional[Sequence[str]] = None) -> f
 	return float(nanmean(row[column_label_list]))
 
 
-def df_median(row: Series, column_label_list: Optional[Sequence[list]] = None) -> float:
+def df_median(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the median of each row for the specified columns of a data frame
 
@@ -78,7 +77,6 @@ def df_median(row: Series, column_label_list: Optional[Sequence[list]] = None) -
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate median for
-	:type column_label_list: list
 
 	:return: Median
 	:rtype: float
@@ -92,7 +90,7 @@ def df_median(row: Series, column_label_list: Optional[Sequence[list]] = None) -
 	return float(nanmedian(row[column_label_list]))
 
 
-def df_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None) -> float:
+def df_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the standard deviation of each row for the specified columns of a data frame
 
@@ -104,7 +102,6 @@ def df_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None) ->
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
 
 	:return: Standard deviation
 	:rtype: float
@@ -118,7 +115,7 @@ def df_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None) ->
 	return float(nanstd(row[column_label_list]))
 
 
-def df_log_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None) -> float:
+def df_log_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the standard deviation of the log10 values in each row for the specified columns of a data frame
 
@@ -130,7 +127,6 @@ def df_log_stdev(row: Series, column_label_list: Optional[Sequence[list]] = None
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
 
 	:return: Standard deviation
 	:rtype: float
@@ -169,7 +165,7 @@ def df_percentage(row: Series, column_label: str, total: float) -> float:
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_log(row: Series, column_label_list: List[str], base: float = 10) -> float:
+def df_log(row: Series, column_label_list: Sequence[str], base: float = 10) -> float:
 	"""
 	Calculate the logarithm of the values in each row for the specified columns of a data frame
 
@@ -181,7 +177,6 @@ def df_log(row: Series, column_label_list: List[str], base: float = 10) -> float
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate log for
-	:type column_label_list: list
 	:param base: logarithmic base
 	:type base: float
 
@@ -209,7 +204,6 @@ def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
 
 	:return: data points
 	:rtype: list
@@ -218,7 +212,7 @@ def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
 	return [row[column_label] for column_label in column_label_list]
 
 
-def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: int = MAD) -> Series:
+def df_outliers(row: Series, column_label_list: Sequence[str] = None, outlier_mode: int = MAD) -> Series:
 	"""
 	Identify outliers in each row
 
@@ -230,7 +224,6 @@ def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: 
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to determine outliers for
-	:type column_label_list: list
 	:param outlier_mode: outlier detection method to use
 	:type outlier_mode: int
 
@@ -255,12 +248,12 @@ def df_outliers(row: Series, column_label_list: List[str] = None, outlier_mode: 
 	elif outlier_mode == STDEV2:
 		x = outliers.stdev_outlier(data, rng=2)  # outlier classed as more than 2 stdev away from mean
 	else:
-		return None
+		raise ValueError("Unknown outlier mode.")
 
 	return Series(list(x))
 
 
-def df_count(row: Series, column_label_list: Optional[Sequence[list]] = None) -> int:
+def df_count(row: Series, column_label_list: Optional[Sequence[str]] = None) -> int:
 	"""
 	Count the number of occurrences of a non-NaN value in the specified columns of a data frame
 
