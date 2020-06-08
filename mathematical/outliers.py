@@ -108,9 +108,11 @@ def two_stdev(dataset: Sequence[float], strip_zero: bool = True) -> Tuple[List[f
 	return stdev_outlier(dataset, strip_zero=strip_zero)
 
 
-def stdev_outlier(dataset: Sequence[float],
-					strip_zero: bool = True,
-					rng: int = 2) -> Tuple[List[float], List[float]]:
+def stdev_outlier(
+		dataset: Sequence[float],
+		strip_zero: bool = True,
+		rng: int = 2,
+		) -> Tuple[List[float], List[float]]:
 	"""
 	Outliers are greater than rng*stdev from mean
 
