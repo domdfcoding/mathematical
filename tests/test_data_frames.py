@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 test_data_frames
 ~~~~~~~~~~~~~~~
@@ -22,8 +21,10 @@ from mathematical.data_frames import (
 
 @pytest.fixture(scope="function")
 def base_df():
-	return pandas.DataFrame([[2444, 8196, 6036, 1757, 5265]],
-							columns=["Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5"])
+	return pandas.DataFrame(
+			[[2444, 8196, 6036, 1757, 5265]],
+			columns=["Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5"],
+			)
 
 
 # print(base_df())

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 #  linear_regression.py
 """
@@ -69,14 +68,10 @@ def linear_regression_vertical(
 	Calculate coefficients of a linear regression y = a * x + b.
 	The fit minimizes *vertical* distances between the points and the line.
 
-	:param x: 1-D array of floats.
-	:type x: array_like of float
-	:param y: 1-D array of floats.
-	:type y: array_like of float
-	:param a: If specified then the slope coefficient is fixed and equals a.
-	:type a: float, optional
-	:param b: If specified then the free term is fixed and equals b.
-	:type b: float, optional
+	:param x: 1-D array of floats
+	:param y: 1-D array of floats
+	:param a: If specified then the slope coefficient is fixed as this value
+	:param b: If specified then the free term is fixed as this value
 
 	If `y` is omitted, `x` must be a 2-D array of shape (N, 2).
 
@@ -85,7 +80,6 @@ def linear_regression_vertical(
 		b -- free term,
 		r -- Pearson correlation coefficient,
 		stderr -- standard deviation.
-	:rtype: tuple
 	"""
 
 	x = numpy.array(x, copy=False)
@@ -121,11 +115,7 @@ def linear_regression_perpendicular(
 	The fit minimizes *perpendicular* distances between the points and the line.
 
 	:param x: 1-D array of floats.
-	:type x: array_like of float
 	:param y: 1-D array of floats.
-	:type y: array_like of float
-
-	If `y` is omitted, `x` must be a 2-D array of shape (N, 2).
 
 	If `y` is omitted, `x` must be a 2-D array of shape (N, 2).
 
@@ -134,7 +124,6 @@ def linear_regression_perpendicular(
 		b -- free term,
 		r -- Peason correlation coefficient,
 		stderr -- standard deviation.
-	:rtype: tuple
 	"""
 
 	x = numpy.array(x, copy=False)
@@ -144,7 +133,7 @@ def linear_regression_perpendicular(
 		data = numpy.hstack((x.reshape((-1, 1)), y.reshape((-1, 1))))
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
-			raise TypeError('If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
+			raise TypeError(f'If `y` is not given, x.shape should be (N, 2), given: {x.shape}')
 		data = x
 
 	mu = data.mean(axis=0)

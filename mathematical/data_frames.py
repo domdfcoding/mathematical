@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 #  date_frames.py
 """Mathematical Operations for Data Frames"""
@@ -25,16 +24,19 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#
 
 # stdlib
+from math import log, log10
 from typing import List, Optional, Sequence
 
 # 3rd party
+import numpy  # type: ignore
 from pandas import Series  # type: ignore
 
-# Outlier Modes
+# this package
+from . import outliers
 
+# Outlier Modes
 MAD = 1
 QUARTILES = 2
 STDEV2 = 3
@@ -50,19 +52,16 @@ def df_mean(row: Series, column_label_list: Optional[Sequence[str]] = None) -> f
 				["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate mean for
 
 	:return: Mean
 	:rtype: float
 	"""
 
-	from numpy import nanmean  # type: ignore
-
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(nanmean(row[column_label_list]))
+	return float(numpy.nanmean(row[column_label_list]))
 
 
 def df_median(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
@@ -75,19 +74,16 @@ def df_median(row: Series, column_label_list: Optional[Sequence[str]] = None) ->
 							["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate median for
 
 	:return: Median
 	:rtype: float
 	"""
 
-	from numpy import nanmedian
-
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(nanmedian(row[column_label_list]))
+	return float(numpy.nanmedian(row[column_label_list]))
 
 
 def df_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
@@ -100,19 +96,16 @@ def df_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> 
 							["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
 
 	:return: Standard deviation
 	:rtype: float
 	"""
 
-	from numpy import nanstd
-
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(nanstd(row[column_label_list]))
+	return float(numpy.nanstd(row[column_label_list]))
 
 
 def df_log_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
@@ -125,20 +118,16 @@ def df_log_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None)
 				["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
 
 	:return: Standard deviation
 	:rtype: float
 	"""
 
-	from numpy import nanstd, nan
-	from math import log10
-
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]]))
+	return float(numpy.nanstd([log10(x) if x > 0.0 else numpy.nan for x in row[column_label_list]]))
 
 
 def df_percentage(row: Series, column_label: str, total: float) -> float:
@@ -152,7 +141,6 @@ def df_percentage(row: Series, column_label: str, total: float) -> float:
 				13, "Bob"), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label: column label to calculate percentage for
 	:type column_label: str
 	:param total: total value
@@ -175,7 +163,6 @@ def df_log(row: Series, column_label_list: Sequence[str], base: float = 10) -> f
 				["Bob"],10), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate log for
 	:param base: logarithmic base
 	:type base: float
@@ -183,8 +170,6 @@ def df_log(row: Series, column_label_list: Sequence[str], base: float = 10) -> f
 	:return: logarithmic value
 	:rtype: float
 	"""
-
-	from math import log
 
 	if all(row[column_label_list][i] > 0.0 for i in range(len(row[column_label_list]))):
 		return log(row[column_label_list], base)
@@ -202,7 +187,6 @@ def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
 				["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
 
 	:return: data points
@@ -222,24 +206,19 @@ def df_outliers(row: Series, column_label_list: Sequence[str] = None, outlier_mo
 				["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to determine outliers for
 	:param outlier_mode: outlier detection method to use
 	:type outlier_mode: int
 
 	:return: outliers
-	:rtype: pandas.core.series.Series
 	"""
-
-	import pandas as pd
-	from . import outliers
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
 	data = row[column_label_list]
 	if all(all(y == 0.0 for y in x) for x in data):
-		return pd.Series([[], [0.0] * len(data[0])])
+		return Series([[], [0.0] * len(data[0])])
 
 	if outlier_mode == MAD:
 		x = outliers.mad_outliers(data)
@@ -263,15 +242,11 @@ def df_count(row: Series, column_label_list: Optional[Sequence[str]] = None) -> 
 				["Bob", "Alice"],), axis=1)
 
 	:param row: row of the data frame
-	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to count occurrences in
-	:type column_label_list: list
 
 	:return: Count of the occurrences of non-NaN values
 	:rtype: int
 	"""
-
-	import numpy
 
 	if column_label_list is None:
 		column_label_list = list(row.index)

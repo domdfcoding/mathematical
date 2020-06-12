@@ -8,6 +8,8 @@ import os
 import re
 import sys
 import warnings
+
+# 3rd party
 from sphinx.locale import _
 
 # Suppress warnings from sphinx_autodoc_typehints
@@ -21,12 +23,12 @@ sys.path.append(os.path.abspath('..'))
 from __pkginfo__ import __version__
 
 
+
 github_url = f"https://github.com/domdfcoding/mathematical"
 
 rst_prolog = f""".. |pkgname| replace:: mathematical
 .. |pkgname2| replace:: ``mathematical``
 .. |browse_github| replace:: `Browse the GitHub Repository <{github_url}>`__
-.. |ghurl| replace:: {github_url}
 """
 
 author = "Dominic Davis-Foster"
@@ -50,6 +52,7 @@ extensions = [
 		"sphinx_tabs.tabs",
 		"sphinx-prompt",
 		"sphinx_autodoc_typehints",
+		"sphinx.ext.autosummary",
 		]
 
 sphinxemoji_style = 'twemoji'

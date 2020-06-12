@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 #  stats.py
 """
@@ -44,10 +43,11 @@ Functions for Calculating Statistics
 
 # stdlib
 import warnings  # type: ignore
-from typing import Callable, List, Optional, Sequence, Union
+from typing import Callable, Sequence, Union
 
 # 3rd party
 import numpy  # type: ignore
+from typing_extensions import Literal
 
 # this package
 from . import utils
@@ -83,7 +83,7 @@ def std_none(dataset: Sequence[Union[float, bool, None]], ddof: int = 1) -> floa
 
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
-	print(dataset)
+	# print(dataset)
 
 	return float(numpy.nanstd(dataset, ddof=ddof))
 
@@ -122,12 +122,13 @@ def iqr_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 
 def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: float) -> float:
 	"""
-
 	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
 
-	:param dataset: list to calculate percentile from
+	:param dataset: Sequence to calculate the percentile from
 	:param percentage:
 	:type percentage: float
+
+	:raises: :exc:`ValueError` if ``dataset`` contains fewer than two values
 
 	:return: interquartile range
 	:rtype float
@@ -172,18 +173,21 @@ def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool
 def d_cohen(
 		sample1: Sequence[float],
 		sample2: Sequence[float],
-		which: int = 1,
+		which: Literal[1, 2] = 1,
 		tail: int = 1,
 		pooled: bool = False,
 		) -> float:
 	"""
 	Cohen's d-Statistic
 
-	Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Edition). Hillsdale, NJ: Lawrence Erlbaum Associates
+	.. seealso::
+
+		Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Edition).
+		Hillsdale, NJ: Lawrence Erlbaum Associates
 
 	:param sample1: datapoints for first sample
 	:param sample2: datapoints for second sample
-	:param which: Use the standard deviation of the first sample (1) or the second sample (2)
+	:param which: Use the standard deviation of the first sample (``1``) or the second sample (``2``)
 	:type which: int
 	:param tail:
 	:param pooled:
@@ -219,6 +223,7 @@ def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
 	:param sample2: datapoints for second sample
 
 	:return:
+	:rtype: float
 	"""
 
 	mean1 = numpy.mean(sample1)
@@ -315,51 +320,48 @@ def median_absolute_deviation(
 	similar to the standard deviation, but is more robust to outliers [2]_.
 	The MAD of an empty array is ``numpy.nan``.
 
-	Parameters
-	----------
-	x : array_like
-		Input array or object that can be converted to an array.
-	axis : int or None, optional
-		Axis along which the range is computed. Default is 0. If None, compute
+	:param x: Input array or object that can be converted to an array.
+	:type x: array_like
+	:param axis: Axis along which the range is computed. Default is 0. If None, compute
 		the MAD over the entire array.
-	center : callable, optional
-		A function that will return the central value. The default is to use
+	:type axis: int or None, optional
+	:param center: A function that will return the central value. The default is to use
 		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
-	scale : int, optional
-		The scaling factor applied to the MAD. The default scale (1.4826)
+	:type center: callable, optional
+	:param scale: The scaling factor applied to the MAD. The default scale (1.4826)
 		ensures consistency with the standard deviation for normally distributed
 		data.
-	nan_policy : {'propagate', 'raise', 'omit'}, optional
-		Defines how to handle when input contains nan. 'propagate'
+	:type scale: int, optional
+	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
 		calculations ignoring nan values. Default is 'propagate'.
-	Returns
-	-------
-	mad : scalar or ndarray
-		If ``axis=None``, a scalar is returned. If the input contains
+	:type nan_policy: {'propagate', 'raise', 'omit'}, optional
+
+	:returns: If ``axis=None``, a scalar is returned. If the input contains
 		integers or floats of smaller precision than ``numpy.float64``, then the
 		output data-type is ``numpy.float64``. Otherwise, the output data-type is
 		the same as that of the input.
-	See Also
-	--------
-	numpy.std, numpy.var, numpy.median, scipy.stats.iqr, scipy.stats.tmean,
-	scipy.stats.tstd, scipy.stats.tvar
-	Notes
-	-----
-	The `center` argument only affects the calculation of the central value
-	around which the MAD is calculated. That is, passing in ``center=numpy.mean``
-	will calculate the MAD around the mean - it will not calculate the *mean*
-	absolute deviation.
-	References
-	----------
+	:rtype: scalar or ndarray
+
+	.. note::
+
+		The `center` argument only affects the calculation of the central value
+		around which the MAD is calculated. That is, passing in ``center=numpy.mean``
+		will calculate the MAD around the mean - it will not calculate the *mean*
+		absolute deviation.
+
+	**References**
+
 	.. [1] "Median absolute deviation" https://en.wikipedia.org/wiki/Median_absolute_deviation
 	.. [2] "Robust measures of scale" https://en.wikipedia.org/wiki/Robust_measures_of_scale
-	Examples
-	--------
+
+	**Examples**
+
 	When comparing the behavior of `median_absolute_deviation` with ``numpy.std``,
 	the latter is affected when we change a single value of an array to have an
 	outlier value while the MAD hardly changes:
+
 	>>> from scipy import stats
 	>>> x = stats.norm.rvs(size=100, scale=1, random_state=123456)
 	>>> x.std()
@@ -380,6 +382,7 @@ def median_absolute_deviation(
 	>>> stats.median_absolute_deviation(x, axis=None)
 	2.9652
 	"""
+
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
 	if axis is None:
@@ -399,35 +402,34 @@ def absolute_deviation(
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
-	Parameters
-	----------
-	x : array_like
-		Input array or object that can be converted to an array.
-	axis : int or None, optional
-		Axis along which the range is computed. Default is 0. If None, compute
+	:param x: Input array or object that can be converted to an array.
+	:type x: array_like
+	:param axis: Axis along which the range is computed. Default is 0. If None, compute
 		the MAD over the entire array.
-	center : callable, optional
-		A function that will return the central value. The default is to use
+	:type axis: int or None, optional
+	:param center: A function that will return the central value. The default is to use
 		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
-	nan_policy : {'propagate', 'raise', 'omit'}, optional
-		Defines how to handle when input contains nan. 'propagate'
+	:type center: callable, optional
+	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
 		calculations ignoring nan values. Default is 'propagate'.
-	Returns
-	-------
-	ad : scalar or ndarray
-		If ``axis=None``, a scalar is returned. If the input contains
+	:type nan_policy: {'propagate', 'raise', 'omit'}, optional
+
+	:returns: If ``axis=None``, a scalar is returned. If the input contains
 		integers or floats of smaller precision than ``numpy.float64``, then the
 		output data-type is ``numpy.float64``. Otherwise, the output data-type is
 		the same as that of the input.
-	Notes
-	-----
-	The `center` argument only affects the calculation of the central value
-	around which the absolute deviation is calculated. That is, passing in ``center=numpy.mean``
-	will calculate the absolute around the mean - it will not calculate the *mean*
-	absolute deviation.
+	:rtype: scalar or ndarray
+
+	.. note::
+
+		The `center` argument only affects the calculation of the central value
+		around which the MAD is calculated. That is, passing in ``center=numpy.mean``
+		will calculate the MAD around the mean - it will not calculate the *mean*
+		absolute deviation.
 	"""
+
 	x = numpy.asarray(x)
 
 	# Consistent with `numpy.var` and `numpy.std`.
@@ -459,47 +461,42 @@ def absolute_deviation_from_median(
 		x,
 		axis: int = 0,
 		center: Callable = numpy.median,
-		scale: float = 1.4826,
 		nan_policy: str = 'propagate',
 		) -> numpy.ndarray:
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.
 
-	https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
+	.. seealso::
 
-	Parameters
-	----------
-	x : array_like
-		Input array or object that can be converted to an array.
-	axis : int or None, optional
-		Axis along which the range is computed. Default is 0. If None, compute
+		https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
+
+	:param x: Input array or object that can be converted to an array.
+	:type x: array_like
+	:param axis: Axis along which the range is computed. Default is 0. If None, compute
 		the MAD over the entire array.
-	center : callable, optional
-		A function that will return the central value. The default is to use
+	:type axis: int or None, optional
+	:param center: A function that will return the central value. The default is to use
 		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
-	scale : int, optional
-		The scaling factor applied to the MAD. The default scale (1.4826)
-		ensures consistency with the standard deviation for normally distributed
-		data.
-	nan_policy : {'propagate', 'raise', 'omit'}, optional
-		Defines how to handle when input contains nan. 'propagate'
+	:type center: callable, optional
+	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
 		calculations ignoring nan values. Default is 'propagate'.
-	Returns
-	-------
-	ad_from_median : scalar or ndarray
-		If ``axis=None``, a scalar is returned. If the input contains
+	:type nan_policy: {'propagate', 'raise', 'omit'}, optional
+
+	:returns: If ``axis=None``, a scalar is returned. If the input contains
 		integers or floats of smaller precision than ``numpy.float64``, then the
 		output data-type is ``numpy.float64``. Otherwise, the output data-type is
 		the same as that of the input.
-	Notes
-	-----
-	The `center` argument only affects the calculation of the central value
-	around which the MAD is calculated. That is, passing in ``center=numpy.mean``
-	will calculate the MAD around the mean - it will not calculate the *mean*
-	absolute deviation.
+	:rtype: scalar or ndarray
+
+	.. note::
+
+		The `center` argument only affects the calculation of the central value
+		around which the MAD is calculated. That is, passing in ``center=numpy.mean``
+		will calculate the MAD around the mean - it will not calculate the *mean*
+		absolute deviation.
 	"""
 
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)

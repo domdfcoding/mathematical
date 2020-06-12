@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 #  outliers.py
 """Outlier Detection Functions"""
@@ -80,7 +79,7 @@ def mad_outliers(
 	if len(dataset) < 2:
 		return [], dataset
 
-	abs_mad = stats.absolute_deviation_from_median(dataset, scale=1)
+	abs_mad = stats.absolute_deviation_from_median(dataset)
 
 	outliers = []
 	data_exc_outliers = []
@@ -94,7 +93,10 @@ def mad_outliers(
 	return outliers, data_exc_outliers
 
 
-def two_stdev(dataset: Sequence[float], strip_zero: bool = True) -> Tuple[List[float], List[float]]:
+def two_stdev(
+		dataset: Sequence[float],
+		strip_zero: bool = True,
+		) -> Tuple[List[float], List[float]]:
 	"""
 	Outliers are greater than 2x stdev from mean
 
@@ -148,7 +150,10 @@ def stdev_outlier(
 	return outliers, data_exc_outliers
 
 
-def quartile_outliers(dataset: Sequence[float], strip_zero: bool = True) -> Tuple[List[float], List[float]]:
+def quartile_outliers(
+		dataset: Sequence[float],
+		strip_zero: bool = True,
+		) -> Tuple[List[float], List[float]]:
 	"""
 	outliers are more than 3x inter-quartile range from upper or lower quartile
 
@@ -192,7 +197,7 @@ def spss_outliers(
 		dataset: Sequence[float],
 		strip_zero: bool = True,
 		mode: str = "all",
-		):  # TODO:  -> Tuple[List[float], List[float], List[float]]
+		) -> Tuple[List[float], List[float], List[float]]:
 	"""
 	Based on IBM SPSS method for detecting outliers.
 
@@ -210,7 +215,7 @@ def spss_outliers(
 		raise ValueError("Dataset too small")
 
 	if list(set(dataset)) in [None, 0.0, '', 0]:
-		return float("nan")
+		return [], [], list(dataset)
 
 	for i in range(2):
 		dataset = [x for x in dataset if x is not None]
@@ -219,9 +224,9 @@ def spss_outliers(
 				dataset.remove(val)
 
 	if len(dataset) == 0:
-		return float('nan')
+		return [], [], list(dataset)
 	elif dataset == [None]:
-		return float('nan')
+		return [], [], list(dataset)
 
 	q1 = numpy.percentile(dataset, 25)
 	# 	print(q1)
@@ -251,7 +256,7 @@ def spss_outliers(
 	return extremes, outliers, data_exc_outliers
 
 
-def main(args):
+if __name__ == '__main__':
 	# my_data = [70,72,74,76,80,114]
 	my_data = [1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90]
 	# print("two stdev")
@@ -268,11 +273,3 @@ def main(args):
 	# print(numpy.median(quartile_outliers(my_data)[1]))
 
 	print(spss_outliers(my_data))
-
-	return 0
-
-
-if __name__ == '__main__':
-	import sys
-
-	sys.exit(main(sys.argv))

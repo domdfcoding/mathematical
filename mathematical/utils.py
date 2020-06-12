@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 #  utils.py
 """Utilities for Mathematical Operations"""
@@ -78,9 +77,9 @@
 #
 
 # stdlib
-import decimal
 import math
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
+from math import log10
 from operator import eq, ge, gt, le, lt, ne
 from typing import Any, List, Optional, Sequence, Union
 
@@ -102,8 +101,10 @@ def intdiv(p: float, q: float) -> int:
 	"""
 
 	r = p // q
+
 	if r < 0 and q * r != p:
 		r += 1
+
 	return int(r)
 
 
@@ -119,10 +120,12 @@ def roman(num: float) -> str:
 	tokens = 'M CM D CD C XC L XL X IX V IV I'.split()
 	values = 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
 	result = ''
+
 	for t, v in zip(tokens, values):
 		cnt = int(num // v)
 		result += t * cnt
 		num -= v * cnt
+
 	return result
 
 
@@ -136,7 +139,6 @@ def magnitude(x: float) -> int:
 	:rtype: int
 	"""
 
-	from math import log10
 	if x > 0.0:
 		return int(log10(x))
 	else:
@@ -163,14 +165,16 @@ def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	return list(inputlist[numpy.nonzero(inputlist)])
 
 
-def isint(num: float) -> bool:  # Only works with floating-point numbers
+def isint(num: float) -> bool:
 	"""
 	Checks whether a float is an integer value
+
+	.. note:: This function only works with floating-point numbers
 
 	:param num: value to check
 	:type num: float
 
-	:rtype: Boolean
+	:rtype: bool
 	"""
 
 	return num == int(num)
@@ -182,7 +186,7 @@ def represents_int(s: Any) -> bool:
 
 	:param s: value to check
 
-	:rtype: Boolean
+	:rtype: bool
 	"""
 	try:
 		int(s)
@@ -206,7 +210,6 @@ def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Dec
 	:rtype: decimal.Decimal
 	"""
 
-	from decimal import Decimal, ROUND_HALF_UP
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
 
@@ -276,6 +279,7 @@ def gcd(a: int, b: int) -> int:
 	:param b:
 
 	:return:
+	:rtype: int
 	"""
 
 	# while a != 0:
@@ -316,8 +320,10 @@ def gcd2(numbers: Sequence[int]) -> int:
 	"""
 
 	c = numbers[0]
+
 	for i in range(1, (len(numbers))):
 		c = gcd(c, numbers[i])
+
 	return c
 
 
@@ -330,10 +336,13 @@ def lcm(numbers: Sequence[int]) -> float:
 	"""
 
 	product = numbers[0]
+
 	for i in range(1, len(numbers)):
 		product = product * numbers[i]
+
 	gcd = gcd2(numbers)
 	lcm = product / gcd
+
 	if product % gcd == 0:
 		return lcm
 	else:

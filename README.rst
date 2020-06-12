@@ -27,7 +27,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	* - Other
 	  - |license| |language| |commits-since| |commits-latest| |maintained| 
 
-.. |docs| image:: https://readthedocs.org/projects/mathematical/badge/?version=latest
+.. |docs| image:: https://img.shields.io/readthedocs/mathematical/latest?logo=read-the-docs
 	:target: https://mathematical.readthedocs.io/en/latest/?badge=latest
 	:alt: Documentation Status
 
@@ -39,19 +39,19 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:target: https://requires.io/github/domdfcoding/mathematical/requirements/?branch=master
 	:alt: Requirements Status
 
-.. |coveralls| image:: https://coveralls.io/repos/github/domdfcoding/mathematical/badge.svg?branch=master
+.. |coveralls| image:: https://shields.io/coveralls/github/domdfcoding/mathematical/master?logo=coveralls
 	:target: https://coveralls.io/github/domdfcoding/mathematical?branch=master
 	:alt: Coverage
 
-.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/mathematical
+.. |codefactor| image:: https://img.shields.io/codefactor/grade/github/domdfcoding/mathematical?logo=codefactor
 	:target: https://www.codefactor.io/repository/github/domdfcoding/mathematical
 	:alt: CodeFactor Grade
 
-.. |pypi-version| image:: https://img.shields.io/pypi/v/mathematical.svg
+.. |pypi-version| image:: https://img.shields.io/pypi/v/mathematical
 	:target: https://pypi.org/project/mathematical/
 	:alt: PyPI - Package Version
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/mathematical.svg
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/mathematical
 	:target: https://pypi.org/project/mathematical/
 	:alt: PyPI - Supported Python Versions
 
@@ -63,7 +63,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:target: https://pypi.org/project/mathematical/
 	:alt: PyPI - Wheel
 
-.. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/mathematical
+.. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/mathematical?logo=anaconda
 	:alt: Conda - Package Version
 	:target: https://anaconda.org/domdfcoding/mathematical
 
