@@ -78,7 +78,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/mathematical
 	:alt: GitHub top language
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/mathematical/v0.1.11
+.. |commits-since| image:: https://img.shields.io/github/commits-since/domdfcoding/mathematical/v0.1.12
 	:target: https://github.com/domdfcoding/mathematical/pulse
 	:alt: GitHub commits since tagged version
 
