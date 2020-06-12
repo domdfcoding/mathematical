@@ -78,37 +78,38 @@
 #
 
 # stdlib
+import decimal
 import math
+from decimal import Decimal
 from operator import eq, ge, gt, le, lt, ne
+from typing import Any, List, Optional, Sequence, Union
 
 # 3rd party
-import numpy
+import numpy  # type: ignore
 
 
-def intdiv(p, q):
+def intdiv(p: float, q: float) -> int:
 	"""
 	Integer divsions which rounds toward zero
 
-	Examples
-	--------
+	**Examples**
 	>>> intdiv(3, 2)
 	1
 	>>> intdiv(-3, 2)
 	-1
 	>>> -3 // 2
 	-2
-
 	"""
+
 	r = p // q
 	if r < 0 and q * r != p:
 		r += 1
-	return r
+	return int(r)
 
 
-def roman(num):
+def roman(num: float) -> str:
 	"""
-	Examples
-	--------
+	**Examples**
 	>>> roman(4)
 	'IV'
 	>>> roman(17)
@@ -119,13 +120,13 @@ def roman(num):
 	values = 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
 	result = ''
 	for t, v in zip(tokens, values):
-		cnt = num // v
+		cnt = int(num // v)
 		result += t * cnt
 		num -= v * cnt
 	return result
 
 
-def magnitude(x):
+def magnitude(x: float) -> int:
 	"""
 	Determine the magnitude of the given value
 
@@ -146,7 +147,7 @@ def magnitude(x):
 # 	return int(math.floor(math.log10(abs(num))))
 
 
-def remove_zero(inputlist):
+def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	"""
 	Remove zero values from the given list
 	Also removes False and None
@@ -162,7 +163,7 @@ def remove_zero(inputlist):
 	return list(inputlist[numpy.nonzero(inputlist)])
 
 
-def isint(num):  # Only works with floating point numbers
+def isint(num: float) -> bool:  # Only works with floating-point numbers
 	"""
 	Checks whether a float is an integer value
 
@@ -175,7 +176,7 @@ def isint(num):  # Only works with floating point numbers
 	return num == int(num)
 
 
-def RepresentsInt(s):
+def represents_int(s: Any) -> bool:
 	"""
 	Checks whether a value can be converted to int
 
@@ -190,7 +191,10 @@ def RepresentsInt(s):
 		return False
 
 
-def rounders(val_to_round, round_format):
+RepresentsInt = represents_int
+
+
+def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Decimal:
 	"""
 	Round a value to the specified number format, e.g. "0.000" for three decimal places
 
@@ -206,7 +210,7 @@ def rounders(val_to_round, round_format):
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
 
-def strip_strings(ls):
+def strip_strings(ls: Sequence[Any]) -> List:
 	"""
 	Remove strings from a list
 
@@ -220,7 +224,7 @@ def strip_strings(ls):
 	return [x for x in ls if not isinstance(x, str)]
 
 
-def strip_booleans(ls):
+def strip_booleans(ls: Sequence[Any]) -> List:
 	"""
 	Remove booleans from a list
 
@@ -234,7 +238,7 @@ def strip_booleans(ls):
 	return [x for x in ls if not isinstance(x, bool)]
 
 
-def strip_nonetype(ls):
+def strip_nonetype(ls: Sequence[Any]) -> List:
 	"""
 	Remove None from a list
 
@@ -248,7 +252,7 @@ def strip_nonetype(ls):
 	return [x for x in ls if x is not None]
 
 
-def strip_none_bool_string(ls):
+def strip_none_bool_string(ls: Sequence[Any]) -> List:
 	"""
 	Remove None, Boolean and strings from a list
 
@@ -264,7 +268,7 @@ def strip_none_bool_string(ls):
 	return ls
 
 
-def gcd(a, b):
+def gcd(a: int, b: int) -> int:
 	"""
 	Returns the GCD (HCF) of a and b using Euclid's Algorithm
 
@@ -280,7 +284,7 @@ def gcd(a, b):
 	return math.gcd(a, b)
 
 
-def gcd_array(array):
+def gcd_array(array) -> float:
 	"""
 	Returns the GCD for an array of numbers using Euclid's Algorithm
 
@@ -289,7 +293,7 @@ def gcd_array(array):
 	:param array:
 	:type array:
 	:return:
-	:rtype:
+	:rtype: float
 	"""
 
 	a = array[0]
@@ -302,13 +306,13 @@ def gcd_array(array):
 	return x
 
 
-def gcd2(numbers):
+def gcd2(numbers: Sequence[int]) -> int:
 	"""
 	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
 
 	:param numbers:
 
-	:return:
+	:return:float
 	"""
 
 	c = numbers[0]
@@ -317,12 +321,12 @@ def gcd2(numbers):
 	return c
 
 
-def lcm(numbers):
+def lcm(numbers: Sequence[int]) -> float:
 	"""
 	Returns the LCM of a list of numbers using Euclid's Algorithm
 	:param numbers:
 
-	:return:
+	:return: float
 	"""
 
 	product = numbers[0]
@@ -336,30 +340,30 @@ def lcm(numbers):
 		return product
 
 
-def hcf(a, b):
+def hcf(a: int, b: int) -> int:
 	"""
 
 	:param a:
 	:param b:
 
-	:return:
+	:return:int
 	"""
 
-	gcd(a, b)
+	return gcd(a, b)
 
 
-def hcf2(numbers):
+def hcf2(numbers: Sequence[int]) -> int:
 	"""
 
 	:param numbers:
 
-	:return:
+	:return:int
 	"""
 
-	gcd2(numbers)
+	return gcd2(numbers)
 
 
-def modInverse(a, m):
+def modInverse(a: int, m: int) -> Optional[float]:
 	"""
 	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
 	:param a:
@@ -374,9 +378,11 @@ def modInverse(a, m):
 	# Calculation using the Extended Euclidean Algorithm
 	u1, u2, u3 = 1, 0, a
 	v1, v2, v3 = 0, 1, m
+
 	while v3 != 0:
 		q = u3 // v3  # // forces integer division in Python 3
 		v1, v2, v3, u1, u2, u3 = (u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
+
 	return u1 % m
 
 
@@ -385,40 +391,20 @@ equiv_operators = dict(zip('< <= == != >= >'.split(), (lt, le, eq, ne, ge, gt)))
 _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 
 
-def log_factorial(x):
-	x = numpy.array(x)
+def log_factorial(x: float) -> float:
+	arr = numpy.array(x)
 	pf = _precalc_fact
-	m = (x >= pf.size)
-	out = numpy.empty(x.shape)
-	out[~m] = pf[x[~m].astype(int)]
-	x = x[m]
-	out[m] = x * numpy.log(x) - x + 0.5 * numpy.log(2 * numpy.pi * x)
-	return out
+	m: bool = (arr >= pf.size)
+	out = numpy.empty(arr.shape)
+	out[~m] = pf[arr[~m].astype(int)]
+	arr = arr[m]
+	out[m] = arr * numpy.log(arr) - arr + 0.5 * numpy.log(2 * numpy.pi * arr)
+	return float(out)
 
 
-def _log_pi_r(d, k, p=0.5):
+def _log_pi_r(d: float, k: float, p: float = 0.5) -> float:
 	return k * math.log(p) + log_factorial(k + d) - log_factorial(k) - log_factorial(d)
 
 
-def _log_pi(d, k, p=0.5):
+def _log_pi(d: float, k: float, p: float = 0.5) -> float:
 	return _log_pi_r(d, k, p) + (d + 1) * math.log(1 - p)
-
-
-def _expectation(d, T, p=0.5):
-	if T is None:
-		return d + 1
-	T = numpy.array(T, dtype=int)
-	m = numpy.arange(T.max() + 1, dtype=int)
-	pi = numpy.exp(_log_pi(d, m, p))
-	return ((m * pi).cumsum() / pi.cumsum())[T]
-
-
-def _confidence_value(conf, d, T, p=0.5):
-	if T is not None:
-		T = numpy.array(T, dtype=int)
-		m = numpy.arange(T.max() + 1, dtype=int)
-	else:
-		m = numpy.arange(max(50 * d, 10000))
-	log_pi = _log_pi(d, m, p)
-	pics = numpy.exp(log_pi).cumsum()
-	return numpy.searchsorted(pics, conf * (pics[T] if T is not None else 1))

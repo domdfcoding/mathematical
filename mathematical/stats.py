@@ -43,21 +43,21 @@ Functions for Calculating Statistics
 #
 
 # stdlib
-import warnings
+import warnings  # type: ignore
+from typing import Callable, List, Optional, Sequence, Union
 
 # 3rd party
-import numpy
+import numpy  # type: ignore
 
 # this package
 from . import utils
 
 
-def mean_none(dataset):
+def mean_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
 	Calculate the mean, excluding NaN, strings, boolean values, and zeros
 
 	:param dataset: list to calculate mean from
-	:type dataset: list
 
 	:return: mean
 	:rtype float
@@ -66,16 +66,16 @@ def mean_none(dataset):
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 
-	return numpy.nanmean(dataset)
+	return float(numpy.nanmean(dataset))
 
 
-def std_none(dataset, ddof=1):
+def std_none(dataset: Sequence[Union[float, bool, None]], ddof: int = 1) -> float:
 	"""
 	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
 
 	:param dataset: list to calculate mean from
-	:type dataset: list
-	:param ddof: Means Delta Degrees of Freedom. The divisor used in calculations is N - ddof, where N represents the number of elements. By default ddof is 1.
+	:param ddof: Means Delta Degrees of Freedom. The divisor used in calculations is N - ddof,
+		where N represents the number of elements. By default ddof is 1.
 	:type ddof: int
 	:return: standard deviation
 	:rtype float
@@ -85,15 +85,14 @@ def std_none(dataset, ddof=1):
 	dataset = utils.remove_zero(dataset)
 	print(dataset)
 
-	return numpy.nanstd(dataset, ddof=ddof)
+	return float(numpy.nanstd(dataset, ddof=ddof))
 
 
-def median_none(dataset):
+def median_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
 	Calculate the median, excluding NaN, strings, boolean values, and zeros
 
 	:param dataset: list to calculate median from
-	:type dataset: list
 
 	:return: standard deviation
 	:rtype float
@@ -102,16 +101,14 @@ def median_none(dataset):
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
 
-	return numpy.nanmedian(dataset)
+	return float(numpy.nanmedian(dataset))
 
 
-def iqr_none(dataset):
+def iqr_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
 	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros
 
 	:param dataset: list to calculate iqr from
-	:type dataset: list
-
 	:return: interquartile range
 	:rtype float
 	"""
@@ -120,17 +117,15 @@ def iqr_none(dataset):
 	q3 = percentile_none(dataset, 75)
 	iq = q3 - q1
 
-	return iq
+	return float(iq)
 
 
-def percentile_none(dataset, percentage):
+def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: float) -> float:
 	"""
 
 	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
 
 	:param dataset: list to calculate percentile from
-	:type dataset: list
-
 	:param percentage:
 	:type percentage: float
 
@@ -146,19 +141,17 @@ def percentile_none(dataset, percentage):
 	if len(dataset) < 2:
 		raise ValueError("Dataset too small")
 
-	return numpy.percentile(dataset, percentage)
+	return float(numpy.percentile(dataset, percentage))
 
 
-def pooled_sd(sample1, sample2, weighted=False):
+def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool = False) -> float:
 	"""
 	Pooled Standard Deviation
 
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 
 	:param sample1: datapoints for first sample
-	:type sample1: list
 	:param sample2: datapoints for second sample
-	:type sample2: list
 	:param weighted: True for weighted pooled SD
 
 	:return: Pooled Standard Deviation
@@ -176,18 +169,22 @@ def pooled_sd(sample1, sample2, weighted=False):
 		return numpy.sqrt(((sd1**2) + (sd2**2)) / 2)
 
 
-def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
+def d_cohen(
+		sample1: Sequence[float],
+		sample2: Sequence[float],
+		which: int = 1,
+		tail: int = 1,
+		pooled: bool = False,
+		) -> float:
 	"""
 	Cohen's d-Statistic
 
 	Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Edition). Hillsdale, NJ: Lawrence Erlbaum Associates
 
 	:param sample1: datapoints for first sample
-	:type sample1: list
 	:param sample2: datapoints for second sample
-	:type sample2: list
-	:param sd: Use the standard deviation of the first sample (1) or the second sample (2)
-	:type sd: int
+	:param which: Use the standard deviation of the first sample (1) or the second sample (2)
+	:type which: int
 	:param tail:
 	:param pooled:
 
@@ -198,29 +195,29 @@ def d_cohen(sample1, sample2, sd=1, tail=1, pooled=False):
 	mean1 = numpy.mean(sample1)
 	mean2 = numpy.mean(sample2)
 
-	if sd == 1:
-		sd = numpy.std(sample1)
+	if which == 1:
+		stdev = numpy.std(sample1)
 	else:
-		sd = numpy.std(sample2)
+		stdev = numpy.std(sample2)
 
 	if pooled:
-		sd = pooled_sd(sample1, sample2)
+		stdev = pooled_sd(sample1, sample2)
 
 	if tail == 2:
-		return numpy.abs(mean1 - mean2) / sd
+		return numpy.abs(mean1 - mean2) / stdev
 
-	return (mean1 - mean2) / sd
+	return (mean1 - mean2) / stdev
 
 
-def g_hedge(sample1, sample2):
+def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
 	"""
 	Hedge's g-Statistic
 
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 
 	:param sample1: datapoints for first sample
-	:type sample1: list
 	:param sample2: datapoints for second sample
+
 	:return:
 	"""
 
@@ -229,7 +226,7 @@ def g_hedge(sample1, sample2):
 	return (mean1 - mean2) / pooled_sd(sample1, sample2, True)
 
 
-def g_durlak_bias(g, n):
+def g_durlak_bias(g: float, n: float) -> float:
 	"""
 	Application of Durlak's bias correction to the Hedge's g statistic.
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
@@ -237,19 +234,19 @@ def g_durlak_bias(g, n):
 	n = n1+n2
 
 	:param g:
-	:type g:
+	:type g: float
 	:param n:
-	:type n:
+	:type n: float
 
 	:return:
-	:rtype:
+	:rtype: float
 	"""
 
 	Durlak = ((n - 3) / (n - 2.25)) * numpy.sqrt((n - 2) / n)
 	return g * Durlak
 
 
-def interpret_d(d_or_g):
+def interpret_d(d_or_g: float) -> str:
 	"""
 	Interpret Cohen's d or Hedge's g values using Table 1
 	from https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3444174/
@@ -258,12 +255,10 @@ def interpret_d(d_or_g):
 	:type d_or_g:
 
 	:return:
-	:rtype:
+	:rtype: str
 	"""
 
-	if d_or_g < 0:
-		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
-	elif 0.0 <= d_or_g < 0.2:
+	if 0.0 <= d_or_g < 0.2:
 		return "No Effect"
 	elif 0.2 <= d_or_g < 0.5:
 		return "Small Effect"
@@ -271,9 +266,11 @@ def interpret_d(d_or_g):
 		return "Intermediate Effect"
 	elif 0.8 <= d_or_g:
 		return "Large Effect"
+	else:  # d_or_g < 0
+		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
 
 
-def _contains_nan(a, nan_policy='propagate'):
+def _contains_nan(a, nan_policy: str = 'propagate'):
 	policies = ['propagate', 'raise', 'omit']
 	if nan_policy not in policies:
 		raise ValueError("nan_policy must be one of {%s}" % ', '.join(f"'{s}'" for s in policies))
@@ -304,14 +301,20 @@ def _contains_nan(a, nan_policy='propagate'):
 	return contains_nan, nan_policy
 
 
-def median_absolute_deviation(x, axis=0, center=numpy.median, scale=1.4826, nan_policy='propagate'):
+def median_absolute_deviation(
+		x,
+		axis: int = 0,
+		center: Callable = numpy.median,
+		scale: float = 1.4826,
+		nan_policy: str = 'propagate'
+		) -> numpy.ndarray:
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
 	absolute deviations from the median. It is a measure of dispersion
 	similar to the standard deviation, but is more robust to outliers [2]_.
 	The MAD of an empty array is ``numpy.nan``.
-	.. versionadded:: 1.3.0
+
 	Parameters
 	----------
 	x : array_like
@@ -387,7 +390,12 @@ def median_absolute_deviation(x, axis=0, center=numpy.median, scale=1.4826, nan_
 	return scale * mad
 
 
-def absolute_deviation(x, axis=0, center=numpy.median, nan_policy='propagate'):
+def absolute_deviation(
+		x,
+		axis: int = 0,
+		center: Callable = numpy.median,
+		nan_policy: str = 'propagate',
+		) -> numpy.ndarray:
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -447,7 +455,13 @@ def absolute_deviation(x, axis=0, center=numpy.median, nan_policy='propagate'):
 	return ad
 
 
-def absolute_deviation_from_median(x, axis=0, center=numpy.median, scale=1.4826, nan_policy='propagate'):
+def absolute_deviation_from_median(
+		x,
+		axis: int = 0,
+		center: Callable = numpy.median,
+		scale: float = 1.4826,
+		nan_policy: str = 'propagate',
+		) -> numpy.ndarray:
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.
@@ -487,6 +501,7 @@ def absolute_deviation_from_median(x, axis=0, center=numpy.median, scale=1.4826,
 	will calculate the MAD around the mean - it will not calculate the *mean*
 	absolute deviation.
 	"""
+
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
 	if axis is None:
@@ -494,13 +509,23 @@ def absolute_deviation_from_median(x, axis=0, center=numpy.median, scale=1.4826,
 	else:
 		mad = numpy.median(ad, axis=axis)
 
-	ad_from_median = ad / mad
-
-	return ad_from_median
+	return ad / mad
 
 
-def within1min(value1, value2):
-	if value1 not in [0, None, ''] and value2 not in [0, None, '']:
+def within1min(value1: float, value2: float) -> bool:
+	"""
+	Returns whether ``value2`` is within one minute of ``value1``.
+
+	:param value1: A time
+	:type value1:
+	:param value2: another time
+	:type value2:
+
+	:return:
+	:rtype:
+	"""
+
+	if value1 and value2:
 		return (float(value1) - 1) < (float(value2)) < (float(value1) + 1)
 	else:
 		return False

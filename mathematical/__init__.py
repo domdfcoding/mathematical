@@ -32,4 +32,5 @@ __license__ = "GPL"
 __version__ = "0.1.11"
 __email__ = "dominic@davis-foster.co.uk"
 
+# this package
 from . import data_frames, outliers, stats, utils

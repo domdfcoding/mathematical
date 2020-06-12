@@ -27,13 +27,20 @@
 #
 #
 
+# stdlib
+from typing import List, Optional, Sequence
+
+# 3rd party
+from pandas import Series  # type: ignore
+
 # Outlier Modes
+
 MAD = 1
 QUARTILES = 2
 STDEV2 = 3
 
 
-def df_mean(row, column_label_list=None):
+def df_mean(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the mean of each row for the specified columns of a data frame
 
@@ -45,21 +52,20 @@ def df_mean(row, column_label_list=None):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate mean for
-	:type column_label_list: list
 
 	:return: Mean
 	:rtype: float
 	"""
 
-	from numpy import nanmean
+	from numpy import nanmean  # type: ignore
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanmean(row[column_label_list])
+	return float(nanmean(row[column_label_list]))
 
 
-def df_median(row, column_label_list=None):
+def df_median(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the median of each row for the specified columns of a data frame
 
@@ -71,7 +77,6 @@ def df_median(row, column_label_list=None):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate median for
-	:type column_label_list: list
 
 	:return: Median
 	:rtype: float
@@ -82,10 +87,10 @@ def df_median(row, column_label_list=None):
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanmedian(row[column_label_list])
+	return float(nanmedian(row[column_label_list]))
 
 
-def df_stdev(row, column_label_list=None):
+def df_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the standard deviation of each row for the specified columns of a data frame
 
@@ -97,7 +102,6 @@ def df_stdev(row, column_label_list=None):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
 
 	:return: Standard deviation
 	:rtype: float
@@ -108,10 +112,10 @@ def df_stdev(row, column_label_list=None):
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanstd(row[column_label_list])
+	return float(nanstd(row[column_label_list]))
 
 
-def df_log_stdev(row, column_label_list=None):
+def df_log_stdev(row: Series, column_label_list: Optional[Sequence[str]] = None) -> float:
 	"""
 	Calculate the standard deviation of the log10 values in each row for the specified columns of a data frame
 
@@ -123,7 +127,6 @@ def df_log_stdev(row, column_label_list=None):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
 
 	:return: Standard deviation
 	:rtype: float
@@ -135,10 +138,10 @@ def df_log_stdev(row, column_label_list=None):
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]])
+	return float(nanstd([log10(x) if x > 0.0 else nan for x in row[column_label_list]]))
 
 
-def df_percentage(row, column_label, total):
+def df_percentage(row: Series, column_label: str, total: float) -> float:
 	"""
 	Returns the value of the specified column as a percentage of the given total
 	The total is usually the sum of the specified column
@@ -153,7 +156,7 @@ def df_percentage(row, column_label, total):
 	:param column_label: column label to calculate percentage for
 	:type column_label: str
 	:param total: total value
-	:type column_label: str
+	:type total: float
 
 	:return: Percentage * 100
 	:rtype: float
@@ -162,7 +165,7 @@ def df_percentage(row, column_label, total):
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_log(row, column_label_list, base=10):
+def df_log(row: Series, column_label_list: Sequence[str], base: float = 10) -> float:
 	"""
 	Calculate the logarithm of the values in each row for the specified columns of a data frame
 
@@ -174,7 +177,6 @@ def df_log(row, column_label_list, base=10):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate log for
-	:type column_label_list: list
 	:param base: logarithmic base
 	:type base: float
 
@@ -190,7 +192,7 @@ def df_log(row, column_label_list, base=10):
 		return 0
 
 
-def df_data_points(row, column_label_list):
+def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
 	"""
 	Compile the values for the specified columns in each row into a list
 
@@ -202,7 +204,6 @@ def df_data_points(row, column_label_list):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to calculate standard deviation for
-	:type column_label_list: list
 
 	:return: data points
 	:rtype: list
@@ -211,7 +212,7 @@ def df_data_points(row, column_label_list):
 	return [row[column_label] for column_label in column_label_list]
 
 
-def df_outliers(row, column_label_list=None, outlier_mode=MAD):
+def df_outliers(row: Series, column_label_list: Sequence[str] = None, outlier_mode: int = MAD) -> Series:
 	"""
 	Identify outliers in each row
 
@@ -223,7 +224,6 @@ def df_outliers(row, column_label_list=None, outlier_mode=MAD):
 	:param row: row of the data frame
 	:type row: pandas.core.series.Series
 	:param column_label_list: list of column labels to determine outliers for
-	:type column_label_list: list
 	:param outlier_mode: outlier detection method to use
 	:type outlier_mode: int
 
@@ -246,14 +246,14 @@ def df_outliers(row, column_label_list=None, outlier_mode=MAD):
 	elif outlier_mode == QUARTILES:
 		x = outliers.quartile_outliers(data)
 	elif outlier_mode == STDEV2:
-		x = outliers.stdev_outlier(data, 2)  # outlier classed as more than 2 stdev away from mean
+		x = outliers.stdev_outlier(data, rng=2)  # outlier classed as more than 2 stdev away from mean
 	else:
-		return None
+		raise ValueError("Unknown outlier mode.")
 
-	return pd.Series(list(x))
+	return Series(list(x))
 
 
-def df_count(row, column_label_list=None):
+def df_count(row: Series, column_label_list: Optional[Sequence[str]] = None) -> int:
 	"""
 	Count the number of occurrences of a non-NaN value in the specified columns of a data frame
 

@@ -49,12 +49,22 @@ Functions for performing linear regression
 #  |  DOI: `10.1021/acs.jproteome.8b00717 <http://dx.doi.org/10.1021/acs.jproteome.8b00717>`_
 #
 
+# stdlib
+from typing import Optional, Sequence, Tuple, Union
+
 # 3rd party
-import numpy
-from domdf_python_tools.doctools import is_documented_by
+import numpy  # type: ignore
+from domdf_python_tools.doctools import is_documented_by  # type: ignore
+
+ArrayLike_Float = Union[Sequence[float], numpy.ndarray]
 
 
-def linear_regression_vertical(x, y=None, a=None, b=None):
+def linear_regression_vertical(
+		x: ArrayLike_Float,
+		y: Optional[ArrayLike_Float] = None,
+		a: Optional[float] = None,
+		b: Optional[float] = None,
+		) -> Tuple[float, float, float, float]:
 	"""
 	Calculate coefficients of a linear regression y = a * x + b.
 	The fit minimizes *vertical* distances between the points and the line.
@@ -73,7 +83,7 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 	:return: (a, b, r, stderr), where
 		a -- slope coefficient,
 		b -- free term,
-		r -- Peason correlation coefficient,
+		r -- Pearson correlation coefficient,
 		stderr -- standard deviation.
 	:rtype: tuple
 	"""
@@ -83,7 +93,7 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 		y = numpy.array(y, copy=False)
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
-			raise TypeError('If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
+			raise TypeError(f'If `y` is not given, x.shape should be (N, 2), given: {x.shape}')
 		y = x[:, 1]
 		x = x[:, 0]
 	if a is not None and b is None:
@@ -96,15 +106,16 @@ def linear_regression_vertical(x, y=None, a=None, b=None):
 	r = numpy.corrcoef(x, y)[0, 1]
 	stderr = (y - a * x - b).std()
 
-	return a, b, r, stderr
+	return a, b, r, stderr  # type: ignore  # TODO
 
 
-@is_documented_by(linear_regression_vertical)
-def linear_regression(x, y=None, a=None, b=None):
-	return linear_regression_vertical(x, y, a, b)
+linear_regression = linear_regression_vertical
 
 
-def linear_regression_perpendicular(x, y=None):
+def linear_regression_perpendicular(
+		x: ArrayLike_Float,
+		y: Optional[ArrayLike_Float] = None,
+		) -> Tuple[float, float, float, float]:
 	"""
 	Calculate coefficients of a linear regression y = a * x + b.
 	The fit minimizes *perpendicular* distances between the points and the line.
@@ -127,6 +138,7 @@ def linear_regression_perpendicular(x, y=None):
 	"""
 
 	x = numpy.array(x, copy=False)
+
 	if y is not None:
 		y = numpy.array(y, copy=False)
 		data = numpy.hstack((x.reshape((-1, 1)), y.reshape((-1, 1))))
@@ -134,6 +146,7 @@ def linear_regression_perpendicular(x, y=None):
 		if len(x.shape) != 2 or x.shape[-1] != 2:
 			raise TypeError('If `y` is not given, x.shape should be (N, 2), given: {}'.format(x.shape))
 		data = x
+
 	mu = data.mean(axis=0)
 	eigenvectors, eigenvalues, V = numpy.linalg.svd((data - mu).T, full_matrices=False)
 	a = eigenvectors[0][1] / eigenvectors[0][0]

@@ -50,9 +50,13 @@ Test functions in utils.py
 #  |  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+# stdlib
 import decimal
-import numpy
 
+# 3rd party
+import numpy  # type: ignore
+
+# this package
 from mathematical import utils
 
 data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
