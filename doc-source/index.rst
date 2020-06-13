@@ -123,7 +123,7 @@ Installation
 
 		.. prompt:: bash
 
-			pip install git+https://github.com//mathematical@master
+			pip install git+https://github.com/domdfcoding/mathematical@master
 
 .. end installation
 
