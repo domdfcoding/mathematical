@@ -4,7 +4,7 @@ mathematical
 
 .. start short_desc
 
-**Mathematical tools for Python 🐍 🖩**
+**Mathematical tools for Python 🐍 📐 🛠**
 
 .. end short_desc
 
