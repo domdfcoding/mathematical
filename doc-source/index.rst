@@ -4,7 +4,7 @@ mathematical
 
 .. start short_desc
 
-**Mathematical tools for Python**
+**Mathematical tools for Python 🐍 🖩**
 
 .. end short_desc
 
@@ -39,7 +39,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:target: https://requires.io/github/domdfcoding/mathematical/requirements/?branch=master
 	:alt: Requirements Status
 
-.. |coveralls| image:: https://shields.io/coveralls/github/domdfcoding/mathematical/master?logo=coveralls
+.. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/mathematical/master?logo=coveralls
 	:target: https://coveralls.io/github/domdfcoding/mathematical?branch=master
 	:alt: Coverage
 

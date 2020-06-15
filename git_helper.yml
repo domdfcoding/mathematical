@@ -5,7 +5,7 @@ email: "dominic@davis-foster.co.uk"
 version: "0.1.12"
 username: "domdfcoding"
 license: 'LGPLv3+'
-short_desc: 'Mathematical tools for Python'
+short_desc: 'Mathematical tools for Python 🐍 🖩'
 
 conda_channels:
   - domdfcoding
