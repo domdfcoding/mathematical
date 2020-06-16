@@ -19,13 +19,16 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	* - Docs
 	  - |docs|
 	* - Tests
-	  - |travis| |requires| |coveralls| |codefactor|
+	  - |travis| |actions_windows| |actions_macos|
+	    |coveralls| |codefactor|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Anaconda
 	  - |conda-version| |conda-platform|
+	* - Activity
+	  - |commits-latest| |commits-since| |maintained|
 	* - Other
-	  - |license| |language| |commits-since| |commits-latest| |maintained| 
+	  - |license| |language| |requires|
 
 .. |docs| image:: https://img.shields.io/readthedocs/mathematical/latest?logo=read-the-docs
 	:target: https://mathematical.readthedocs.io/en/latest/?badge=latest
@@ -34,6 +37,14 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 .. |travis| image:: https://img.shields.io/travis/com/domdfcoding/mathematical/master?logo=travis
 	:target: https://travis-ci.com/domdfcoding/mathematical
 	:alt: Travis Build Status
+
+.. |actions_windows| image:: https://github.com/domdfcoding/mathematical/workflows/Windows%20Tests/badge.svg
+	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Windows+Tests%22
+	:alt: Windows Tests Status
+	
+.. |actions_macos| image:: https://github.com/domdfcoding/mathematical/workflows/macOS%20Tests/badge.svg
+	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22macOS+Tests%22
+	:alt: macOS Tests Status
 
 .. |requires| image:: https://requires.io/github/domdfcoding/mathematical/requirements.svg?branch=master
 	:target: https://requires.io/github/domdfcoding/mathematical/requirements/?branch=master
