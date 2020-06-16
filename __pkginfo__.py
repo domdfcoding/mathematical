@@ -98,4 +98,4 @@ classifiers = [
 
 		]
 
-keywords = ""
+keywords = "mathematics utilities"
