@@ -54,7 +54,7 @@ entry_points = {
 
 __license__ = "GNU Lesser General Public License v3 or later (LGPLv3+)"
 
-short_desc = "Mathematical tools for Python 🐍 📐 🛠"
+short_desc = "Mathematical tools for Python 📐 🐍 🛠️"
 
 __author__ = author = "Dominic Davis-Foster"
 author_email = "dominic@davis-foster.co.uk"
