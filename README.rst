@@ -19,8 +19,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	* - Docs
 	  - |docs| |docs_check|
 	* - Tests
-	  - |travis| |actions_windows| |actions_macos|
-	    |coveralls| |codefactor|
+	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Anaconda
@@ -45,7 +44,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 .. |actions_windows| image:: https://github.com/domdfcoding/mathematical/workflows/Windows%20Tests/badge.svg
 	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Windows+Tests%22
 	:alt: Windows Tests Status
-	
+
 .. |actions_macos| image:: https://github.com/domdfcoding/mathematical/workflows/macOS%20Tests/badge.svg
 	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22macOS+Tests%22
 	:alt: macOS Tests Status
@@ -82,7 +81,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:alt: Conda - Package Version
 	:target: https://anaconda.org/domdfcoding/mathematical
 
-.. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/mathematical?label=conda%7Cplatform
+.. |conda-platform| image:: image:: https://img.shields.io/conda/pn/domdfcoding/mathematical?label=conda%7Cplatform
 	:alt: Conda - Platform
 	:target: https://anaconda.org/domdfcoding/mathematical
 
