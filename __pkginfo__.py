@@ -95,6 +95,9 @@ classifiers = [
 		'Programming Language :: Python :: Implementation :: CPython',
 		'Topic :: Software Development :: Libraries :: Python Modules',
 		'Typing :: Typed',
+		'Operating System :: Microsoft :: Windows',
+		'Operating System :: POSIX :: Linux',
+		'Operating System :: MacOS',
 
 		]
 
