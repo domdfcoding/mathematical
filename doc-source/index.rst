@@ -17,7 +17,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:widths: 10 90
 
 	* - Docs
-	  - |docs|
+	  - |docs| |docs_check|
 	* - Tests
 	  - |travis| |actions_windows| |actions_macos|
 	    |coveralls| |codefactor|
@@ -33,6 +33,10 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 .. |docs| image:: https://img.shields.io/readthedocs/mathematical/latest?logo=read-the-docs
 	:target: https://mathematical.readthedocs.io/en/latest/?badge=latest
 	:alt: Documentation Status
+	
+.. |docs| image:: [Docs Check](https://github.com/domdfcoding/mathematical/workflows/Docs%20Check/badge.svg
+	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Docs+Check%22
+	:alt: Docs Check Status
 
 .. |travis| image:: https://img.shields.io/travis/com/domdfcoding/mathematical/master?logo=travis
 	:target: https://travis-ci.com/domdfcoding/mathematical
