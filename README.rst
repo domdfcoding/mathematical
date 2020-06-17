@@ -81,7 +81,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:alt: Conda - Package Version
 	:target: https://anaconda.org/domdfcoding/mathematical
 
-.. |conda-platform| image:: image:: https://img.shields.io/conda/pn/domdfcoding/mathematical?label=conda%7Cplatform
+.. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/mathematical?label=conda%7Cplatform
 	:alt: Conda - Platform
 	:target: https://anaconda.org/domdfcoding/mathematical
 
