@@ -52,6 +52,8 @@ from typing_extensions import Literal
 # this package
 from . import utils
 
+NaNPolicies = Literal["propagate", "raise", "omit"]
+
 
 def mean_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
@@ -60,7 +62,7 @@ def mean_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	:param dataset: list to calculate mean from
 
 	:return: mean
-	:rtype float
+	:rtype: float
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -78,7 +80,7 @@ def std_none(dataset: Sequence[Union[float, bool, None]], ddof: int = 1) -> floa
 		where N represents the number of elements. By default ddof is 1.
 	:type ddof: int
 	:return: standard deviation
-	:rtype float
+	:rtype: float
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -95,7 +97,7 @@ def median_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	:param dataset: list to calculate median from
 
 	:return: standard deviation
-	:rtype float
+	:rtype: float
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -110,7 +112,7 @@ def iqr_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 
 	:param dataset: list to calculate iqr from
 	:return: interquartile range
-	:rtype float
+	:rtype: float
 	"""
 
 	q1 = percentile_none(dataset, 25)
@@ -131,7 +133,7 @@ def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: flo
 	:raises: :exc:`ValueError` if ``dataset`` contains fewer than two values
 
 	:return: interquartile range
-	:rtype float
+	:rtype: float
 
 	"""
 
@@ -275,14 +277,14 @@ def interpret_d(d_or_g: float) -> str:
 		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
 
 
-def _contains_nan(a, nan_policy: str = 'propagate'):
-	policies = ['propagate', 'raise', 'omit']
+def _contains_nan(a, nan_policy: NaNPolicies = "propagate"):
+	policies = ["propagate", "raise", "omit"]
 	if nan_policy not in policies:
-		raise ValueError("nan_policy must be one of {%s}" % ', '.join(f"'{s}'" for s in policies))
+		raise ValueError("nan_policy must be one of {%s}" % ", ".join(f"'{s}'" for s in policies))
 	try:
 		# Calling numpy.sum to avoid creating a huge array into memory
 		# e.g. numpy.isnan(a).any()
-		with numpy.errstate(invalid='ignore'):
+		with numpy.errstate(invalid="ignore"):
 			contains_nan = numpy.isnan(numpy.sum(a))
 	except TypeError:
 		# This can happen when attempting to sum things which are not
@@ -293,14 +295,14 @@ def _contains_nan(a, nan_policy: str = 'propagate'):
 			# Don't know what to do. Fall back to omitting nan values and
 			# issue a warning.
 			contains_nan = False
-			nan_policy = 'omit'
+			nan_policy = "omit"
 			warnings.warn(
 					"The input array could not be properly checked for nan "
 					"values. nan values will be ignored.",
 					RuntimeWarning
 					)
 
-	if contains_nan and nan_policy == 'raise':
+	if contains_nan and nan_policy == "raise":
 		raise ValueError("The input contains nan values")
 
 	return contains_nan, nan_policy
@@ -311,7 +313,7 @@ def median_absolute_deviation(
 		axis: int = 0,
 		center: Callable = numpy.median,
 		scale: float = 1.4826,
-		nan_policy: str = 'propagate'
+		nan_policy: NaNPolicies = "propagate"
 		) -> numpy.ndarray:
 	"""
 	Compute the median absolute deviation of the data along the given axis.
@@ -336,7 +338,6 @@ def median_absolute_deviation(
 	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
 		calculations ignoring nan values. Default is 'propagate'.
-	:type nan_policy: {'propagate', 'raise', 'omit'}, optional
 
 	:returns: If ``axis=None``, a scalar is returned. If the input contains
 		integers or floats of smaller precision than ``numpy.float64``, then the
@@ -397,7 +398,7 @@ def absolute_deviation(
 		x,
 		axis: int = 0,
 		center: Callable = numpy.median,
-		nan_policy: str = 'propagate',
+		nan_policy: NaNPolicies = "propagate",
 		) -> numpy.ndarray:
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
@@ -414,7 +415,6 @@ def absolute_deviation(
 	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
 		calculations ignoring nan values. Default is 'propagate'.
-	:type nan_policy: {'propagate', 'raise', 'omit'}, optional
 
 	:returns: If ``axis=None``, a scalar is returned. If the input contains
 		integers or floats of smaller precision than ``numpy.float64``, then the
@@ -438,10 +438,10 @@ def absolute_deviation(
 
 	contains_nan, nan_policy = _contains_nan(x, nan_policy)
 
-	if contains_nan and nan_policy == 'propagate':
+	if contains_nan and nan_policy == "propagate":
 		return numpy.nan
 
-	if contains_nan and nan_policy == 'omit':
+	if contains_nan and nan_policy == "omit":
 		# Way faster than carrying the masks around
 		arr = numpy.ma.masked_invalid(x).compressed()
 	else:
@@ -461,7 +461,7 @@ def absolute_deviation_from_median(
 		x,
 		axis: int = 0,
 		center: Callable = numpy.median,
-		nan_policy: str = 'propagate',
+		nan_policy: NaNPolicies = "propagate",
 		) -> numpy.ndarray:
 	"""
 	Compute the absolute deviation from the median of each point in the data
@@ -483,7 +483,6 @@ def absolute_deviation_from_median(
 	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
 		calculations ignoring nan values. Default is 'propagate'.
-	:type nan_policy: {'propagate', 'raise', 'omit'}, optional
 
 	:returns: If ``axis=None``, a scalar is returned. If the input contains
 		integers or floats of smaller precision than ``numpy.float64``, then the

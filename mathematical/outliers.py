@@ -53,19 +53,23 @@ def mad_outliers(
 	:param strip_zero:
 	:type strip_zero: bool
 	:param threshold: The multiple of MAD above which values are considered to be outliers
-		Leys et al (2013) make the following recommendations:
-			1 In univariate statistics, the Median Absolute Deviation is the most robust
-				dispersion/scale measure in presence of outliers, and hence we strongly
-				recommend the median plus or minus 2.5 times the MAD method for outlier
-				detection.
-			2. The threshold should be justified and the justification should clearly
-				state that other concerns than cherry-picking degrees of freedom guided
-				the selection. By default, we suggest a threshold of 2.5 as a
-				reasonable choice.
-			3. We encourage researchers to report information about outliers, namely:
-				the number of outliers removed and their value (or at least the distance
-				between outliers and the selected threshold)
-		See https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
+
+		Leys et al. (2013) make the following recommendations:
+
+		1. In univariate statistics, the Median Absolute Deviation is the most robust
+			dispersion/scale measure in presence of outliers, and hence we strongly
+			recommend the median plus or minus 2.5 times the MAD method for outlier
+			detection.
+		2. The threshold should be justified and the justification should clearly
+			state that other concerns than cherry-picking degrees of freedom guided
+			the selection. By default, we suggest a threshold of 2.5 as a
+			reasonable choice.
+		3. We encourage researchers to report information about outliers, namely:
+			the number of outliers removed and their value (or at least the distance
+			between outliers and the selected threshold)
+
+		.. seealso:: https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
+
 	:type threshold: int
 
 	:return:
@@ -256,7 +260,7 @@ def spss_outliers(
 	return extremes, outliers, data_exc_outliers
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	# my_data = [70,72,74,76,80,114]
 	my_data = [1, 2, 3, 3, 4, 4, 4, 5, 5.5, 6, 6, 6.5, 7, 7, 7.5, 8, 9, 12, 52, 90]
 	# print("two stdev")

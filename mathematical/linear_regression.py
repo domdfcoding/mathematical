@@ -87,7 +87,7 @@ def linear_regression_vertical(
 		y = numpy.array(y, copy=False)
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
-			raise TypeError(f'If `y` is not given, x.shape should be (N, 2), given: {x.shape}')
+			raise TypeError(f"If `y` is not given, x.shape should be (N, 2), given: {x.shape}")
 		y = x[:, 1]
 		x = x[:, 0]
 	if a is not None and b is None:
@@ -133,7 +133,7 @@ def linear_regression_perpendicular(
 		data = numpy.hstack((x.reshape((-1, 1)), y.reshape((-1, 1))))
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
-			raise TypeError(f'If `y` is not given, x.shape should be (N, 2), given: {x.shape}')
+			raise TypeError(f"If `y` is not given, x.shape should be (N, 2), given: {x.shape}")
 		data = x
 
 	mu = data.mean(axis=0)

@@ -117,7 +117,7 @@ def roman(num: float) -> str:
 	'XVII'
 	"""
 
-	tokens = 'M CM D CD C XC L XL X IX V IV I'.split()
+	tokens = "M CM D CD C XC L XL X IX V IV I".split()
 	values = 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
 	result = ''
 
@@ -395,7 +395,7 @@ def modInverse(a: int, m: int) -> Optional[float]:
 	return u1 % m
 
 
-equiv_operators = dict(zip('< <= == != >= >'.split(), (lt, le, eq, ne, ge, gt)))
+equiv_operators = dict(zip("< <= == != >= >".split(), (lt, le, eq, ne, ge, gt)))
 
 _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 

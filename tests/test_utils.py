@@ -62,10 +62,10 @@ data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
 
 
 def test_roman():
-	assert utils.roman(4) == 'IV'
-	assert utils.roman(20) == 'XX'
-	assert utils.roman(94) == 'XCIV'
-	assert utils.roman(501) == 'DI'
+	assert utils.roman(4) == "IV"
+	assert utils.roman(20) == "XX"
+	assert utils.roman(94) == "XCIV"
+	assert utils.roman(501) == "DI"
 
 
 def test_magnitude():
@@ -88,10 +88,10 @@ def test_isint():
 def test_RepresentsInt():
 	assert isinstance(utils.RepresentsInt(1), bool)
 	assert isinstance(utils.RepresentsInt(1.0), bool)
-	assert isinstance(utils.RepresentsInt("1"), bool)
+	assert isinstance(utils.RepresentsInt('1'), bool)
 	assert utils.RepresentsInt(1)
 	assert utils.RepresentsInt(1.0)
-	assert utils.RepresentsInt("1")
+	assert utils.RepresentsInt('1')
 
 
 def test_rounders():
