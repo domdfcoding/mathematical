@@ -191,7 +191,7 @@ def represents_int(s: Any) -> bool:
 	try:
 		int(s)
 		return True
-	except (ValueError, TypeError) as e:
+	except (ValueError, TypeError):
 		return False
 
 
@@ -372,9 +372,10 @@ def hcf2(numbers: Sequence[int]) -> int:
 	return gcd2(numbers)
 
 
-def modInverse(a: int, m: int) -> Optional[float]:
+def mod_inverse(a: int, m: int) -> Optional[float]:
 	"""
 	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
+
 	:param a:
 	:param m:
 
@@ -394,6 +395,8 @@ def modInverse(a: int, m: int) -> Optional[float]:
 
 	return u1 % m
 
+
+modInverse = mod_inverse
 
 equiv_operators = dict(zip("< <= == != >= >".split(), (lt, le, eq, ne, ge, gt)))
 
