@@ -11,7 +11,7 @@ import copy
 
 # 3rd party
 import pandas  # type: ignore
-import pytest  # type: ignore
+import pytest
 
 # this package
 from mathematical.data_frames import (

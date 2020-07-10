@@ -249,10 +249,64 @@ def strip_nonetype(ls: Sequence[Any]) -> List:
 	:type ls: list
 
 	:return: list without None
-	:rtype: list
 	"""
 
 	return [x for x in ls if x is not None]
+
+
+def nanmean(ls: Sequence[Any], dtype=float) -> float:
+	"""
+	Returns the mean of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
+
+	Similar to numpy.nanmean except it handles :py:obj:`None`.
+
+	:param ls:
+	:type ls:
+	:param dtype:
+	:type dtype:
+
+	:return:
+	:rtype:
+	"""
+
+	return float(numpy.nanmean(numpy.array(ls, dtype=dtype)))
+
+
+def nanstd(ls: Sequence[Any], dtype=float) -> float:
+	"""
+	Returns the standard deviation of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
+
+	Similar to numpy.nanstd except it handles :py:obj:`None`.
+
+	:param ls:
+	:type ls:
+	:param dtype:
+	:type dtype:
+
+	:return:
+	:rtype:
+	"""
+
+	return float(numpy.nanstd(numpy.array(ls, dtype=dtype)))
+
+
+def nanrsd(ls: Sequence[Any], dtype=float) -> float:
+	"""
+	Returns the relative standard deviation of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
+
+	:param ls:
+	:type ls:
+	:param dtype:
+	:type dtype:
+
+	:return:
+	:rtype:
+	"""
+
+	mean = nanmean(ls, dtype=dtype)
+	std = nanstd(ls, dtype=dtype)
+
+	return float(std / abs(mean))
 
 
 def strip_none_bool_string(ls: Sequence[Any]) -> List:

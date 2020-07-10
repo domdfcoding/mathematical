@@ -7,7 +7,7 @@ Test functions in stats.py
 """
 # 3rd party
 import numpy  # type: ignore
-import pytest  # type: ignore
+import pytest
 import scipy.stats  # type: ignore
 
 # this package

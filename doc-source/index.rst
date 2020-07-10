@@ -10,7 +10,7 @@ mathematical
 
 Includes tools for calculating mean, median and standard deviation of rows in data frames, detection of outliers, and statistical calculations
 
-.. start shields 
+.. start shields
 
 .. list-table::
 	:stub-columns: 1
@@ -32,7 +32,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 .. |docs| image:: https://img.shields.io/readthedocs/mathematical/latest?logo=read-the-docs
 	:target: https://mathematical.readthedocs.io/en/latest/?badge=latest
 	:alt: Documentation Status
-	
+
 .. |docs_check| image:: https://github.com/domdfcoding/mathematical/workflows/Docs%20Check/badge.svg
 	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Docs+Check%22
 	:alt: Docs Check Status
@@ -65,7 +65,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:target: https://pypi.org/project/mathematical/
 	:alt: PyPI - Package Version
 
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/mathematical
+.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/mathematical?logo=python&logoColor=white
 	:target: https://pypi.org/project/mathematical/
 	:alt: PyPI - Supported Python Versions
 
@@ -78,16 +78,16 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:alt: PyPI - Wheel
 
 .. |conda-version| image:: https://img.shields.io/conda/v/domdfcoding/mathematical?logo=anaconda
-	:alt: Conda - Package Version
 	:target: https://anaconda.org/domdfcoding/mathematical
+	:alt: Conda - Package Version
 
 .. |conda-platform| image:: https://img.shields.io/conda/pn/domdfcoding/mathematical?label=conda%7Cplatform
-	:alt: Conda - Platform
 	:target: https://anaconda.org/domdfcoding/mathematical
+	:alt: Conda - Platform
 
 .. |license| image:: https://img.shields.io/github/license/domdfcoding/mathematical
-	:alt: License
 	:target: https://github.com/domdfcoding/mathematical/blob/master/LICENSE
+	:alt: License
 
 .. |language| image:: https://img.shields.io/github/languages/top/domdfcoding/mathematical
 	:alt: GitHub top language
@@ -116,7 +116,7 @@ Installation
 
 		.. prompt:: bash
 
-			pip install mathematical
+			python3 -m pip install mathematical --user
 
 	.. tab:: from Anaconda
 
@@ -137,7 +137,7 @@ Installation
 
 		.. prompt:: bash
 
-			pip install git+https://github.com/domdfcoding/mathematical@master
+			python3 -m pip install git+https://github.com/domdfcoding/mathematical@master --user
 
 .. end installation
 
