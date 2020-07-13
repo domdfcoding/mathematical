@@ -138,20 +138,3 @@ To install with ``conda``:
 		$ conda install mathematical
 
 .. end installation
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
