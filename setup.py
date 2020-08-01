@@ -15,7 +15,7 @@ from __pkginfo__ import *  # pylint: disable=wildcard-import
 
 
 setup(
-		description="Mathematical tools for Python 📐 🐍 🛠️",
+		description='Mathematical tools for Python\u2002📐\u2002🐍\u2002🛠️',
 		extras_require=extras_require,
 		install_requires=install_requires,
 		py_modules=[],

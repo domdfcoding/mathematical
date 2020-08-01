@@ -44,9 +44,9 @@ modname = "mathematical"
 pypi_name = "mathematical"
 import_name = "mathematical"
 __license__ = "GNU Lesser General Public License v3 or later (LGPLv3+)"
-short_desc = "Mathematical tools for Python 📐 🐍 🛠️"
-__author__ = author = "Dominic Davis-Foster"
-author_email = "dominic@davis-foster.co.uk"
+short_desc = 'Mathematical tools for Python\u2002📐\u2002🐍\u2002🛠️'
+__author__ = author = 'Dominic Davis-Foster'
+author_email = 'dominic@davis-foster.co.uk'
 github_username = "domdfcoding"
 web = github_url = "https://github.com/domdfcoding/mathematical"
 repo_root = pathlib.Path(__file__).parent
