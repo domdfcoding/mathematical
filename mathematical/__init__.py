@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #
-"""Various Mathematical Functions"""
+"""
+Various mathematical functions.
+"""
 #
-#  Copyright 2014-2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
-#
+#  Copyright © 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,14 +23,13 @@
 #
 #
 
-__all__ = ["data_frames", "outliers", "stats", "utils"]
+# this package
+from . import data_frames, outliers, stats, utils
 
 __author__ = "Dominic Davis-Foster"
-__copyright__ = "Copyright 2014-2019 Dominic Davis-Foster"
-
-__license__ = "GPL"
+__copyright__ = "2014-2020 Dominic Davis-Foster"
+__license__ = "GPLv3"
 __version__ = "0.1.12"
 __email__ = "dominic@davis-foster.co.uk"
 
-# this package
-from . import data_frames, outliers, stats, utils
+__all__ = ["data_frames", "outliers", "stats", "utils"]

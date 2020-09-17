@@ -449,12 +449,13 @@ def log_factorial(x: float) -> float:
 	"""
 
 	arr = numpy.array(x)
-	pf = _precalc_fact
-	m: bool = (arr >= pf.size)
+	m: bool = (arr >= _precalc_fact.size)
 	out = numpy.empty(arr.shape)
-	out[~m] = pf[arr[~m].astype(int)]
+
+	out[~m] = _precalc_fact[arr[~m].astype(int)]
 	arr = arr[m]
 	out[m] = arr * numpy.log(arr) - arr + 0.5 * numpy.log(2 * numpy.pi * arr)
+
 	return float(out)
 
 

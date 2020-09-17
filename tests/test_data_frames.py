@@ -15,7 +15,14 @@ import pytest
 
 # this package
 from mathematical.data_frames import (
-		df_count, df_data_points, df_log, df_log_stdev, df_mean, df_median, df_percentage, df_stdev
+		df_count,
+		df_data_points,
+		df_log,
+		df_log_stdev,
+		df_mean,
+		df_median,
+		df_percentage,
+		df_stdev
 		)
 
 

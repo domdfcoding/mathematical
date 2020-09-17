@@ -169,7 +169,8 @@ def df_log_stdev(row: Series, column_label_list: ColumnLabelList = None) -> floa
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(numpy.nanstd([log10(x) if x > 0.0 else numpy.nan for x in row[column_label_list]]))
+	log_values = [log10(x) if x > 0.0 else numpy.nan for x in row[column_label_list]]
+	return float(numpy.nanstd(log_values))
 
 
 def df_percentage(row: Series, column_label: str, total: float) -> float:
