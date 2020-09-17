@@ -39,7 +39,7 @@ __copyright__ = """
 2019-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 """
 
-__version__ = "0.1.12"
+__version__ = "0.1.13"
 modname = "mathematical"
 pypi_name = "mathematical"
 import_name = "mathematical"
