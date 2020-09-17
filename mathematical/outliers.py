@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 #
 #  outliers.py
-"""Outlier Detection Functions"""
+"""
+Outlier detection functions.
+"""
 #
-#  Copyright 2018-2019 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2018-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  mad_outliers based on https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
 # 		Copyright 2013 Peter Rosenmai
@@ -29,7 +31,6 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#
 
 # stdlib
 from typing import List, Sequence, Tuple
@@ -40,6 +41,8 @@ import numpy  # type: ignore
 # this package
 from . import stats, utils
 
+__all__ = ["mad_outliers", "two_stdev", "stdev_outlier", "quartile_outliers", "spss_outliers"]
+
 
 def mad_outliers(
 		dataset: Sequence[float],
@@ -47,32 +50,29 @@ def mad_outliers(
 		threshold: int = 3,
 		) -> Tuple[List[float], List[float]]:
 	"""
-	Using the Median Absolute Deviation to Find Outliers
+	Identifies outlier values using the Median Absolute Deviation.
 
 	:param dataset:
 	:param strip_zero:
-	:type strip_zero: bool
 	:param threshold: The multiple of MAD above which values are considered to be outliers
 
 		Leys et al. (2013) make the following recommendations:
 
 		1. In univariate statistics, the Median Absolute Deviation is the most robust
-			dispersion/scale measure in presence of outliers, and hence we strongly
-			recommend the median plus or minus 2.5 times the MAD method for outlier
-			detection.
+		   dispersion/scale measure in presence of outliers, and hence we strongly
+		   recommend the median plus or minus 2.5 times the MAD method for outlier
+		   detection.
 		2. The threshold should be justified and the justification should clearly
-			state that other concerns than cherry-picking degrees of freedom guided
-			the selection. By default, we suggest a threshold of 2.5 as a
-			reasonable choice.
+		   state that other concerns than cherry-picking degrees of freedom guided
+		   the selection. By default, we suggest a threshold of 2.5 as a
+		   reasonable choice.
 		3. We encourage researchers to report information about outliers, namely:
-			the number of outliers removed and their value (or at least the distance
-			between outliers and the selected threshold)
+		   the number of outliers removed and their value (or at least the distance
+		   between outliers and the selected threshold)
 
 		.. seealso:: https://dipot.ulb.ac.be/dspace/bitstream/2013/139499/1/Leys_MAD_final-libre.pdf
 
-	:type threshold: int
-
-	:return:
+	:returns: A list of the outlier values, and the remaining data points.
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -102,13 +102,12 @@ def two_stdev(
 		strip_zero: bool = True,
 		) -> Tuple[List[float], List[float]]:
 	"""
-	Outliers are greater than 2x stdev from mean
+	Identifies outlier values that are greater than ``2×`` stdev from the mean.
 
 	:param dataset:
 	:param strip_zero:
-	:type strip_zero: bool
 
-	:return: #	TODO
+	:returns: A list of the outlier values, and the remaining data points.
 	"""
 
 	return stdev_outlier(dataset, strip_zero=strip_zero)
@@ -120,15 +119,13 @@ def stdev_outlier(
 		rng: int = 2,
 		) -> Tuple[List[float], List[float]]:
 	"""
-	Outliers are greater than rng*stdev from mean
+	Identifies outlier values that are greater than ``rng × stdev`` from mean.
 
 	:param dataset:
 	:param strip_zero:
-	:type strip_zero: bool
 	:param rng:
-	:type rng:
 
-	:return: 'TODO
+	:returns: A list of the outlier values, and the remaining data points.
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -159,14 +156,14 @@ def quartile_outliers(
 		strip_zero: bool = True,
 		) -> Tuple[List[float], List[float]]:
 	"""
-	outliers are more than 3x inter-quartile range from upper or lower quartile
+	Identifies outlier values that are more than ``3×`` the inter-quartile range
+	from the upper or lower quartile.
 
 	:param dataset:
 	:param strip_zero:
-	:type strip_zero: bool
 
-	:return:
-	"""
+	:returns: A list of the outlier values, and the remaining data points.
+	"""  # noqa D400
 
 	dataset = utils.strip_none_bool_string(dataset)
 
@@ -203,16 +200,16 @@ def spss_outliers(
 		mode: str = "all",
 		) -> Tuple[List[float], List[float], List[float]]:
 	"""
-	Based on IBM SPSS method for detecting outliers.
+	Identifies outlier values using the IBM SPSS method.
 
-	Outliers more than 1.5*IQR from Q1 or Q3
+	Outlier values are more than ``1.5 × IQR`` from ``Q1`` or ``Q3``.
 
-	"Extreme values" more than 3*IQR from Q1 or Q3
+	"Extreme values" are more than ``3 × IQR`` from ``Q1`` or ``Q3``.
 
 	:param dataset:
 	:param mode: str
 
-	:return:
+	:returns: A list of extreme outliers, a list of other outliers, and the remaining data points.
 	"""
 
 	if len(dataset) < 2:

@@ -2,10 +2,10 @@
 #
 #  linear_regression.py
 """
-Functions for performing linear regression
+Functions for performing linear regression.
 """
 #
-#  Copyright (c) 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -53,8 +53,10 @@ from typing import Optional, Sequence, Tuple, Union
 
 # 3rd party
 import numpy  # type: ignore
-from domdf_python_tools.doctools import is_documented_by  # type: ignore
 
+__all__ = ["linear_regression_vertical", "linear_regression_perpendicular", "ArrayLike_Float"]
+
+#: Type hint for arguments that take either a sequence of floats or a numpy array.
 ArrayLike_Float = Union[Sequence[float], numpy.ndarray]
 
 

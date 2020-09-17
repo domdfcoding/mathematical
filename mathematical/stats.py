@@ -2,13 +2,13 @@
 #
 #  stats.py
 """
-Functions for Calculating Statistics
+Functions for calculating statistics.
 """
 #
-#  Copyright 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  _contains_nan, median_absolute_deviation, absolute_deviation and
-#  absolute_deviation_from_median from SciPy
+#  absolute_deviation_from_median adapted from SciPy
 #  Copyright (c) 2001-2002 Enthought, Inc.  2003-2019, SciPy Developers
 #  Available under the BSD License
 #
@@ -39,11 +39,10 @@ Functions for Calculating Statistics
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#
 
 # stdlib
 import warnings  # type: ignore
-from typing import Callable, Sequence, Union
+from typing import Callable, Optional, Sequence, Union
 
 # 3rd party
 import numpy  # type: ignore
@@ -52,17 +51,34 @@ from typing_extensions import Literal
 # this package
 from . import utils
 
+__all__ = [
+		"mean_none",
+		"std_none",
+		"median_none",
+		"iqr_none",
+		"percentile_none",
+		"pooled_sd",
+		"d_cohen",
+		"g_hedge",
+		"g_durlak_bias",
+		"interpret_d",
+		"median_absolute_deviation",
+		"absolute_deviation",
+		"absolute_deviation_from_median",
+		"within1min"
+		]
+
+#: Type hint for allowed values for ``nan_values``.
 NaNPolicies = Literal["propagate", "raise", "omit"]
 
 
 def mean_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
-	Calculate the mean, excluding NaN, strings, boolean values, and zeros
+	Calculate the mean, excluding NaN, strings, boolean values, and zeros.
 
 	:param dataset: list to calculate mean from
 
 	:return: mean
-	:rtype: float
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -73,14 +89,13 @@ def mean_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 
 def std_none(dataset: Sequence[Union[float, bool, None]], ddof: int = 1) -> float:
 	"""
-	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros
+	Calculate the standard deviation, excluding NaN, strings, boolean values, and zeros.
 
-	:param dataset: list to calculate mean from
-	:param ddof: Means Delta Degrees of Freedom. The divisor used in calculations is N - ddof,
-		where N represents the number of elements. By default ddof is 1.
-	:type ddof: int
+	:param dataset: list to calculate mean from.
+	:param ddof: Means Delta Degrees of Freedom. The divisor used in calculations is ``N - ddof``,
+		where ``N`` represents the number of elements.
+
 	:return: standard deviation
-	:rtype: float
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -92,12 +107,11 @@ def std_none(dataset: Sequence[Union[float, bool, None]], ddof: int = 1) -> floa
 
 def median_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
-	Calculate the median, excluding NaN, strings, boolean values, and zeros
+	Calculate the median, excluding NaN, strings, boolean values, and zeros.
 
 	:param dataset: list to calculate median from
 
 	:return: standard deviation
-	:rtype: float
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -108,11 +122,11 @@ def median_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 
 def iqr_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 	"""
-	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros
+	Calculate the interquartile range, excluding NaN, strings, boolean values, and zeros.
 
-	:param dataset: list to calculate iqr from
-	:return: interquartile range
-	:rtype: float
+	:param dataset: A list to calculate iqr from.
+
+	:return: The interquartile range.
 	"""
 
 	q1 = percentile_none(dataset, 25)
@@ -124,17 +138,14 @@ def iqr_none(dataset: Sequence[Union[float, bool, None]]) -> float:
 
 def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: float) -> float:
 	"""
-	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros
+	Calculate the given percentile, excluding NaN, strings, boolean values, and zeros.
 
-	:param dataset: Sequence to calculate the percentile from
+	:param dataset: Sequence to calculate the percentile from.
 	:param percentage:
-	:type percentage: float
 
 	:raises: :exc:`ValueError` if ``dataset`` contains fewer than two values
 
-	:return: interquartile range
-	:rtype: float
-
+	:return: The interquartile range.
 	"""
 
 	dataset = utils.strip_none_bool_string(dataset)
@@ -149,16 +160,13 @@ def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: flo
 
 def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool = False) -> float:
 	"""
-	Pooled Standard Deviation
-
-	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
+	Returns the pooled standard deviation.
 
 	:param sample1: datapoints for first sample
 	:param sample2: datapoints for second sample
 	:param weighted: True for weighted pooled SD
 
-	:return: Pooled Standard Deviation
-	:rtype: float
+	.. seealso:: https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 	"""
 
 	sd1 = numpy.std(sample1)
@@ -180,7 +188,7 @@ def d_cohen(
 		pooled: bool = False,
 		) -> float:
 	"""
-	Cohen's d-Statistic
+	Calculates and returns Cohen's d-Statistic.
 
 	.. seealso::
 
@@ -190,12 +198,8 @@ def d_cohen(
 	:param sample1: datapoints for first sample
 	:param sample2: datapoints for second sample
 	:param which: Use the standard deviation of the first sample (``1``) or the second sample (``2``)
-	:type which: int
 	:param tail:
 	:param pooled:
-
-	:return: Cohen's d-Statistic
-	:rtype: float
 	"""
 
 	mean1 = numpy.mean(sample1)
@@ -217,15 +221,12 @@ def d_cohen(
 
 def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
 	"""
-	Hedge's g-Statistic
+	Calculates and returns Hedge's g-Statistic.
 
 	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 
 	:param sample1: datapoints for first sample
 	:param sample2: datapoints for second sample
-
-	:return:
-	:rtype: float
 	"""
 
 	mean1 = numpy.mean(sample1)
@@ -236,17 +237,13 @@ def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
 def g_durlak_bias(g: float, n: float) -> float:
 	"""
 	Application of Durlak's bias correction to the Hedge's g statistic.
-	Formula from https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 
 	n = n1+n2
 
 	:param g:
-	:type g: float
 	:param n:
-	:type n: float
 
-	:return:
-	:rtype: float
+	.. seealso:: https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 	"""
 
 	Durlak = ((n - 3) / (n - 2.25)) * numpy.sqrt((n - 2) / n)
@@ -260,10 +257,7 @@ def interpret_d(d_or_g: float) -> str:
 
 	:param d_or_g:
 	:type d_or_g:
-
-	:return:
-	:rtype: str
-	"""
+	"""  # noqa D400
 
 	if 0.0 <= d_or_g < 0.2:
 		return "No Effect"
@@ -310,7 +304,7 @@ def _contains_nan(a, nan_policy: NaNPolicies = "propagate"):
 
 def median_absolute_deviation(
 		x,
-		axis: int = 0,
+		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		scale: float = 1.4826,
 		nan_policy: NaNPolicies = "propagate"
@@ -324,24 +318,21 @@ def median_absolute_deviation(
 
 	:param x: Input array or object that can be converted to an array.
 	:type x: array_like
-	:param axis: Axis along which the range is computed. Default is 0. If None, compute
+	:param axis: Axis along which the range is computed. If None, compute
 		the MAD over the entire array.
-	:type axis: int or None, optional
 	:param center: A function that will return the central value. The default is to use
 		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
-	:type center: callable, optional
 	:param scale: The scaling factor applied to the MAD. The default scale (1.4826)
 		ensures consistency with the standard deviation for normally distributed
 		data.
-	:type scale: int, optional
 	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
-		calculations ignoring nan values. Default is 'propagate'.
+		calculations ignoring nan values.
 
 	:returns: If ``axis=None``, a scalar is returned. If the input contains
-		integers or floats of smaller precision than ``numpy.float64``, then the
-		output data-type is ``numpy.float64``. Otherwise, the output data-type is
+		integers or floats of smaller precision than :class:`numpy.float64`, then the
+		output data-type is :class:`numpy.float64`. Otherwise, the output data-type is
 		the same as that of the input.
 	:rtype: scalar or ndarray
 
@@ -396,7 +387,7 @@ def median_absolute_deviation(
 
 def absolute_deviation(
 		x,
-		axis: int = 0,
+		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		nan_policy: NaNPolicies = "propagate",
 		) -> numpy.ndarray:
@@ -405,20 +396,18 @@ def absolute_deviation(
 
 	:param x: Input array or object that can be converted to an array.
 	:type x: array_like
-	:param axis: Axis along which the range is computed. Default is 0. If None, compute
+	:param axis: Axis along which the range is computed. If None, compute
 		the MAD over the entire array.
-	:type axis: int or None, optional
 	:param center: A function that will return the central value. The default is to use
 		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
-	:type center: callable, optional
 	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
-		calculations ignoring nan values. Default is 'propagate'.
+		calculations ignoring nan values.
 
 	:returns: If ``axis=None``, a scalar is returned. If the input contains
-		integers or floats of smaller precision than ``numpy.float64``, then the
-		output data-type is ``numpy.float64``. Otherwise, the output data-type is
+		integers or floats of smaller precision than :class:`numpy.float64`, then the
+		output data-type is :class:`numpy.float64`. Otherwise, the output data-type is
 		the same as that of the input.
 	:rtype: scalar or ndarray
 
@@ -459,7 +448,7 @@ def absolute_deviation(
 
 def absolute_deviation_from_median(
 		x,
-		axis: int = 0,
+		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		nan_policy: NaNPolicies = "propagate",
 		) -> numpy.ndarray:
@@ -473,20 +462,18 @@ def absolute_deviation_from_median(
 
 	:param x: Input array or object that can be converted to an array.
 	:type x: array_like
-	:param axis: Axis along which the range is computed. Default is 0. If None, compute
+	:param axis: Axis along which the range is computed. If None, compute
 		the MAD over the entire array.
-	:type axis: int or None, optional
 	:param center: A function that will return the central value. The default is to use
 		numpy.median. Any user defined function used will need to have the function
 		signature ``func(arr, axis)``.
-	:type center: callable, optional
 	:param nan_policy: Defines how to handle when input contains nan. 'propagate'
 		returns nan, 'raise' throws an error, 'omit' performs the
-		calculations ignoring nan values. Default is 'propagate'.
+		calculations ignoring nan values.
 
 	:returns: If ``axis=None``, a scalar is returned. If the input contains
-		integers or floats of smaller precision than ``numpy.float64``, then the
-		output data-type is ``numpy.float64``. Otherwise, the output data-type is
+		integers or floats of smaller precision than :class:`numpy.float64`, then the
+		output data-type is :class:`numpy.float64`. Otherwise, the output data-type is
 		the same as that of the input.
 	:rtype: scalar or ndarray
 
@@ -496,7 +483,7 @@ def absolute_deviation_from_median(
 		around which the MAD is calculated. That is, passing in ``center=numpy.mean``
 		will calculate the MAD around the mean - it will not calculate the *mean*
 		absolute deviation.
-	"""
+	"""  # noqa D400
 
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
@@ -512,13 +499,8 @@ def within1min(value1: float, value2: float) -> bool:
 	"""
 	Returns whether ``value2`` is within one minute of ``value1``.
 
-	:param value1: A time
-	:type value1:
-	:param value2: another time
-	:type value2:
-
-	:return:
-	:rtype:
+	:param value1: A time in minutes.
+	:param value2: Another time in minutes.
 	"""
 
 	if value1 and value2:

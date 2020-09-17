@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 #
 #  utils.py
-"""Utilities for Mathematical Operations"""
+"""
+Utilities for mathematical operations.
+"""
 #
-#  Copyright 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -86,10 +88,36 @@ from typing import Any, List, Optional, Sequence, Union
 # 3rd party
 import numpy  # type: ignore
 
+__all__ = [
+		"intdiv",
+		"roman",
+		"magnitude",
+		"remove_zero",
+		"isint",
+		"represents_int",
+		"rounders",
+		"strip_strings",
+		"strip_booleans",
+		"strip_nonetype",
+		"nanmean",
+		"nanstd",
+		"nanrsd",
+		"strip_none_bool_string",
+		"gcd",
+		"gcd_array",
+		"gcd2",
+		"lcm",
+		"hcf",
+		"hcf2",
+		"mod_inverse",
+		"log_factorial",
+		"equiv_operators",
+		]
+
 
 def intdiv(p: float, q: float) -> int:
 	"""
-	Integer divsions which rounds toward zero
+	Integer divsions which rounds toward zero.
 
 	**Examples**
 	>>> intdiv(3, 2)
@@ -110,6 +138,8 @@ def intdiv(p: float, q: float) -> int:
 
 def roman(num: float) -> str:
 	"""
+
+
 	**Examples**
 	>>> roman(4)
 	'IV'
@@ -131,12 +161,9 @@ def roman(num: float) -> str:
 
 def magnitude(x: float) -> int:
 	"""
-	Determine the magnitude of the given value
+	Returns the magnitude of the given value.
 
-	:param x: Numerical value to find the magnitude of
-
-	:return: magnitude
-	:rtype: int
+	:param x: Numerical value to find the magnitude of.
 	"""
 
 	if x > 0.0:
@@ -145,20 +172,15 @@ def magnitude(x: float) -> int:
 		return 0
 
 
-# def _mag(num):
-# 	return int(math.floor(math.log10(abs(num))))
-
-
 def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	"""
-	Remove zero values from the given list
-	Also removes False and None
+	Remove zero values from the given list.
+
+	Also removes :py:obj:`False` and :py:obj:`None`.
 
 	:param inputlist: list to remove zero values from
-	:type inputlist: list
 
 	:return: list without zero values
-	:rtype: list
 	"""
 
 	inputlist = numpy.array(inputlist)
@@ -167,12 +189,11 @@ def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 
 def isint(num: float) -> bool:
 	"""
-	Checks whether a float is an integer value
+	Checks whether a float is an integer value.
 
 	.. note:: This function only works with floating-point numbers
 
 	:param num: value to check
-	:type num: float
 
 	:rtype: bool
 	"""
@@ -182,7 +203,7 @@ def isint(num: float) -> bool:
 
 def represents_int(s: Any) -> bool:
 	"""
-	Checks whether a value can be converted to int
+	Checks whether a value can be converted to an :class:`int`.
 
 	:param s: value to check
 
@@ -200,14 +221,12 @@ RepresentsInt = represents_int
 
 def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Decimal:
 	"""
-	Round a value to the specified number format, e.g. "0.000" for three decimal places
+	Round a value to the specified number format, e.g. ``"0.000"`` for three decimal places.
 
 	:param val_to_round: The value to round
 	:param round_format: The rounding format
-	:type round_format: str
 
 	:return: the rounded value
-	:rtype: decimal.Decimal
 	"""
 
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
@@ -215,13 +234,11 @@ def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Dec
 
 def strip_strings(ls: Sequence[Any]) -> List:
 	"""
-	Remove strings from a list
+	Remove strings from a list.
 
-	:param ls: the list to remove strings from
-	:type ls: list
+	:param ls: the list to remove strings from.
 
-	:return: list without strings
-	:rtype: list
+	:return: The list without strings.
 	"""
 
 	return [x for x in ls if not isinstance(x, str)]
@@ -229,13 +246,11 @@ def strip_strings(ls: Sequence[Any]) -> List:
 
 def strip_booleans(ls: Sequence[Any]) -> List:
 	"""
-	Remove booleans from a list
+	Remove booleans from a list.
 
-	:param ls: the list to remove booleans from
-	:type ls: list
+	:param ls: the list to remove booleans from.
 
-	:return: list without booleans
-	:rtype: list
+	:return: The list without boolean values.
 	"""
 
 	return [x for x in ls if not isinstance(x, bool)]
@@ -243,12 +258,11 @@ def strip_booleans(ls: Sequence[Any]) -> List:
 
 def strip_nonetype(ls: Sequence[Any]) -> List:
 	"""
-	Remove None from a list
+	Remove None from a list.
 
-	:param ls: the list to remove None from
-	:type ls: list
+	:param ls: the list to remove None from.
 
-	:return: list without None
+	:return: The list without :py:obj:`None` values.
 	"""
 
 	return [x for x in ls if x is not None]
@@ -261,12 +275,7 @@ def nanmean(ls: Sequence[Any], dtype=float) -> float:
 	Similar to numpy.nanmean except it handles :py:obj:`None`.
 
 	:param ls:
-	:type ls:
 	:param dtype:
-	:type dtype:
-
-	:return:
-	:rtype:
 	"""
 
 	return float(numpy.nanmean(numpy.array(ls, dtype=dtype)))
@@ -279,12 +288,7 @@ def nanstd(ls: Sequence[Any], dtype=float) -> float:
 	Similar to numpy.nanstd except it handles :py:obj:`None`.
 
 	:param ls:
-	:type ls:
 	:param dtype:
-	:type dtype:
-
-	:return:
-	:rtype:
 	"""
 
 	return float(numpy.nanstd(numpy.array(ls, dtype=dtype)))
@@ -295,12 +299,9 @@ def nanrsd(ls: Sequence[Any], dtype=float) -> float:
 	Returns the relative standard deviation of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
 
 	:param ls:
-	:type ls:
 	:param dtype:
-	:type dtype:
 
 	:return:
-	:rtype:
 	"""
 
 	mean = nanmean(ls, dtype=dtype)
@@ -311,12 +312,9 @@ def nanrsd(ls: Sequence[Any], dtype=float) -> float:
 
 def strip_none_bool_string(ls: Sequence[Any]) -> List:
 	"""
-	Remove None, Boolean and strings from a list
+	Remove :py:obj:`None`, boolean and string values from a list.
 
-	:param ls: the list to remove values from
-	:type ls: list
-
-	:rtype: list
+	:param ls: The list to remove values from.
 	"""
 
 	ls = strip_nonetype(ls)
@@ -327,31 +325,26 @@ def strip_none_bool_string(ls: Sequence[Any]) -> List:
 
 def gcd(a: int, b: int) -> int:
 	"""
-	Returns the GCD (HCF) of a and b using Euclid's Algorithm
+	Returns the GCD (HCF) of ``a`` and ``b`` using Euclid's Algorithm.
 
 	:param a:
 	:param b:
-
-	:return:
-	:rtype: int
 	"""
 
 	# while a != 0:
 	# 	a, b = b % a, a
 	# return b
+
 	return math.gcd(a, b)
 
 
 def gcd_array(array) -> float:
 	"""
-	Returns the GCD for an array of numbers using Euclid's Algorithm
+	Returns the GCD for an array of numbers using Euclid's Algorithm.
 
 	Based on https://www.geeksforgeeks.org/python-program-for-gcd-of-more-than-two-or-array-numbers/
 
 	:param array:
-	:type array:
-	:return:
-	:rtype: float
 	"""
 
 	a = array[0]
@@ -366,11 +359,9 @@ def gcd_array(array) -> float:
 
 def gcd2(numbers: Sequence[int]) -> int:
 	"""
-	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm
+	Returns the GCD (HCF) of a list of numbers using Euclid's Algorithm.
 
 	:param numbers:
-
-	:return:float
 	"""
 
 	c = numbers[0]
@@ -383,10 +374,9 @@ def gcd2(numbers: Sequence[int]) -> int:
 
 def lcm(numbers: Sequence[int]) -> float:
 	"""
-	Returns the LCM of a list of numbers using Euclid's Algorithm
-	:param numbers:
+	Returns the LCM of a list of numbers using Euclid's Algorithm.
 
-	:return: float
+	:param numbers:
 	"""
 
 	product = numbers[0]
@@ -408,8 +398,6 @@ def hcf(a: int, b: int) -> int:
 
 	:param a:
 	:param b:
-
-	:return:int
 	"""
 
 	return gcd(a, b)
@@ -419,8 +407,6 @@ def hcf2(numbers: Sequence[int]) -> int:
 	"""
 
 	:param numbers:
-
-	:return:int
 	"""
 
 	return gcd2(numbers)
@@ -428,13 +414,12 @@ def hcf2(numbers: Sequence[int]) -> int:
 
 def mod_inverse(a: int, m: int) -> Optional[float]:
 	"""
-	Returns the modular inverse of a % m, which is the number x such that a*x % m = 1
+	Returns the modular inverse of ``a % m``,
+	which is the number ``x`` such that ``a × x % m = 1``.
 
 	:param a:
 	:param m:
-
-	:return:
-	"""
+	"""  # noqa D400
 
 	if gcd(a, m) != 1:
 		return None  # No mod inverse exists if a & m aren't relatively prime
@@ -458,6 +443,11 @@ _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 
 
 def log_factorial(x: float) -> float:
+	"""
+
+	:param x:
+	"""
+
 	arr = numpy.array(x)
 	pf = _precalc_fact
 	m: bool = (arr >= pf.size)

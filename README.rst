@@ -31,7 +31,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 
 .. |docs| image:: https://img.shields.io/readthedocs/mathematical/latest?logo=read-the-docs
 	:target: https://mathematical.readthedocs.io/en/latest/?badge=latest
-	:alt: Documentation Status
+	:alt: Documentation Build Status
 
 .. |docs_check| image:: https://github.com/domdfcoding/mathematical/workflows/Docs%20Check/badge.svg
 	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Docs+Check%22
