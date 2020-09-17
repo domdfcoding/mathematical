@@ -85,7 +85,7 @@ def df_mean(row: Series, column_label_list: ColumnLabelList = None) -> float:
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(numpy.nanmean(row[column_label_list]))
+	return float(numpy.nanmean(tuple(row[column_label_list])))
 
 
 def df_median(row: Series, column_label_list: ColumnLabelList = None) -> float:
@@ -113,7 +113,7 @@ def df_median(row: Series, column_label_list: ColumnLabelList = None) -> float:
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(numpy.nanmedian(row[column_label_list]))
+	return float(numpy.nanmedian(tuple(row[column_label_list])))
 
 
 def df_stdev(row: Series, column_label_list: ColumnLabelList = None) -> float:
@@ -141,7 +141,7 @@ def df_stdev(row: Series, column_label_list: ColumnLabelList = None) -> float:
 	if column_label_list is None:
 		column_label_list = list(row.index)
 
-	return float(numpy.nanstd(row[column_label_list]))
+	return float(numpy.nanstd(tuple(row[column_label_list])))
 
 
 def df_log_stdev(row: Series, column_label_list: ColumnLabelList = None) -> float:
