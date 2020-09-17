@@ -54,7 +54,5 @@ jobs:
         - chmod +x .ci/travis_deploy_conda.sh
       script: skip
       deploy:
-        on:
-          repo: domdfcoding/mathematical
         provider: script
         script: .ci/travis_deploy_conda.sh || return 1;
