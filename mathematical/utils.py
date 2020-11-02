@@ -22,7 +22,6 @@ Utilities for mathematical operations.
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#
 #  intdiv, roman, and equiv_operators based on ChemPy (https://github.com/bjodah/chempy)
 #  |  Copyright (c) 2015-2018, Björn Dahlgren
 #  |  All rights reserved.
@@ -83,10 +82,11 @@ import math
 from decimal import ROUND_HALF_UP, Decimal
 from math import log10
 from operator import eq, ge, gt, le, lt, ne
-from typing import Any, List, Optional, Sequence, Union
+from typing import Any, Iterator, List, Optional, Sequence, Union, overload
 
 # 3rd party
 import numpy  # type: ignore
+from domdf_python_tools.doctools import prettify_docstrings
 
 __all__ = [
 		"intdiv",
@@ -112,6 +112,7 @@ __all__ = [
 		"mod_inverse",
 		"log_factorial",
 		"equiv_operators",
+		"FRange",
 		]
 
 
@@ -465,3 +466,274 @@ def _log_pi_r(d: float, k: float, p: float = 0.5) -> float:
 
 def _log_pi(d: float, k: float, p: float = 0.5) -> float:
 	return _log_pi_r(d, k, p) + (d + 1) * math.log(1 - p)
+
+
+@prettify_docstrings
+class FRange(Sequence[float]):
+	"""
+	Returns a range of floating-point numbers.
+
+	The arguments to the range constructor may be integers or floats.
+
+	:param start:
+	:param stop:
+	:param step:
+
+	:raises ValueError: If step is zero, or if any value is larger than 1×10 :superscript:`14`.
+
+	.. versionadded:: 0.2.0
+	"""
+
+	#: The value of the ``start`` parameter (or ``0.0`` if the parameter was not supplied)
+	start: float
+
+	#: The value of the ``stop`` parameter
+	stop: float
+
+	#: The value of the ``step`` parameter (or ``1.0`` if the parameter was not supplied)
+	step: float
+
+	_init = False
+
+	def __setattr__(self, key, value):
+		if self._init:
+			raise AttributeError("Could not set attribute")
+		else:
+			super().__setattr__(key, value)
+
+	def __delattr__(self, key):
+		if self._init:
+			raise AttributeError("Could not delete attribute")
+		else:
+			super().__delattr__(key)
+
+	@overload
+	def __init__(self, stop: float) -> None:
+		...  # pragma: no cover
+
+	@overload
+	def __init__(self, start: float, stop: float, step: float = ...) -> None:
+		...  # pragma: no cover
+
+	def __init__(self, start=None, stop=None, step=1.0) -> None:  # type: ignore
+		if start is not None and stop is None:
+			self.stop = float(start)
+			self.start = 0.0
+		elif start is not None and stop is not None:
+			self.start = float(start)
+			self.stop = float(stop)
+		else:
+			raise TypeError("Invalid argument types.")
+
+		if step == 0.0:
+			raise ValueError("'step' argument must not be zero")
+		else:
+			self.step = float(step)
+
+		if magnitude(self.start) > 14:
+			raise ValueError(f"Value {self.start} too large for 'start'")
+		if magnitude(self.stop) > 14:
+			raise ValueError(f"Value {self.stop} too large for 'stop'")
+		if magnitude(self.step) > 14:
+			raise ValueError(f"Value {self.step} too large for 'step'")
+
+		self._init = True
+
+	def count(self, value: float) -> int:
+		"""
+		Returns ``1`` if the value is within the range, ``0`` otherwise.
+
+		:param value:
+		"""
+
+		if value in self:
+			return 1
+		else:
+			return 0
+
+	def index(self, value: float) -> int:  # type: ignore
+		"""
+		Returns the index of ``value`` in the range.
+
+		:param value:
+
+		:raises ValueError: if the value is not in the range.
+		"""
+
+		if value not in self:
+			raise ValueError(f"{value} is not in range")
+		else:
+			return int((value - self.start) / self.step)
+
+	def __len__(self) -> int:
+		"""
+		Returns the number of values in the range.
+		"""
+
+		if self.stop <= self.start and self.step > 0:
+			return 0
+		elif self.stop >= self.start and self.step < 0:
+			return 0
+		else:
+			return math.ceil((self.stop - self.start) / self.step)
+
+	def __contains__(self, o: object) -> bool:
+		"""
+		Returns whether ``o`` is in the range.
+
+		:param o:
+		"""
+
+		if isinstance(o, (int, float)):
+			if self.step > 0:
+				return (self.start <= o < self.stop) and not ((o - self.start) % self.step)
+			elif self.step < 0:
+				return (self.start >= o > self.stop) and not ((o - self.start) % self.step)
+		return False
+
+	def __iter__(self) -> Iterator[float]:
+		"""
+		Iterates over values in the range.
+		"""
+
+		count = 0
+
+		while True:
+			value = float(self.start + count * self.step)
+
+			if self.step > 0 and value >= self.stop:
+				break
+			elif self.step < 0 and value <= self.stop:
+				break
+			else:
+				yield value
+
+			count += 1
+
+	@overload
+	def __getitem__(self, i: int) -> int:
+		...
+
+	@overload
+	def __getitem__(self, s: slice) -> "FRange":
+		...
+
+	def __getitem__(self, item):
+		"""
+		Returns the value in the range at index ``item``.
+
+		:param item:
+		"""
+
+		if isinstance(item, int) and item >= 0:
+			value = self.start + (item * self.step)
+			if value >= self.stop:
+				raise IndexError("FRange object index out of range")
+			else:
+				return value
+		elif isinstance(item, int):
+			value = self.stop - (item * self.step)
+			if value < self.start:
+				raise IndexError("FRange object index out of range")
+			else:
+				return value
+		# elif isinstance(item, slice):
+		# 	step = item.step or 1
+		# 	start_idx = item.start or 0
+		#
+		# 	if start_idx > len(self):
+		# 		start = self.stop
+		# 	else:
+		# 		start = self[start_idx]
+		#
+		# 	if self.stop - (item.stop * self.step) < self.start:
+		# 		stop = self.stop
+		# 	else:
+		# 		stop = self[item.stop]
+		#
+		# 	return self.__class__(start, stop, step)
+		else:
+			raise NotImplementedError(f"Unsupported type for __getitem__: {type(item)}")
+
+	def __repr__(self) -> str:
+		if self.step != 1.0:
+			return f"FRange({self.start}, {self.stop}, {self.step})"
+		else:
+			return f"FRange({self.start}, {self.stop})"
+
+	def __reversed__(self) -> Iterator[float]:
+		"""
+		Returns :func:`reversed(self) <reversed>`
+		"""
+
+		# Special case where start == stop
+		if self.start == self.stop:
+			return iter(FRange(self.start, self.stop, -self.step))
+
+		# difference between last value and self.stop
+		remainder = ((self.stop - self.start) % self.step) or self.step
+
+		return iter(FRange(
+				start=(self.stop - remainder),
+				stop=(self.start - self.step),
+				step=-self.step,
+				))
+
+	def __eq__(self, other) -> bool:
+		if isinstance(other, (range, FRange)):
+			# if self.stop < self.start and self.step > 0:
+			# 	self_stop = self.start
+			# elif self.stop > self.start and self.step < 0:
+			# 	self_stop = self.start
+			# else:
+			# 	self_stop = self.stop
+			#
+			# # difference between last value and self.stop
+			# remainder = ((self_stop - self.start) % self.step)
+			#
+			# if self_stop == self.start:
+			# 	self_step = 1
+			# elif remainder:
+			# 	self_step = 1
+			# elif self_stop - self.step == self.start:
+			# 	self_step = 1
+			# else:
+			# 	self_step = self.step
+			#
+			# if other.stop < other.start and other.step > 0:
+			# 	other_stop = other.start
+			# elif other.stop > other.start and other.step < 0:
+			# 	other_stop = other.start
+			# else:
+			# 	other_stop = other.stop
+			#
+			# # difference between last value and other.stop
+			# remainder = ((other_stop - other.start) % other.step)
+			#
+			# if other_stop == other.start:
+			# 	other_step = 1
+			# elif remainder:
+			# 	other_step = 1
+			# elif other_stop - other.step == other.start:
+			# 	other_step = 1
+			# else:
+			# 	other_step = other.step
+			#
+			# if self.start == self_stop and other.start == other_stop and self_step == other_step:
+			# 	return True
+			# elif self_stop == other_stop and self.start == other.start and self_step == other_step:
+			# 	return True
+			# else:
+			# 	return False
+
+			# for left, right in zip_longest(self, other):
+			# 	if left != right:
+			# 		return False
+			# return True
+			return tuple(self) == tuple(other)
+
+		else:
+			return False
+
+	def __hash__(self):
+		return hash(tuple(self))
