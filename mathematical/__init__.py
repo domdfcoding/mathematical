@@ -29,7 +29,7 @@ from . import data_frames, outliers, stats, utils
 __author__ = "Dominic Davis-Foster"
 __copyright__ = "2014-2020 Dominic Davis-Foster"
 __license__ = "GPLv3"
-__version__ = "0.1.13"
+__version__ = "0.2.0"
 __email__ = "dominic@davis-foster.co.uk"
 
 __all__ = ["data_frames", "outliers", "stats", "utils"]
