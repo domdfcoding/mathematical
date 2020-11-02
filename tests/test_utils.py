@@ -71,6 +71,9 @@ def test_roman():
 def test_magnitude():
 	assert isinstance(utils.magnitude(1234), int)
 	assert utils.magnitude(1234) == 3
+	assert utils.magnitude(2**100) == 30
+	assert utils.magnitude(10**100) == 100
+	assert utils.magnitude(-2**100) == 30
 
 
 def test_remove_zero():

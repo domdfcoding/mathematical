@@ -172,6 +172,8 @@ def magnitude(x: float) -> int:
 
 	if x > 0.0:
 		return int(log10(x))
+	elif x < 0.0:
+		return int(log10(abs(x)))
 	else:
 		return 0
 
