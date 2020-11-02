@@ -25,11 +25,11 @@ def assert_iterators_equal(xs, ys, test_id, limit=None):
 		if x == y:
 			continue
 		elif x == sentinel:
-			pytest.fail(f'{test_id}: iterator ended unexpectedly at position {i}; expected {y}')
+			pytest.fail(f"{test_id}: iterator ended unexpectedly at position {i}; expected {y}")
 		elif y == sentinel:
-			pytest.fail(f'{test_id}: unexpected excess element {x} at position {i}')
+			pytest.fail(f"{test_id}: unexpected excess element {x} at position {i}")
 		else:
-			pytest.fail(f'{test_id}: wrong element at position {i}; expected {y}, got {x}')
+			pytest.fail(f"{test_id}: wrong element at position {i}; expected {y}, got {x}")
 
 
 def test_range():
@@ -253,9 +253,9 @@ def test_count():
 @pytest.mark.parametrize(
 		"value, expects",
 		[
-				(FRange(1), 'FRange(0.0, 1.0)'),
-				(FRange(1, 2), 'FRange(1.0, 2.0)'),
-				(FRange(1, 2, 3), 'FRange(1.0, 2.0, 3.0)'),
+				(FRange(1), "FRange(0.0, 1.0)"),
+				(FRange(1, 2), "FRange(1.0, 2.0)"),
+				(FRange(1, 2, 3), "FRange(1.0, 2.0, 3.0)"),
 				]
 		)
 def test_repr(value, expects):
@@ -340,7 +340,8 @@ def test_contains():
 	assert 5.1 not in r
 	assert -1 not in r
 	assert 10 not in r
-	assert "" not in r
+	assert '' not in r
+
 	r = FRange(9, -1, -1)
 	assert 0 in r
 	assert 1 in r
@@ -348,7 +349,8 @@ def test_contains():
 	assert 5.1 not in r
 	assert -1 not in r
 	assert 10 not in r
-	assert "" not in r
+	assert '' not in r
+
 	r = FRange(0, 10, 2)
 	assert 0 in r
 	assert 1 not in r
@@ -356,7 +358,8 @@ def test_contains():
 	assert 5.1 not in r
 	assert -1 not in r
 	assert 10 not in r
-	assert "" not in r
+	assert '' not in r
+
 	r = FRange(9, -1, -2)
 	assert 0 not in r
 	assert 1 in r
@@ -364,7 +367,7 @@ def test_contains():
 	assert 5.1 not in r
 	assert -1 not in r
 	assert 10 not in r
-	assert "" not in r
+	assert '' not in r
 
 
 @pytest.mark.parametrize(

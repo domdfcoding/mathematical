@@ -139,13 +139,16 @@ def intdiv(p: float, q: float) -> int:
 
 def roman(num: float) -> str:
 	"""
+	Retuns the Roman numeral represtation of the given value.
 
+	**Examples:**
 
-	**Examples**
-	>>> roman(4)
-	'IV'
-	>>> roman(17)
-	'XVII'
+	.. code-block::
+
+		>>> roman(4)
+		'IV'
+		>>> roman(17)
+		'XVII'
 	"""
 
 	tokens = "M CM D CD C XC L XL X IX V IV I".split()
@@ -180,8 +183,6 @@ def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	Also removes :py:obj:`False` and :py:obj:`None`.
 
 	:param inputlist: list to remove zero values from
-
-	:return: list without zero values
 	"""
 
 	inputlist = numpy.array(inputlist)
@@ -210,6 +211,7 @@ def represents_int(s: Any) -> bool:
 
 	:rtype: bool
 	"""
+
 	try:
 		int(s)
 		return True
@@ -226,8 +228,6 @@ def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Dec
 
 	:param val_to_round: The value to round
 	:param round_format: The rounding format
-
-	:return: the rounded value
 	"""
 
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
@@ -301,8 +301,6 @@ def nanrsd(ls: Sequence[Any], dtype=float) -> float:
 
 	:param ls:
 	:param dtype:
-
-	:return:
 	"""
 
 	mean = nanmean(ls, dtype=dtype)
@@ -663,7 +661,7 @@ class FRange(Sequence[float]):
 
 	def __reversed__(self) -> Iterator[float]:
 		"""
-		Returns :func:`reversed(self) <reversed>`
+		Returns :func:`reversed(self) <reversed>`.
 		"""
 
 		# Special case where start == stop
