@@ -168,6 +168,10 @@ def magnitude(x: float) -> int:
 	Returns the magnitude of the given value.
 
 	:param x: Numerical value to find the magnitude of.
+
+	.. versionchanged:: 0.2.0
+
+		Now returns the absolute magnitude of negative numbers.
 	"""
 
 	if x > 0.0:
