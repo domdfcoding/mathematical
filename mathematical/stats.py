@@ -41,7 +41,7 @@ Functions for calculating statistics.
 #
 
 # stdlib
-import warnings  # type: ignore
+import warnings
 from typing import Callable, Optional, Sequence, Union
 
 # 3rd party
