@@ -19,7 +19,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	* - Docs
 	  - |docs| |docs_check|
 	* - Tests
-	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor|
+	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Anaconda
@@ -106,6 +106,10 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 .. |pre_commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
 	:target: https://github.com/pre-commit/pre-commit
 	:alt: pre-commit
+
+.. |pre_commit_ci| image:: https://results.pre-commit.ci/badge/github/domdfcoding/mathematical/master.svg
+	:target: https://results.pre-commit.ci/latest/github/domdfcoding/mathematical/master
+	:alt: pre-commit.ci status
 
 .. end shields
 
