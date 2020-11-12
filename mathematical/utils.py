@@ -118,6 +118,7 @@ __all__ = [
 		"log_factorial",
 		"equiv_operators",
 		"FRange",
+		"concatenate_csv",
 		]
 
 
@@ -732,3 +733,31 @@ class FRange(Sequence[float]):
 
 	def __hash__(self):
 		return hash(tuple(self))
+
+
+def concatenate_csv(*files: PathLike, outfile: Optional[PathLike] = None) -> DataFrame:
+	r"""
+	Concatenate multiple CSV files together and return a :class:`pandas.DataFrame` representing the output.
+
+	:param \*files: The files to concatenate.
+	:param outfile: The file to save the output as. If :py:obj:`None` no file will be saved.
+
+	:return: A :class:`pandas.DataFrame` containing the concatenated CSV data
+
+	.. versionadded:: 0.3.0
+	"""
+
+	data_frames = []
+
+	for csv_file in files:
+		# Read CSV file to data frame
+		results_df = pandas.read_csv(csv_file, header=0, index_col=False, dtype=str)
+
+		data_frames.append(results_df)
+
+	concat_df = pandas.concat(data_frames)
+
+	if outfile is not None:
+		concat_df.to_csv(outfile, index=False)
+
+	return concat_df

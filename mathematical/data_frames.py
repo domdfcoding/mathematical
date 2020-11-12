@@ -52,6 +52,7 @@ __all__ = [
 		"df_outliers",
 		"df_count",
 		"ColumnLabelList",
+		"set_display_options",
 		]
 
 # Outlier Modes
@@ -334,3 +335,20 @@ def df_count(row: pandas.Series, column_label_list: ColumnLabelList = None) -> i
 			count += 1
 
 	return count
+
+
+def set_display_options(desired_width: int = 300, max_columns: int = 15, max_rows: int = 20):
+	"""
+	Set the display options for numpy and pandas.
+
+	:param desired_width: The desired maximum output width, in characters.
+	:param max_columns: The maximum number of columns to display in a :class:`pandas.DataFrame`.
+	:param max_rows: The maximum number of rows to display in a :class:`pandas.DataFrame`.
+
+	.. versionadded:: 0.3.0
+	"""
+
+	pandas.set_option("display.width", desired_width)
+	numpy.set_printoptions(linewidth=desired_width)
+	pandas.options.display.max_columns = max_columns
+	pandas.options.display.max_rows = max_rows
