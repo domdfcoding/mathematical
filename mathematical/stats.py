@@ -354,26 +354,29 @@ def median_absolute_deviation(
 	the latter is affected when we change a single value of an array to have an
 	outlier value while the MAD hardly changes:
 
-	>>> from scipy import stats
-	>>> x = stats.norm.rvs(size=100, scale=1, random_state=123456)
-	>>> x.std()
-	0.9973906394005013
-	>>> stats.median_absolute_deviation(x)
-	1.2280762773108278
-	>>> x[0] = 345.6
-	>>> x.std()
-	34.42304872314415
-	>>> stats.median_absolute_deviation(x)
-	1.2340335571164334
-	Axis handling example:
-	>>> x = numpy.array([[10, 7, 4], [3, 2, 1]])
-	>>> x
-	array([[10,  7,  4], [ 3,  2,  1],])
-	>>> stats.median_absolute_deviation(x)
-	array([5.1891, 3.7065, 2.2239])
-	>>> stats.median_absolute_deviation(x, axis=None)
-	2.9652
-	"""
+	.. code-block:: python
+
+		>>> import scipy.stats
+		>>> import mathematical.stats
+		>>> x = scipy.stats.norm.rvs(size=100, scale=1, random_state=123456)
+		>>> x.std()
+		0.9973906394005013
+		>>> mathematical.stats.median_absolute_deviation(x)
+		1.2280762773108278
+		>>> x[0] = 345.6
+		>>> x.std()
+		34.42304872314415
+		>>> mathematical.stats.median_absolute_deviation(x)
+		1.2340335571164334
+		Axis handling example:
+		>>> x = numpy.array([[10, 7, 4], [3, 2, 1]])
+		>>> x
+		array([[10,  7,  4], [ 3,  2,  1],])
+		>>> mathematical.stats.median_absolute_deviation(x)
+		array([5.1891, 3.7065, 2.2239])
+		>>> mathematical.stats.median_absolute_deviation(x, axis=None)
+		2.9652
+		"""
 
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 

@@ -33,10 +33,13 @@ from typing import List, Optional, Sequence
 
 # 3rd party
 import numpy  # type: ignore
-from pandas import Series  # type: ignore
+import pandas  # type: ignore
 
 # this package
-from . import outliers
+from mathematical import outliers
+
+pandas.DataFrame.__module__ = "Pandas"
+pandas.Series.__module__ = "Pandas"
 
 __all__ = [
 		"df_mean",
@@ -60,7 +63,7 @@ STDEV2 = 3
 ColumnLabelList = Optional[Sequence[str]]
 
 
-def df_mean(row: Series, column_label_list: ColumnLabelList = None) -> float:
+def df_mean(row: pandas.Series, column_label_list: ColumnLabelList = None) -> float:
 	"""
 	Calculate the mean of each row for the specified columns of a
 	:class:`data frame <pandas.DataFrame>`.
@@ -88,7 +91,7 @@ def df_mean(row: Series, column_label_list: ColumnLabelList = None) -> float:
 	return float(numpy.nanmean(tuple(row[column_label_list])))
 
 
-def df_median(row: Series, column_label_list: ColumnLabelList = None) -> float:
+def df_median(row: pandas.Series, column_label_list: ColumnLabelList = None) -> float:
 	"""
 	Calculate the median of each row for the specified columns of a
 	:class:`data frame <pandas.DataFrame>`.
@@ -116,7 +119,7 @@ def df_median(row: Series, column_label_list: ColumnLabelList = None) -> float:
 	return float(numpy.nanmedian(tuple(row[column_label_list])))
 
 
-def df_stdev(row: Series, column_label_list: ColumnLabelList = None) -> float:
+def df_stdev(row: pandas.Series, column_label_list: ColumnLabelList = None) -> float:
 	"""
 	Calculate the standard deviation of each row for the specified
 	columns of a :class:`data frame <pandas.DataFrame>`.
@@ -144,7 +147,7 @@ def df_stdev(row: Series, column_label_list: ColumnLabelList = None) -> float:
 	return float(numpy.nanstd(tuple(row[column_label_list])))
 
 
-def df_log_stdev(row: Series, column_label_list: ColumnLabelList = None) -> float:
+def df_log_stdev(row: pandas.Series, column_label_list: ColumnLabelList = None) -> float:
 	"""
 	Calculate the standard deviation of the log10 values in each row for the
 	specified columns of a :class:`data frame <pandas.DataFrame>`.
@@ -173,7 +176,7 @@ def df_log_stdev(row: Series, column_label_list: ColumnLabelList = None) -> floa
 	return float(numpy.nanstd(log_values))
 
 
-def df_percentage(row: Series, column_label: str, total: float) -> float:
+def df_percentage(row: pandas.Series, column_label: str, total: float) -> float:
 	"""
 	Returns the value of the specified column as a percentage of the given total.
 
@@ -200,7 +203,7 @@ def df_percentage(row: Series, column_label: str, total: float) -> float:
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_log(row: Series, column_label_list: Sequence[str], base: float = 10) -> float:
+def df_log(row: pandas.Series, column_label_list: Sequence[str], base: float = 10) -> float:
 	"""
 	Calculate the logarithm of the values in each row for the specified
 	columns of a :class:`data frame <pandas.DataFrame>`.
@@ -229,7 +232,7 @@ def df_log(row: Series, column_label_list: Sequence[str], base: float = 10) -> f
 		return 0
 
 
-def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
+def df_data_points(row: pandas.Series, column_label_list: Sequence[str]) -> List:
 	"""
 	Compile the values for the specified columns in each row into a list.
 
@@ -254,10 +257,10 @@ def df_data_points(row: Series, column_label_list: Sequence[str]) -> List:
 
 
 def df_outliers(
-		row: Series,
+		row: pandas.Series,
 		column_label_list: ColumnLabelList = None,
 		outlier_mode: int = MAD,
-		) -> Series:
+		) -> pandas.Series:
 	"""
 	Identify outliers in each row.
 
@@ -284,7 +287,7 @@ def df_outliers(
 
 	data = row[column_label_list]
 	if all(all(y == 0.0 for y in x) for x in data):
-		return Series([[], [0.0] * len(data[0])])
+		return pandas.Series([[], [0.0] * len(data[0])])
 
 	if outlier_mode == MAD:
 		x = outliers.mad_outliers(data)
@@ -296,10 +299,10 @@ def df_outliers(
 	else:
 		raise ValueError("Unknown outlier mode.")
 
-	return Series(list(x))
+	return pandas.Series(list(x))
 
 
-def df_count(row: Series, column_label_list: ColumnLabelList = None) -> int:
+def df_count(row: pandas.Series, column_label_list: ColumnLabelList = None) -> int:
 	"""
 	Count the number of occurrences of a non-NaN value in the specified
 	columns of a :class:`data frame <pandas.DataFrame>`.

@@ -86,7 +86,12 @@ from typing import Any, Iterator, List, Optional, Sequence, Union, overload
 
 # 3rd party
 import numpy  # type: ignore
+import pandas  # type: ignore
 from domdf_python_tools.doctools import prettify_docstrings
+from domdf_python_tools.typing import PathLike
+from pandas import DataFrame
+
+pandas.DataFrame.__module__ = "Pandas"
 
 __all__ = [
 		"intdiv",
@@ -398,23 +403,9 @@ def lcm(numbers: Sequence[int]) -> float:
 		return product
 
 
-def hcf(a: int, b: int) -> int:
-	"""
+hcf = gcd
 
-	:param a:
-	:param b:
-	"""
-
-	return gcd(a, b)
-
-
-def hcf2(numbers: Sequence[int]) -> int:
-	"""
-
-	:param numbers:
-	"""
-
-	return gcd2(numbers)
+hcf2 = gcd2
 
 
 def mod_inverse(a: int, m: int) -> Optional[float]:
