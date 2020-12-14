@@ -63,11 +63,11 @@ def test_range():
 	assert -b not in seq
 	assert len(seq) == 2
 
-	with pytest.raises(TypeError):
+	with pytest.raises(TypeError, match="Invalid argument types"):
 		FRange()  # type: ignore
-	with pytest.raises(TypeError):
+	with pytest.raises(TypeError, match=r"__init__\(\) takes from 1 to 4 positional arguments but 5 were given"):
 		FRange(1, 2, 3, 4)  # type: ignore
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'step' argument must not be zero"):
 		FRange(1, 2, 0)
 
 	FRange(0.0, 2, 1)
@@ -165,10 +165,11 @@ def test_invalid_invocation():
 		FRange()  # type: ignore
 	with pytest.raises(TypeError):
 		FRange(1, 2, 3, 4)  # type: ignore
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'step' argument must not be zero"):
 		FRange(1, 2, 0)
+
 	a = int(10 * sys.maxsize)
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="'step' argument must not be zero"):
 		FRange(a, a + 1, int(0))
 
 
@@ -176,7 +177,7 @@ def test_index():
 	u = FRange(2)
 	assert u.index(0) == 0
 	assert u.index(1) == 1
-	with pytest.raises(ValueError):
+	with pytest.raises(ValueError, match="2 is not in range"):
 		u.index(2)
 
 	u = FRange(-2, 3)

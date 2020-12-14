@@ -376,7 +376,7 @@ def median_absolute_deviation(
 		array([5.1891, 3.7065, 2.2239])
 		>>> mathematical.stats.median_absolute_deviation(x, axis=None)
 		2.9652
-		"""
+	"""  # noqa: D400
 
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
