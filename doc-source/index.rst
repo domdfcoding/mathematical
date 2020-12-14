@@ -19,7 +19,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	* - Docs
 	  - |docs| |docs_check|
 	* - Tests
-	  - |travis| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
+	  - |actions_linux| |actions_windows| |actions_macos| |coveralls| |codefactor| |pre_commit_ci|
 	* - PyPI
 	  - |pypi-version| |supported-versions| |supported-implementations| |wheel|
 	* - Anaconda
@@ -37,7 +37,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:workflow: Docs Check
 	:alt: Docs Check Status
 
-.. |travis| actions-shield::
+.. |actions_linux| actions-shield::
 	:workflow: Linux Tests
 	:alt: Linux Test Status
 
