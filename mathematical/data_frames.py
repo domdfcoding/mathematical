@@ -51,6 +51,8 @@ __all__ = [
 		"df_data_points",
 		"df_outliers",
 		"df_count",
+		"df_delta",
+		"df_delta_relative",
 		"ColumnLabelList",
 		"set_display_options",
 		]
@@ -335,6 +337,65 @@ def df_count(row: pandas.Series, column_label_list: ColumnLabelList = None) -> i
 			count += 1
 
 	return count
+
+
+def df_delta(row: pandas.Series, left_column: str, right_column: str) -> float:
+	"""
+	Calculate the difference between values in the two columns for each row of a
+	:class:`data frame <pandas.DataFrame>`.
+
+	Do not call this function directly; use it with
+	:meth:`df.apply() <pandas.DataFrame.apply>` instead:
+
+	.. code-block:: python
+
+		data_frame["Delta"] = data_frame.apply(
+				func=df_delta,
+				args=["Bob", "Alice"],
+				axis=1,
+				)
+
+	:param row: Row of the data frame.
+	:param left_column:
+	:param right_column:
+
+	:return: The difference between ``left_column`` and ``right_column``.
+	"""  # noqa D400
+
+	return row[left_column] - row[right_column]
+
+
+def df_delta_relative(row: pandas.Series, left_column: str, right_column: str) -> float:
+	"""
+	Calculate the relative difference between values in the two columns for each row of a
+	:class:`data frame <pandas.DataFrame>`::
+
+		(left - right) / right
+
+	Do not call this function directly; use it with
+	:meth:`df.apply() <pandas.DataFrame.apply>` instead:
+
+	.. code-block:: python
+
+		data_frame["Rel. Delta"] = data_frame.apply(
+				func=df_delta_relative,
+				args=["Bob", "Alice"],
+				axis=1,
+				)
+
+	:param row: Row of the data frame.
+	:param left_column:
+	:param right_column:
+
+	:return: The relative difference between ``left_column`` and ``right_column``.
+	"""  # noqa D400
+
+	right = row[right_column]
+
+	if right:
+		return (row[left_column] - right) / right
+	else:
+		return float("inf")
 
 
 def set_display_options(desired_width: int = 300, max_columns: int = 15, max_rows: int = 20):

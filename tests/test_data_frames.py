@@ -8,6 +8,7 @@ Test functions in data_frames.py
 
 # stdlib
 import copy
+import math
 
 # 3rd party
 import pandas  # type: ignore
@@ -17,6 +18,8 @@ import pytest
 from mathematical.data_frames import (
 		df_count,
 		df_data_points,
+		df_delta,
+		df_delta_relative,
 		df_log,
 		df_log_stdev,
 		df_mean,
@@ -71,8 +74,10 @@ def test_without_columns(col_name, expected, function, base_df):
 def test_df_percentage(base_df):
 	# With Columns Specified
 	df = copy.deepcopy(base_df)
-	df["Sample 1 Percentage"] = base_df.apply(
-			df_percentage, args=(["Sample 1"], sum([2444, 8196, 6036, 1757, 5265])), axis=1
+	df["Sample 1 Percentage"] = df.apply(
+			df_percentage,
+			args=(["Sample 1"], sum([2444, 8196, 6036, 1757, 5265])),
+			axis=1,
 			)
 	assert df["Sample 1 Percentage"][0] == 10.313106591273526
 
@@ -80,18 +85,43 @@ def test_df_percentage(base_df):
 def test_df_log(base_df):
 	# With Columns Specified
 	df = copy.deepcopy(base_df)
-	df["Sample 1 Log"] = base_df.apply(df_log, args=(["Sample 1"], ), axis=1)
+	df["Sample 1 Log"] = df.apply(df_log, args=(["Sample 1"], ), axis=1)
 	assert df["Sample 1 Log"][0] == 3.388101201570516
+
+
+def test_df_delta(base_df):
+	df = copy.deepcopy(base_df)
+	df["Sample 1/2 delta"] = df.apply(df_delta, args=("Sample 1", "Sample 2"), axis=1)
+	assert df["Sample 1/2 delta"][0] == -5752
+
+	df = copy.deepcopy(base_df)
+	df["Sample 1/2 delta"] = df.apply(df_delta, args=("Sample 2", "Sample 1"), axis=1)
+	assert df["Sample 1/2 delta"][0] == 5752
+
+
+def test_df_delta_relative(base_df):
+	df = copy.deepcopy(base_df)
+	df["Sample 1/2 rel. delta"] = df.apply(df_delta_relative, args=("Sample 1", "Sample 2"), axis=1)
+	assert df["Sample 1/2 rel. delta"][0] == -0.7018057589067838
+
+	df = copy.deepcopy(base_df)
+	df["Sample 1/2 rel. delta"] = df.apply(df_delta_relative, args=("Sample 2", "Sample 1"), axis=1)
+	assert df["Sample 1/2 rel. delta"][0] == 2.353518821603928
+
+	df = copy.deepcopy(base_df)
+	df["Sample 1"][0] = 0
+	df["Sample 1/2 rel. delta"] = df.apply(df_delta_relative, args=("Sample 2", "Sample 1"), axis=1)
+	assert math.isinf(df["Sample 1/2 rel. delta"][0])
 
 
 # Without Columns Specified
 # df = copy.deepcopy(base_df)
-# df["Sample Data Points"] = base_df.apply(df_data_points, axis=1)
+# df["Sample Data Points"] = df.apply(df_data_points, axis=1)
 # assert df["Sample Data Points"][0] == [2444,8196,6036,1757,5265]
 
 # TODO: df_outliers
 
 # Without Columns Specified
 # df = copy.deepcopy(base_df)
-# df["Sample Count"] = base_df.apply(df_count, axis=1)
+# df["Sample Count"] = df.apply(df_count, axis=1)
 # assert df["Sample Count"][0] == 5
