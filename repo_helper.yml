@@ -37,3 +37,6 @@ classifiers:
 keywords:
   - mathematics
   - utilities
+
+tox_requirements:
+  - "tox-pip-version>=0.0.7"
