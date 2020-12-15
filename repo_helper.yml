@@ -37,6 +37,3 @@ classifiers:
 keywords:
   - mathematics
   - utilities
-
-tox_unmanaged:
- - tox
