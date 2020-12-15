@@ -37,16 +37,16 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Docs+Check%22
 	:alt: Docs Check Status
 
-.. |actions_linux| image:: https://github.com/domdfcoding/mathematical/workflows/Linux%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Linux+Tests%22
+.. |actions_linux| image:: https://github.com/domdfcoding/mathematical/workflows/Linux/badge.svg
+	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Linux%22
 	:alt: Linux Test Status
 
-.. |actions_windows| image:: https://github.com/domdfcoding/mathematical/workflows/Windows%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Windows+Tests%22
+.. |actions_windows| image:: https://github.com/domdfcoding/mathematical/workflows/Windows/badge.svg
+	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22Windows%22
 	:alt: Windows Test Status
 
-.. |actions_macos| image:: https://github.com/domdfcoding/mathematical/workflows/macOS%20Tests/badge.svg
-	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22macOS+Tests%22
+.. |actions_macos| image:: https://github.com/domdfcoding/mathematical/workflows/macOS/badge.svg
+	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22macOS%22
 	:alt: macOS Test Status
 
 .. |requires| image:: https://requires.io/github/domdfcoding/mathematical/requirements.svg?branch=master
