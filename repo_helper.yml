@@ -22,11 +22,7 @@ python_versions:
   - 3.7
   - 3.8
   - 3.9
-
-# travis secure password for PyPI
-
-# directory that contains tests
-tests_dir: "tests"
+  - 3.10-dev
 
 conda_description: "Mathematical tools for Python"
 
@@ -41,3 +37,6 @@ classifiers:
 keywords:
   - mathematics
   - utilities
+
+tox_unmanaged:
+ - tox
