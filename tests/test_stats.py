@@ -8,7 +8,6 @@ Test functions in stats.py
 # 3rd party
 import numpy  # type: ignore
 import pytest
-import scipy.stats  # type: ignore
 
 # this package
 from mathematical import stats
@@ -49,22 +48,28 @@ def test_iqr_none():
 
 
 def test_mad():
+	scipy_stats = pytest.importorskip("scipy.stats")
+
 	# Based on example from scipy.median_absolute_deviation docstring
-	x = scipy.stats.norm.rvs(size=100, scale=1, random_state=123456)
+	x = scipy_stats.norm.rvs(size=100, scale=1, random_state=123456)
 	assert isinstance(stats.median_absolute_deviation(x), float)
 	assert stats.median_absolute_deviation(x) == 1.2280762773108278
 
 
 def test_ad():
+	scipy_stats = pytest.importorskip("scipy.stats")
+
 	# Based on example from scipy.median_absolute_deviation docstring
-	x = scipy.stats.norm.rvs(size=100, scale=1, random_state=123456)
+	x = scipy_stats.norm.rvs(size=100, scale=1, random_state=123456)
 	assert isinstance(stats.absolute_deviation(x), numpy.ndarray)
 	assert stats.absolute_deviation(x)[0] == 0.6072408011711852
 
 
 def test_absolute_deviation_from_median():
+	scipy_stats = pytest.importorskip("scipy.stats")
+
 	# Based on example from scipy.median_absolute_deviation docstring
-	x = scipy.stats.norm.rvs(size=100, scale=1, random_state=123456)
+	x = scipy_stats.norm.rvs(size=100, scale=1, random_state=123456)
 	assert isinstance(stats.absolute_deviation_from_median(x), numpy.ndarray)
 	assert stats.absolute_deviation_from_median(x)[0] == 0.7330938871222354
 
