@@ -360,6 +360,8 @@ def df_delta(row: pandas.Series, left_column: str, right_column: str) -> float:
 	:param right_column:
 
 	:return: The difference between ``left_column`` and ``right_column``.
+	
+	.. versionadded:: 0.4.0
 	"""  # noqa D400
 
 	return row[left_column] - row[right_column]
@@ -388,6 +390,8 @@ def df_delta_relative(row: pandas.Series, left_column: str, right_column: str) -
 	:param right_column:
 
 	:return: The relative difference between ``left_column`` and ``right_column``.
+	
+	.. versionadded:: 0.4.0
 	"""  # noqa D400
 
 	right = row[right_column]
