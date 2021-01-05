@@ -441,6 +441,7 @@ _precalc_fact = numpy.log([math.factorial(n) for n in range(20)])
 
 def log_factorial(x: float) -> float:
 	"""
+	Returns the natural logarithm of ``x`` factorial (``ln(x!``).
 
 	:param x:
 	"""
