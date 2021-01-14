@@ -5,7 +5,7 @@
 Utilities for mathematical operations.
 """
 #
-#  Copyright © 2014-2020 Dominic Davis-Foster <dominic@davis-foster.co.uk>
+#  Copyright © 2014-2021 Dominic Davis-Foster <dominic@davis-foster.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -89,7 +89,6 @@ import numpy  # type: ignore
 import pandas  # type: ignore
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
-from pandas import DataFrame
 
 pandas.DataFrame.__module__ = "Pandas"
 
@@ -736,14 +735,14 @@ class FRange(Sequence[float]):
 		return hash(tuple(self))
 
 
-def concatenate_csv(*files: PathLike, outfile: Optional[PathLike] = None) -> DataFrame:
+def concatenate_csv(*files: PathLike, outfile: Optional[PathLike] = None) -> pandas.DataFrame:
 	r"""
 	Concatenate multiple CSV files together and return a :class:`pandas.DataFrame` representing the output.
 
 	:param \*files: The files to concatenate.
 	:param outfile: The file to save the output as. If :py:obj:`None` no file will be saved.
 
-	:return: A :class:`pandas.DataFrame` containing the concatenated CSV data
+	:return: A :class:`pandas.DataFrame` containing the concatenated CSV data.
 
 	.. versionadded:: 0.3.0
 	"""
