@@ -504,12 +504,10 @@ class FRange(Sequence[float]):
 			super().__delattr__(key)
 
 	@overload
-	def __init__(self, stop: float) -> None:
-		...  # pragma: no cover
+	def __init__(self, stop: float) -> None: ...  # pragma: no cover
 
 	@overload
-	def __init__(self, start: float, stop: float, step: float = ...) -> None:
-		...  # pragma: no cover
+	def __init__(self, start: float, stop: float, step: float = ...) -> None: ...  # pragma: no cover
 
 	def __init__(self, start=None, stop=None, step=1.0) -> None:  # type: ignore
 		if start is not None and stop is None:
@@ -607,12 +605,10 @@ class FRange(Sequence[float]):
 			count += 1
 
 	@overload
-	def __getitem__(self, i: int) -> int:
-		...
+	def __getitem__(self, i: int) -> int: ...
 
 	@overload
-	def __getitem__(self, s: slice) -> "FRange":
-		...
+	def __getitem__(self, s: slice) -> "FRange": ...
 
 	def __getitem__(self, item):
 		"""
