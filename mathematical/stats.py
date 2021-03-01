@@ -49,7 +49,7 @@ import numpy  # type: ignore
 from typing_extensions import Literal
 
 # this package
-from . import utils
+from mathematical import utils
 
 __all__ = [
 		"mean_none",
@@ -184,11 +184,11 @@ def d_cohen(
 		sample1: Sequence[float],
 		sample2: Sequence[float],
 		which: Literal[1, 2] = 1,
-		tail: int = 1,
+		tail: Literal[1, 2] = 1,
 		pooled: bool = False,
 		) -> float:
 	"""
-	Calculates and returns Cohen's d-Statistic.
+	Calculates and returns Cohen's effect size index **d**.
 
 	.. seealso::
 
@@ -198,8 +198,8 @@ def d_cohen(
 	:param sample1: datapoints for first sample
 	:param sample2: datapoints for second sample
 	:param which: Use the standard deviation of the first sample (``1``) or the second sample (``2``)
-	:param tail:
-	:param pooled:
+	:param tail: The number of tails to consider.
+	:param pooled: Whether to use the pooled standard deviation.
 	"""
 
 	mean1 = numpy.mean(sample1)
@@ -240,14 +240,14 @@ def g_durlak_bias(g: float, n: float) -> float:
 
 	n = n1+n2
 
-	:param g:
-	:param n:
+	:param g: Hedge's g-Statistic, calculated using :func:`~.g_hedge`.
+	:param n: The total number of samples in both datasets.
 
 	.. seealso:: https://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/hedgeg.htm
 	"""
 
-	Durlak = ((n - 3) / (n - 2.25)) * numpy.sqrt((n - 2) / n)
-	return g * Durlak
+	durlak = ((n - 3) / (n - 2.25)) * numpy.sqrt((n - 2) / n)
+	return g * durlak
 
 
 def interpret_d(d_or_g: float) -> str:

@@ -40,3 +40,5 @@ keywords:
 
 tox_requirements:
   - "tox-pip-version>=0.0.7"
+
+min_coverage: 78

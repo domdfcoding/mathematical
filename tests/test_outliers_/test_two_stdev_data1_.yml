@@ -1,0 +1,7 @@
+data_exc_outliers:
+- 1
+- 2
+- 3
+- 4
+- 10
+outliers: []

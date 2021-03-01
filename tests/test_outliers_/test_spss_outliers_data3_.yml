@@ -1,0 +1,8 @@
+data_exc_outliers:
+- 2
+- 3
+- 4
+extremes:
+- 100
+outliers:
+- 1

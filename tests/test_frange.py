@@ -7,7 +7,7 @@ import sys
 
 # 3rd party
 import pytest
-from domdf_python_tools.testing import min_version
+from coincidence import min_version
 
 # this package
 from mathematical.utils import FRange
