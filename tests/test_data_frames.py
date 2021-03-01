@@ -17,17 +17,21 @@ import pytest
 
 # this package
 from mathematical.data_frames import (
-	df_count,
-	df_data_points,
-	df_delta,
-	df_delta_relative,
-	df_log,
-	df_log_stdev,
-	df_mean,
-	df_median,
-	df_outliers, df_percentage,
-	df_stdev, MAD, QUARTILES, STDEV2,
-	)
+		MAD,
+		QUARTILES,
+		STDEV2,
+		df_count,
+		df_data_points,
+		df_delta,
+		df_delta_relative,
+		df_log,
+		df_log_stdev,
+		df_mean,
+		df_median,
+		df_outliers,
+		df_percentage,
+		df_stdev
+		)
 
 
 @pytest.fixture()
@@ -140,4 +144,3 @@ def test_df_outliers(base_df):
 
 	df["STDEV2 Outliers"] = df.apply(df_outliers, args=[samples, STDEV2], axis=1)
 	assert list(df["STDEV2 Outliers"][0]) == [sys.maxsize]
-
