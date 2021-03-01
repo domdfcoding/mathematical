@@ -263,9 +263,12 @@ def df_outliers(
 		row: pandas.Series,
 		column_label_list: ColumnLabelList = None,
 		outlier_mode: int = MAD,
-		) -> pandas.Series:
+		) -> List:
 	"""
 	Identify outliers in each row.
+
+	This function only returns the list of outliers (if any).
+	If you want the list of values without the outliers see the functions in :mod:`mathematical.outliers`.
 
 	Do not call this function directly; use it with
 	:meth:`df.apply() <pandas.DataFrame.apply>` instead:
@@ -282,6 +285,14 @@ def df_outliers(
 	:param column_label_list: List of column labels to determine outliers for.
 	:param outlier_mode: outlier detection method to use.
 
+	The supported outlier modes are:
+
+		* ``1`` or :py:data`mathematical.data_frames.MAD` -- Use the Median Absolute Deviation
+		* ``2`` or :py:data`mathematical.data_frames.QUARTILES` -- Treat values more than ``3×``
+		  the inter-quartile range away from the upper or lower quartile as outliers.
+		* ``3`` or :py:data`mathematical.data_frames.STDEV2` -- Treat values more than
+		  ``rng × stdev`` away from mean as outliers
+
 	:return: The outliers.
 	"""
 
@@ -289,20 +300,21 @@ def df_outliers(
 		column_label_list = list(row.index)
 
 	data = row[column_label_list]
-	if all(all(y == 0.0 for y in x) for x in data):
-		return pandas.Series([[], [0.0] * len(data[0])])
+
+	if all(x == 0.0 for x in data):
+		return []
 
 	if outlier_mode == MAD:
-		x = outliers.mad_outliers(data)
+		x = outliers.mad_outliers(data)[0]
 	elif outlier_mode == QUARTILES:
-		x = outliers.quartile_outliers(data)
+		x = outliers.quartile_outliers(data)[0]
 	elif outlier_mode == STDEV2:
 		# outlier classed as more than 2 stdev away from mean
-		x = outliers.stdev_outlier(data, rng=2)
+		x = outliers.stdev_outlier(data, rng=2)[0]
 	else:
 		raise ValueError("Unknown outlier mode.")
 
-	return pandas.Series(list(x))
+	return list(x)
 
 
 def df_count(row: pandas.Series, column_label_list: ColumnLabelList = None) -> int:
