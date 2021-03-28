@@ -207,8 +207,6 @@ def isint(num: float) -> bool:
 	.. note:: This function only works with floating-point numbers
 
 	:param num: value to check
-
-	:rtype: bool
 	"""
 
 	return num == int(num)
@@ -219,8 +217,6 @@ def represents_int(s: Any) -> bool:
 	Checks whether a value can be converted to an :class:`int`.
 
 	:param s: value to check
-
-	:rtype: bool
 	"""
 
 	try:
@@ -270,9 +266,9 @@ def strip_booleans(ls: Sequence[Any]) -> List:
 
 def strip_nonetype(ls: Sequence[Any]) -> List:
 	"""
-	Remove None from a list.
+	Remove :py:obj:`None` from a list.
 
-	:param ls: the list to remove None from.
+	:param ls: the list to remove :py:obj:`None` from.
 
 	:return: The list without :py:obj:`None` values.
 	"""
@@ -330,6 +326,7 @@ def strip_none_bool_string(ls: Sequence[Any]) -> List:
 	ls = strip_nonetype(ls)
 	ls = strip_booleans(ls)
 	ls = strip_strings(ls)
+
 	return ls
 
 

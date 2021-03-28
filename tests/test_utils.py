@@ -54,9 +54,11 @@ import decimal
 
 # 3rd party
 import numpy  # type: ignore
+import pytest
 
 # this package
 from mathematical import utils
+from mathematical.utils import nanmean, nanrsd, nanstd, represents_int
 
 data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
 
@@ -123,3 +125,94 @@ def test_strip_none_bool_string():
 
 
 # TODO: gcd, gcd2, lcm, hcf, hcf2, modInverse
+
+
+@pytest.mark.parametrize(
+		"value, result",
+		[
+				('1', True),
+				('5', True),
+				("10", True),
+				("25", True),
+				("50", True),
+				("100", True),
+				("1.0", False),
+				("5.5", False),
+				("10e10", False),
+				("4j", False),
+				(1, True),
+				(5, True),
+				(10, True),
+				(25, True),
+				(50, True),
+				(100, True),
+				(1.0, True),
+				(5.5, True),
+				(10e10, True),
+				(4j, False),
+				("ABC", False),
+				("abc", False),
+				]
+		)
+def test_represents_int(value, result: bool):
+	assert represents_int(value) is result
+
+
+@pytest.mark.parametrize(
+		"values, result",
+		[
+				([1, 2, 3, 4, 5], 3),
+				([1, 2, 3, 4, 5, None], 3),
+				([1, 2, 3, 4, 5, numpy.nan], 3),
+				([1, 2, 3, 4, 5, numpy.nan, None], 3),
+				([1, 3, 5, numpy.nan], 3),
+				([1, 3, 5, None], 3),
+				([1, 3, 5, numpy.nan, None], 3),
+				]
+		)
+def test_nanmean(values, result):
+	assert nanmean(values) == result
+
+
+def test_nanmean_allnan():
+	assert numpy.isnan(nanmean([numpy.nan, None, float("nan")]))
+
+
+@pytest.mark.parametrize(
+		"values, result",
+		[
+				([1, 2, 3, 4, 5], 1.4142135623730951),
+				([1, 2, 3, 4, 5, None], 1.4142135623730951),
+				([1, 2, 3, 4, 5, numpy.nan], 1.4142135623730951),
+				([1, 2, 3, 4, 5, numpy.nan, None], 1.4142135623730951),
+				([1, 3, 5, numpy.nan], 1.632993161855452),
+				([1, 3, 5, None], 1.632993161855452),
+				([1, 3, 5, numpy.nan, None], 1.632993161855452),
+				]
+		)
+def test_nanstd(values, result):
+	assert nanstd(values) == result
+
+
+def test_nanstd_allnan():
+	assert numpy.isnan(nanstd([numpy.nan, None, float("nan")]))
+
+
+@pytest.mark.parametrize(
+		"values, result",
+		[
+				([1, 2, 3, 4, 5], 0.47140452079103173),
+				([1, 2, 3, 4, 5, None], 0.47140452079103173),
+				([1, 2, 3, 4, 5, numpy.nan], 0.47140452079103173),
+				([1, 2, 3, 4, 5, numpy.nan, None], 0.47140452079103173),
+				([1, 3, 5, numpy.nan], 0.5443310539518174),
+				([1, 3, 5, None], 0.5443310539518174),
+				([1, 3, 5, numpy.nan, None], 0.5443310539518174),
+				]
+		)
+def test_nanrstd(values, result):
+	assert nanrsd(values) == result
+
+
+def test_nanrstd_allnan():
+	assert numpy.isnan(nanrsd([numpy.nan, None, float("nan")]))
