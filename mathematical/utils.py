@@ -316,7 +316,7 @@ def nanrsd(ls: Sequence[Any], dtype=float) -> float:
 	return float(std / abs(mean))
 
 
-def strip_none_bool_string(ls: Sequence[Any]) -> List:
+def strip_none_bool_string(ls: Sequence) -> List:
 	"""
 	Remove :py:obj:`None`, boolean and string values from a list.
 
@@ -501,12 +501,10 @@ class FRange(Sequence[float]):
 			super().__delattr__(key)
 
 	@overload
-	def __init__(self, stop: float) -> None:
-		...  # pragma: no cover
+	def __init__(self, stop: float) -> None: ...
 
 	@overload
-	def __init__(self, start: float, stop: float, step: float = ...) -> None:
-		...  # pragma: no cover
+	def __init__(self, start: float, stop: float, step: float = ...) -> None: ...
 
 	def __init__(self, start=None, stop=None, step=1.0) -> None:  # type: ignore
 		if start is not None and stop is None:
@@ -604,12 +602,10 @@ class FRange(Sequence[float]):
 			count += 1
 
 	@overload
-	def __getitem__(self, i: int) -> int:
-		...
+	def __getitem__(self, i: int) -> int: ...
 
 	@overload
-	def __getitem__(self, s: slice) -> "FRange":
-		...
+	def __getitem__(self, s: slice) -> "FRange": ...
 
 	def __getitem__(self, item):
 		"""
