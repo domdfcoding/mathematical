@@ -7,8 +7,6 @@ username: "domdfcoding"
 license: 'LGPLv3+'
 short_desc: 'Mathematical tools for Python 📐 🐍 🛠️'
 
-
-min_coverage: 78
 use_whey: true
 
 conda_channels:
