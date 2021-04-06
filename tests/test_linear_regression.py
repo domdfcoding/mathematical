@@ -50,7 +50,7 @@ import string
 from itertools import count
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 import pytest
 
 # this package
@@ -93,19 +93,19 @@ def test_linear_regression_simple_perpendicular():
 
 def test_linear_regression_no_y_list():
 	x = list(zip(Data.x, Data.y))
-	result = linear_regression.linear_regression(x)
+	result = linear_regression.linear_regression(x)  # type: ignore
 	_test_linreg(result)
 
 
 def test_linear_regression_no_y_list_vertical():
 	x = list(zip(Data.x, Data.y))
-	result = linear_regression.linear_regression_vertical(x)
+	result = linear_regression.linear_regression_vertical(x)  # type: ignore
 	_test_linreg(result)
 
 
 def test_linear_regression_no_y_list_perpendicular():
 	x = list(zip(Data.x, Data.y))
-	result = linear_regression.linear_regression_perpendicular(x)
+	result = linear_regression.linear_regression_perpendicular(x)  # type: ignore
 	_test_linreg(result)
 
 

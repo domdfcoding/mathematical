@@ -53,7 +53,7 @@ Test functions in utils.py
 import decimal
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 import pytest
 
 # this package
@@ -79,24 +79,53 @@ def test_magnitude():
 
 
 def test_remove_zero():
-	assert isinstance(utils.remove_zero(data), list)
-	assert utils.remove_zero(data) == [1, 2, 3, 4, 5, "abc", numpy.nan]
+	result = utils.remove_zero(data)  # type: ignore
+	assert isinstance(result, list)
+	assert result == [1, 2, 3, 4, 5, "abc", numpy.nan]
 
 
-def test_isint():
-	assert isinstance(utils.isint(1), bool)
-	assert isinstance(utils.isint(1.0), bool)
-	assert utils.isint(1)
-	assert utils.isint(1.0)
+@pytest.mark.parametrize(
+		"value", [1, 3, 5, 7, 9, 90, 900, 9000000, 1.0, 3.0, 5.0, 7.0, 9.0, 90.0, 900.0, 9000000.0]
+		)
+def test_isint(value):
+	result = utils.isint(value)
+	assert isinstance(result, bool)
+	assert result
 
 
-def test_RepresentsInt():
-	assert isinstance(utils.RepresentsInt(1), bool)
-	assert isinstance(utils.RepresentsInt(1.0), bool)
-	assert isinstance(utils.RepresentsInt('1'), bool)
-	assert utils.RepresentsInt(1)
-	assert utils.RepresentsInt(1.0)
-	assert utils.RepresentsInt('1')
+@pytest.mark.parametrize(
+		"value",
+		[
+				1,
+				3,
+				5,
+				7,
+				9,
+				90,
+				900,
+				9000000,
+				'1',
+				'3',
+				'5',
+				'7',
+				'9',
+				"90",
+				"900",
+				"9000000",
+				1.0,
+				3.0,
+				5.0,
+				7.0,
+				9.0,
+				90.0,
+				900.0,
+				9000000.0
+				]
+		)
+def test_RepresentsInt(value):
+	result = utils.represents_int(value)
+	assert isinstance(result, bool)
+	assert result
 
 
 def test_rounders():

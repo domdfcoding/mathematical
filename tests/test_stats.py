@@ -6,7 +6,7 @@ Test functions in stats.py
 
 """
 # 3rd party
-import numpy  # type: ignore
+import numpy
 import pytest
 
 # this package
@@ -16,18 +16,21 @@ data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
 
 
 def test_mean_none():
-	assert isinstance(stats.mean_none(data), float)
-	assert stats.mean_none(data) == 3.0
+	result = stats.mean_none(data)  # type: ignore
+	assert isinstance(result, float)
+	assert result == 3.0
 
 
 def test_median_none():
-	assert isinstance(stats.median_none(data), float)
-	assert stats.median_none(data) == 3.0
+	result = stats.median_none(data)  # type: ignore
+	assert isinstance(result, float)
+	assert result == 3.0
 
 
 def test_std_none():
-	assert isinstance(stats.std_none(data, 0), float)
-	assert str(stats.std_none(data, 0))[:5] == "1.4142135623730951"[:5]
+	result = stats.std_none(data, 0)  # type: ignore
+	assert isinstance(result, float)
+	assert str(result)[:5] == "1.4142135623730951"[:5]
 
 
 @pytest.mark.parametrize("percentile, expects", [
@@ -38,8 +41,9 @@ def test_std_none():
 		(100, 5),
 		])
 def test_percentile_none(percentile, expects):
-	assert isinstance(stats.percentile_none(data, percentile), float)
-	assert stats.percentile_none(data, percentile) == expects
+	result = stats.percentile_none(data, percentile)  # type: ignore
+	assert isinstance(result, float)
+	assert result == expects
 
 
 @pytest.mark.parametrize("data", [0, 5, 10, 20, 50.0, 100])
@@ -177,8 +181,9 @@ def test_g_durlak_bias(sample1, sample2, expected):
 
 
 def test_iqr_none():
-	assert isinstance(stats.iqr_none(data), float)
-	assert stats.iqr_none(data) == 2.0
+	result = stats.iqr_none(data)  # type: ignore
+	assert isinstance(result, float)
+	assert result == 2.0
 
 
 def test_mad():

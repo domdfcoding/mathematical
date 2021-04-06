@@ -52,7 +52,7 @@ Functions for performing linear regression.
 from typing import Optional, Sequence, Tuple, Union
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 
 __all__ = ["linear_regression_vertical", "linear_regression_perpendicular", "ArrayLike_Float"]
 
@@ -85,22 +85,26 @@ def linear_regression_vertical(
 	"""
 
 	x = numpy.array(x, copy=False)
+	y_array: numpy.ndarray
+
 	if y is not None:
-		y = numpy.array(y, copy=False)
+		y_array = numpy.array(y, copy=False)
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
 			raise TypeError(f"If `y` is not given, x.shape should be (N, 2), given: {x.shape}")
-		y = x[:, 1]
+		y_array = x[:, 1]
 		x = x[:, 0]
+
 	if a is not None and b is None:
-		b = (y - a * x).mean()
+		y_array - a * x  # type: ignore
+		b = (y_array - a * x).mean()  # type: ignore
 	elif a is not None and b is not None:
 		pass
 	else:
-		a, b = numpy.polyfit(x, y, 1)
+		a, b = numpy.polyfit(x, y_array, 1)
 
-	r = numpy.corrcoef(x, y)[0, 1]
-	stderr = (y - a * x - b).std()
+	r = numpy.corrcoef(x, y_array)[0, 1]
+	stderr = (y_array - a * x - b).std()  # type: ignore
 
 	return a, b, r, stderr  # type: ignore  # TODO
 
@@ -141,7 +145,7 @@ def linear_regression_perpendicular(
 	mu = data.mean(axis=0)
 	eigenvectors, eigenvalues, V = numpy.linalg.svd((data - mu).T, full_matrices=False)
 	a = eigenvectors[0][1] / eigenvectors[0][0]
-	xm, ym = data.mean(axis=0)
+	xm, ym = data.mean(axis=0)  # type: ignore
 	b = ym - a * xm
 
 	r = numpy.corrcoef(data[:, 0], data[:, 1])[0, 1]

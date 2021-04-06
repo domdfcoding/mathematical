@@ -42,10 +42,10 @@ Functions for calculating statistics.
 
 # stdlib
 import warnings
-from typing import Callable, Optional, Sequence, Union
+from typing import Callable, Optional, Sequence, Union, cast, overload
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 from typing_extensions import Literal
 
 # this package
@@ -202,13 +202,14 @@ def d_cohen(
 	:param pooled: Whether to use the pooled standard deviation.
 	"""
 
-	mean1 = numpy.mean(sample1)
-	mean2 = numpy.mean(sample2)
+	mean1: float = cast(float, numpy.mean(sample1))
+	mean2: float = cast(float, numpy.mean(sample2))
+	stdev: float
 
 	if which == 1:
-		stdev = numpy.std(sample1)
+		stdev = cast(float, numpy.std(sample1))
 	else:
-		stdev = numpy.std(sample2)
+		stdev = cast(float, numpy.std(sample2))
 
 	if pooled:
 		stdev = pooled_sd(sample1, sample2)
@@ -229,8 +230,8 @@ def g_hedge(sample1: Sequence[float], sample2: Sequence[float]) -> float:
 	:param sample2: datapoints for second sample
 	"""
 
-	mean1 = numpy.mean(sample1)
-	mean2 = numpy.mean(sample2)
+	mean1: float = cast(float, numpy.mean(sample1))
+	mean2: float = cast(float, numpy.mean(sample2))
 	return (mean1 - mean2) / pooled_sd(sample1, sample2, True)
 
 
@@ -302,13 +303,33 @@ def _contains_nan(a, nan_policy: NaNPolicies = "propagate"):
 	return contains_nan, nan_policy
 
 
+@overload
+def median_absolute_deviation(
+		x,
+		axis: None,
+		center: Callable = ...,
+		scale: float = ...,
+		nan_policy: NaNPolicies = ...,
+		) -> float: ...
+
+
+@overload
+def median_absolute_deviation(
+		x,
+		axis: int = ...,
+		center: Callable = ...,
+		scale: float = ...,
+		nan_policy: NaNPolicies = ...,
+		) -> numpy.ndarray: ...
+
+
 def median_absolute_deviation(
 		x,
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		scale: float = 1.4826,
 		nan_policy: NaNPolicies = "propagate"
-		) -> numpy.ndarray:
+		) -> Union[float, numpy.ndarray]:
 	"""
 	Compute the median absolute deviation of the data along the given axis.
 	The median absolute deviation (MAD, [1]_) computes the median over the
@@ -388,12 +409,30 @@ def median_absolute_deviation(
 	return scale * mad
 
 
+@overload
+def absolute_deviation(
+		x,
+		axis: None,
+		center: Callable = ...,
+		nan_policy: NaNPolicies = ...,
+		) -> float: ...
+
+
+@overload
+def absolute_deviation(
+		x,
+		axis: int = ...,
+		center: Callable = ...,
+		nan_policy: NaNPolicies = ...,
+		) -> numpy.ndarray: ...
+
+
 def absolute_deviation(
 		x,
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		nan_policy: NaNPolicies = "propagate",
-		) -> numpy.ndarray:
+		) -> Union[float, numpy.ndarray]:
 	"""
 	Compute the absolute deviations from the median of the data along the given axis.
 
@@ -449,12 +488,30 @@ def absolute_deviation(
 	return ad
 
 
+@overload
+def absolute_deviation_from_median(
+		x,
+		axis: None,
+		center: Callable = ...,
+		nan_policy: NaNPolicies = ...,
+		) -> float: ...
+
+
+@overload
+def absolute_deviation_from_median(
+		x,
+		axis: int = ...,
+		center: Callable = ...,
+		nan_policy: NaNPolicies = ...,
+		) -> numpy.ndarray: ...
+
+
 def absolute_deviation_from_median(
 		x,
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		nan_policy: NaNPolicies = "propagate",
-		) -> numpy.ndarray:
+		) -> Union[float, numpy.ndarray]:
 	"""
 	Compute the absolute deviation from the median of each point in the data
 	along the given axis, given in terms of the MAD.

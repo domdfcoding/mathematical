@@ -2,7 +2,7 @@
 from typing import Iterable
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 import pytest
 from coincidence.regressions import AdvancedDataRegressionFixture
 

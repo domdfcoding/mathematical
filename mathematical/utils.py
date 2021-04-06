@@ -85,7 +85,7 @@ from operator import eq, ge, gt, le, lt, ne
 from typing import Any, Iterator, List, Optional, Sequence, Union, overload
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 import pandas  # type: ignore
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
@@ -196,8 +196,8 @@ def remove_zero(inputlist: Sequence[Union[float, bool, None]]) -> List[float]:
 	:param inputlist: list to remove zero values from
 	"""
 
-	inputlist = numpy.array(inputlist)
-	return list(inputlist[numpy.nonzero(inputlist)])
+	array = numpy.array(inputlist)
+	return list(array[numpy.nonzero(array)])
 
 
 def isint(num: float) -> bool:

@@ -32,7 +32,7 @@ from math import log, log10
 from typing import List, Optional, Sequence
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 import pandas  # type: ignore
 
 # this package

@@ -36,10 +36,10 @@ Outlier detection functions.
 from typing import List, Sequence, Tuple
 
 # 3rd party
-import numpy  # type: ignore
+import numpy
 
 # this package
-from . import stats, utils
+from mathematical import stats, utils
 
 __all__ = ["mad_outliers", "two_stdev", "stdev_outlier", "quartile_outliers", "spss_outliers"]
 
@@ -83,7 +83,7 @@ def mad_outliers(
 	if len(dataset) < 2:
 		return [], dataset
 
-	abs_mad = stats.absolute_deviation_from_median(dataset)
+	abs_mad: numpy.ndarray = stats.absolute_deviation_from_median(dataset)
 
 	outliers = []
 	data_exc_outliers = []
