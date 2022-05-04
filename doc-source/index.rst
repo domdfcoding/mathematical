@@ -5,6 +5,7 @@ mathematical
 .. start short_desc
 
 .. documentation-summary::
+	:meta:
 
 .. end short_desc
 
@@ -61,7 +62,8 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 		:workflow: mypy
 		:alt: mypy status
 
-	.. |requires| requires-io-shield::
+	.. |requires| image:: https://dependency-dash.herokuapp.com/github/domdfcoding/mathematical/badge.svg
+		:target: https://dependency-dash.herokuapp.com/github/domdfcoding/mathematical/
 		:alt: Requirements Status
 
 	.. |coveralls| coveralls-shield::
@@ -114,7 +116,7 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 		:last-commit:
 		:alt: GitHub last commit
 
-	.. |maintained| maintained-shield:: 2021
+	.. |maintained| maintained-shield:: 2022
 		:alt: Maintenance
 
 	.. |pypi-downloads| pypi-shield::
@@ -153,12 +155,18 @@ Installation
 	Source
 
 
+.. sidebar-links::
+	:caption: Links
+	:github:
+	:pypi: mathematical
+
+
 .. start links
 
 .. only:: html
 
 	View the :ref:`Function Index <genindex>` or browse the `Source Code <_modules/index.html>`__.
 
-	`Browse the GitHub Repository <https://github.com/domdfcoding/mathematical>`__
+	:github:repo:`Browse the GitHub Repository <domdfcoding/mathematical>`
 
 .. end links
