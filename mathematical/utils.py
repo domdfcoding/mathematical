@@ -90,7 +90,7 @@ import pandas  # type: ignore
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
 
-pandas.DataFrame.__module__ = "Pandas"
+pandas.DataFrame.__module__ = "pandas"
 
 __all__ = [
 		"intdiv",

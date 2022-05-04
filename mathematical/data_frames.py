@@ -38,8 +38,8 @@ import pandas  # type: ignore
 # this package
 from mathematical import outliers
 
-pandas.DataFrame.__module__ = "Pandas"
-pandas.Series.__module__ = "Pandas"
+pandas.DataFrame.__module__ = "pandas"
+pandas.Series.__module__ = "pandas"
 
 __all__ = [
 		"df_mean",
