@@ -145,7 +145,7 @@ def linear_regression_perpendicular(
 	mu = data.mean(axis=0)
 	eigenvectors, eigenvalues, V = numpy.linalg.svd((data - mu).T, full_matrices=False)
 	a = eigenvectors[0][1] / eigenvectors[0][0]
-	xm, ym = data.mean(axis=0)  # type: ignore
+	xm, ym = data.mean(axis=0)
 	b = ym - a * xm
 
 	r = numpy.corrcoef(data[:, 0], data[:, 1])[0, 1]

@@ -412,7 +412,7 @@ def mod_inverse(a: int, m: int) -> Optional[float]:
 
 	:param a:
 	:param m:
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if gcd(a, m) != 1:
 		return None  # No mod inverse exists if a & m aren't relatively prime
@@ -443,7 +443,7 @@ def log_factorial(x: float) -> float:
 	"""
 
 	arr = numpy.array(x)
-	m: bool = (arr >= _precalc_fact.size)
+	m: bool = (arr >= _precalc_fact.size)  # type: ignore
 	out = numpy.empty(arr.shape)
 
 	out[~m] = _precalc_fact[arr[~m].astype(int)]

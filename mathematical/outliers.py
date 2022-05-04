@@ -163,7 +163,7 @@ def quartile_outliers(
 	:param strip_zero:
 
 	:returns: A list of the outlier values, and the remaining data points.
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	dataset = utils.strip_none_bool_string(dataset)
 

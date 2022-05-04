@@ -258,7 +258,7 @@ def interpret_d(d_or_g: float) -> str:
 
 	:param d_or_g:
 	:type d_or_g:
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if 0.0 <= d_or_g < 0.2:
 		return "No Effect"
@@ -397,7 +397,7 @@ def median_absolute_deviation(
 		array([5.1891, 3.7065, 2.2239])
 		>>> mathematical.stats.median_absolute_deviation(x, axis=None)
 		2.9652
-	"""  # noqa: D400
+	"""
 
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 
@@ -543,7 +543,7 @@ def absolute_deviation_from_median(
 		around which the MAD is calculated. That is, passing in ``center=numpy.mean``
 		will calculate the MAD around the mean - it will not calculate the *mean*
 		absolute deviation.
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	ad = absolute_deviation(x, axis=axis, center=center, nan_policy=nan_policy)
 

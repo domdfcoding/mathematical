@@ -86,7 +86,7 @@ def df_mean(row: pandas.Series, column_label_list: ColumnLabelList = None) -> fl
 	:param column_label_list: List of column labels to calculate the mean for.
 
 	:return: The mean
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
@@ -114,7 +114,7 @@ def df_median(row: pandas.Series, column_label_list: ColumnLabelList = None) -> 
 	:param column_label_list: List of column labels to calculate median for.
 
 	:return: The median
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
@@ -142,7 +142,7 @@ def df_stdev(row: pandas.Series, column_label_list: ColumnLabelList = None) -> f
 	:param column_label_list: List of column labels to calculate standard deviation for.
 
 	:return: The standard deviation
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
@@ -170,7 +170,7 @@ def df_log_stdev(row: pandas.Series, column_label_list: ColumnLabelList = None) 
 	:param column_label_list: List of column labels to calculate standard deviation for.
 
 	:return: The standard deviation
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
@@ -227,7 +227,7 @@ def df_log(row: pandas.Series, column_label_list: Sequence[str], base: float = 1
 	:param base: The logarithmic base.
 
 	:return: The logarithmic value.
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if all(row[column_label_list][i] > 0.0 for i in range(len(row[column_label_list]))):
 		return log(row[column_label_list], base)
@@ -337,7 +337,7 @@ def df_count(row: pandas.Series, column_label_list: ColumnLabelList = None) -> i
 	:param column_label_list: List of column labels to count occurrences in.
 
 	:return: Count of the occurrences of non-NaN values.
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	if column_label_list is None:
 		column_label_list = list(row.index)
@@ -374,7 +374,7 @@ def df_delta(row: pandas.Series, left_column: str, right_column: str) -> float:
 	:return: The difference between ``left_column`` and ``right_column``.
 
 	.. versionadded:: 0.4.0
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	return row[left_column] - row[right_column]
 
@@ -404,7 +404,7 @@ def df_delta_relative(row: pandas.Series, left_column: str, right_column: str) -
 	:return: The relative difference between ``left_column`` and ``right_column``.
 
 	.. versionadded:: 0.4.0
-	"""  # noqa D400
+	"""  # noqa: D400
 
 	right = row[right_column]
 
