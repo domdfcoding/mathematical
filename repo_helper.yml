@@ -9,6 +9,7 @@ short_desc: 'Mathematical tools for Python 📐 🐍 🛠️'
 
 use_whey: true
 python_deploy_version: 3.7
+standalone_contrib_guide: true
 
 conda_channels:
   - conda-forge

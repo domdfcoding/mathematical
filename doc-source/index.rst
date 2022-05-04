@@ -139,20 +139,20 @@ Installation
 
 .. end installation
 
+
+Contents
+-----------
+
+.. html-section::
+
 .. toctree::
 	:maxdepth: 3
-	:caption: API Reference
 	:glob:
 
 	api/*
-
-
-.. toctree::
-	:maxdepth: 3
-	:caption: Contributing
-
 	contributing
 	Source
+	license
 
 
 .. sidebar-links::
