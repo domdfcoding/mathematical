@@ -59,8 +59,8 @@ Includes tools for calculating mean, median and standard deviation of rows in da
 	:target: https://github.com/domdfcoding/mathematical/actions?query=workflow%3A%22mypy%22
 	:alt: mypy status
 
-.. |requires| image:: https://dependency-dash.herokuapp.com/github/domdfcoding/mathematical/badge.svg
-	:target: https://dependency-dash.herokuapp.com/github/domdfcoding/mathematical/
+.. |requires| image:: https://dependency-dash.repo-helper.uk/github/domdfcoding/mathematical/badge.svg
+	:target: https://dependency-dash.repo-helper.uk/github/domdfcoding/mathematical/
 	:alt: Requirements Status
 
 .. |coveralls| image:: https://img.shields.io/coveralls/github/domdfcoding/mathematical/master?logo=coveralls
