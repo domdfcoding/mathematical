@@ -4,7 +4,7 @@ build-backend = "whey"
 
 [project]
 name = "mathematical"
-version = "0.5.1"
+version = "0.5.1.post1"
 description = "Mathematical tools for Python 📐 🐍 🛠️"
 readme = "README.rst"
 keywords = [ "mathematics", "utilities",]
