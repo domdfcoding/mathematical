@@ -51,4 +51,4 @@ known_third_party = [
     "scipy",
     "typing_extensions",
 ]
-known_first_party = "mathematical"
+known_first_party = [ "mathematical",]
