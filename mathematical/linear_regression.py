@@ -84,11 +84,11 @@ def linear_regression_vertical(
 		stderr -- standard deviation.
 	"""
 
-	x = numpy.array(x, copy=False)
+	x = numpy.asarray(x)
 	y_array: numpy.ndarray
 
 	if y is not None:
-		y_array = numpy.array(y, copy=False)
+		y_array = numpy.asarray(y)
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
 			raise TypeError(f"If `y` is not given, x.shape should be (N, 2), given: {x.shape}")
@@ -132,10 +132,10 @@ def linear_regression_perpendicular(
 		stderr -- standard deviation.
 	"""
 
-	x = numpy.array(x, copy=False)
+	x = numpy.asarray(x)
 
 	if y is not None:
-		y = numpy.array(y, copy=False)
+		y = numpy.asarray(y)
 		data = numpy.hstack((x.reshape((-1, 1)), y.reshape((-1, 1))))
 	else:
 		if len(x.shape) != 2 or x.shape[-1] != 2:
