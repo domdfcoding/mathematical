@@ -29,9 +29,6 @@ python_versions:
   - "3.11"
   - "3.12"
   - "3.13-dev"
-  - "pypy38"
-  - "pypy39"
-  - "pypy310"
 
 conda_description: "Mathematical tools for Python"
 
