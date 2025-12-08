@@ -33,7 +33,7 @@ from typing import List, Optional, Sequence
 
 # 3rd party
 import numpy
-import pandas  # type: ignore
+import pandas
 
 # this package
 from mathematical import outliers
@@ -63,7 +63,7 @@ QUARTILES = 2
 STDEV2 = 3
 
 #: Type hint for the ``column_label_list`` parameter in the ``df_*()`` functions.
-ColumnLabelList = Optional[Sequence[str]]
+ColumnLabelList = Optional[List[str]]
 
 
 def df_mean(row: pandas.Series, column_label_list: ColumnLabelList = None) -> float:
@@ -206,7 +206,7 @@ def df_percentage(row: pandas.Series, column_label: str, total: float) -> float:
 	return (row[column_label] / float(total)) * 100.0
 
 
-def df_log(row: pandas.Series, column_label_list: Sequence[str], base: float = 10) -> float:
+def df_log(row: pandas.Series, column_label_list: List[str], base: float = 10) -> float:
 	"""
 	Calculate the logarithm of the values in each row for the specified
 	columns of a :class:`data frame <pandas.DataFrame>`.
@@ -414,7 +414,11 @@ def df_delta_relative(row: pandas.Series, left_column: str, right_column: str) -
 		return float("inf")
 
 
-def set_display_options(desired_width: int = 300, max_columns: int = 15, max_rows: int = 20):
+def set_display_options(
+		desired_width: int = 300,
+		max_columns: int = 15,
+		max_rows: int = 20,
+		) -> None:
 	"""
 	Set the display options for numpy and pandas.
 

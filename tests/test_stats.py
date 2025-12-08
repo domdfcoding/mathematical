@@ -5,6 +5,9 @@ test_stats
 Test functions in stats.py
 
 """
+# stdlib
+from typing import List
+
 # 3rd party
 import numpy
 import pytest
@@ -16,19 +19,19 @@ data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
 
 
 def test_mean_none():
-	result = stats.mean_none(data)  # type: ignore
+	result = stats.mean_none(data)  # type: ignore[arg-type]
 	assert isinstance(result, float)
 	assert result == 3.0
 
 
 def test_median_none():
-	result = stats.median_none(data)  # type: ignore
+	result = stats.median_none(data)  # type: ignore[arg-type]
 	assert isinstance(result, float)
 	assert result == 3.0
 
 
 def test_std_none():
-	result = stats.std_none(data, 0)  # type: ignore
+	result = stats.std_none(data, 0)  # type: ignore[arg-type]
 	assert isinstance(result, float)
 	assert str(result)[:5] == "1.4142135623730951"[:5]
 
@@ -40,14 +43,14 @@ def test_std_none():
 		(50, 3),
 		(100, 5),
 		])
-def test_percentile_none(percentile, expects):
-	result = stats.percentile_none(data, percentile)  # type: ignore
+def test_percentile_none(percentile: int, expects: int):
+	result = stats.percentile_none(data, percentile)  # type: ignore[arg-type]
 	assert isinstance(result, float)
 	assert result == expects
 
 
 @pytest.mark.parametrize("data", [0, 5, 10, 20, 50.0, 100])
-def test_percentile_none_too_small(data):
+def test_percentile_none_too_small(data: int):
 	with pytest.raises(ValueError, match="Dataset too small"):
 		stats.percentile_none([data], 10)
 
@@ -62,7 +65,7 @@ def test_percentile_none_too_small(data):
 					7.410343746712728),
 				]
 		)
-def test_pooled_sd(sample1, sample2, expected):
+def test_pooled_sd(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.pooled_sd(sample1, sample2) == expected
 	assert stats.pooled_sd(sample1, sample2, weighted=False) == expected
 
@@ -77,7 +80,7 @@ def test_pooled_sd(sample1, sample2, expected):
 					7.410343746712728),
 				]
 		)
-def test_pooled_sd_weighted(sample1, sample2, expected):
+def test_pooled_sd_weighted(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.pooled_sd(sample1, sample2, weighted=True) == expected
 
 
@@ -91,7 +94,7 @@ def test_pooled_sd_weighted(sample1, sample2, expected):
 					-1.001751432800361),
 				]
 		)
-def test_d_cohen(sample1, sample2, expected):
+def test_d_cohen(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.d_cohen(sample1, sample2, which=1) == expected
 
 
@@ -105,7 +108,7 @@ def test_d_cohen(sample1, sample2, expected):
 					-1.001751432800361),
 				]
 		)
-def test_d_cohen_which_2(sample1, sample2, expected):
+def test_d_cohen_which_2(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.d_cohen(sample1, sample2, which=1) == expected
 
 
@@ -119,7 +122,7 @@ def test_d_cohen_which_2(sample1, sample2, expected):
 					-1.001751432800361),
 				]
 		)
-def test_d_cohen_second_stdev(sample1, sample2, expected):
+def test_d_cohen_second_stdev(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.d_cohen(sample1, sample2, which=1) == expected
 
 
@@ -133,7 +136,7 @@ def test_d_cohen_second_stdev(sample1, sample2, expected):
 					1.001751432800361),
 				]
 		)
-def test_d_cohen_2_tailed(sample1, sample2, expected):
+def test_d_cohen_2_tailed(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.d_cohen(sample1, sample2, tail=2) == expected
 
 
@@ -147,7 +150,7 @@ def test_d_cohen_2_tailed(sample1, sample2, expected):
 					-0.6859780743084032),
 				]
 		)
-def test_d_cohen_pooled(sample1, sample2, expected):
+def test_d_cohen_pooled(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.d_cohen(sample1, sample2, pooled=True) == expected
 
 
@@ -161,7 +164,7 @@ def test_d_cohen_pooled(sample1, sample2, expected):
 					-0.6859780743084032),
 				]
 		)
-def test_g_hedge(sample1, sample2, expected):
+def test_g_hedge(sample1: List[int], sample2: List[int], expected: float):
 	assert stats.g_hedge(sample1, sample2) == expected
 
 
@@ -175,13 +178,13 @@ def test_g_hedge(sample1, sample2, expected):
 					-0.6341266242324826),
 				]
 		)
-def test_g_durlak_bias(sample1, sample2, expected):
+def test_g_durlak_bias(sample1: List[int], sample2: List[int], expected: float):
 	g = stats.g_hedge(sample1, sample2)
 	assert stats.g_durlak_bias(g, len(sample1) + len(sample2)) == expected
 
 
 def test_iqr_none():
-	result = stats.iqr_none(data)  # type: ignore
+	result = stats.iqr_none(data)  # type: ignore[arg-type]
 	assert isinstance(result, float)
 	assert result == 2.0
 

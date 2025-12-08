@@ -1,7 +1,6 @@
 # Python test set -- built-in functions
 
 # stdlib
-import itertools
 import pickle
 import sys
 
@@ -12,24 +11,24 @@ from coincidence import min_version
 # this package
 from mathematical.utils import FRange
 
-
-def assert_iterators_equal(xs, ys, test_id, limit=None):
-	# check that an iterator xs matches the expected results ys,
-	# up to a given limit.
-	if limit is not None:
-		xs = itertools.islice(xs, limit)
-		ys = itertools.islice(ys, limit)
-	sentinel = object()
-	pairs = itertools.zip_longest(xs, ys, fillvalue=sentinel)
-	for i, (x, y) in enumerate(pairs):
-		if x == y:
-			continue
-		elif x == sentinel:
-			pytest.fail(f"{test_id}: iterator ended unexpectedly at position {i}; expected {y}")
-		elif y == sentinel:
-			pytest.fail(f"{test_id}: unexpected excess element {x} at position {i}")
-		else:
-			pytest.fail(f"{test_id}: wrong element at position {i}; expected {y}, got {x}")
+# import itertools
+# def assert_iterators_equal(xs, ys, test_id, limit=None):
+# 	# check that an iterator xs matches the expected results ys,
+# 	# up to a given limit.
+# 	if limit is not None:
+# 		xs = itertools.islice(xs, limit)
+# 		ys = itertools.islice(ys, limit)
+# 	sentinel = object()
+# 	pairs = itertools.zip_longest(xs, ys, fillvalue=sentinel)
+# 	for i, (x, y) in enumerate(pairs):
+# 		if x == y:
+# 			continue
+# 		elif x == sentinel:
+# 			pytest.fail(f"{test_id}: iterator ended unexpectedly at position {i}; expected {y}")
+# 		elif y == sentinel:
+# 			pytest.fail(f"{test_id}: unexpected excess element {x} at position {i}")
+# 		else:
+# 			pytest.fail(f"{test_id}: wrong element at position {i}; expected {y}, got {x}")
 
 
 def test_range():
@@ -64,9 +63,9 @@ def test_range():
 	assert len(seq) == 2
 
 	with pytest.raises(TypeError, match="Invalid argument types"):
-		FRange()  # type: ignore
+		FRange()  # type: ignore[call-overload]
 	with pytest.raises(TypeError, match=r"__init__\(\) takes from 1 to 4 positional arguments but 5 were given"):
-		FRange(1, 2, 3, 4)  # type: ignore
+		FRange(1, 2, 3, 4)  # type: ignore[call-overload]
 	with pytest.raises(ValueError, match="'step' argument must not be zero"):
 		FRange(1, 2, 0)
 
@@ -78,9 +77,9 @@ def test_range():
 		FRange(1e100, 1e101, 1e101)
 
 	with pytest.raises(ValueError, match="could not convert string to float: 'spam'"):
-		FRange(0, "spam")  # type: ignore
+		FRange(0, "spam")  # type: ignore[call-overload]
 	with pytest.raises(ValueError, match="could not convert string to float: 'spam'"):
-		FRange(0, 42, "spam")  # type: ignore
+		FRange(0, 42, "spam")  # type: ignore[call-overload]
 
 	with pytest.raises(ValueError, match="Value .* too large for 'stop'"):
 		FRange(0, sys.maxsize, sys.maxsize - 1)
@@ -91,10 +90,10 @@ def test_range():
 
 def test_range_constructor_error_messages():
 	with pytest.raises(TypeError, match="Invalid argument types."):
-		FRange()  # type: ignore
+		FRange()  # type: ignore[call-overload]
 
 	with pytest.raises(TypeError, match="__init__\\(\\) takes from 1 to 4 positional arguments but 7 were given"):
-		FRange(1, 2, 3, 4, 5, 6)  # type: ignore
+		FRange(1, 2, 3, 4, 5, 6)  # type: ignore[call-overload]
 
 
 a = int(10 * sys.maxsize)
@@ -117,9 +116,9 @@ c = int(50 * sys.maxsize)
 				(-a, -b, -c),
 				]
 		)
-def test_large_operands_start(values):
+def test_large_operands_start(values: int):
 	with pytest.raises(ValueError, match="Value .* too large for 'start'"):
-		FRange(*values)
+		FRange(*values)  # type: ignore[misc]
 
 
 @pytest.mark.parametrize("values", [
@@ -127,9 +126,9 @@ def test_large_operands_start(values):
 		(0, -2**100),
 		(0, 2**100, -1),
 		])
-def test_large_operands_stop(values):
+def test_large_operands_stop(values: int):
 	with pytest.raises(ValueError, match="Value .* too large for 'stop'"):
-		FRange(*values)
+		FRange(*values)  # type: ignore[misc]
 
 
 def test_large_range():
@@ -162,9 +161,9 @@ def test_large_range():
 
 def test_invalid_invocation():
 	with pytest.raises(TypeError):
-		FRange()  # type: ignore
+		FRange()  # type: ignore[call-overload]
 	with pytest.raises(TypeError):
-		FRange(1, 2, 3, 4)  # type: ignore
+		FRange(1, 2, 3, 4)  # type: ignore[call-overload]
 	with pytest.raises(ValueError, match="'step' argument must not be zero"):
 		FRange(1, 2, 0)
 
@@ -184,21 +183,21 @@ def test_index():
 	assert u.count(0) == 1
 	assert u.index(0) == 2
 	with pytest.raises(TypeError):
-		u.index()  # type: ignore
+		u.index()  # type: ignore[call-arg]
 
 	class BadExc(Exception):
 		pass
 
 	class BadCmp:
 
-		def __eq__(self, other):
+		def __eq__(self, other):  # noqa: MAN001,MAN002
 			if other == 2:
 				raise BadExc()
 			return False
 
 	a = FRange(4)
 	with pytest.raises(ValueError, match=".*BadCmp object at 0x.*> is not in range"):
-		a.index(BadCmp())  # type: ignore
+		a.index(BadCmp())  # type: ignore[arg-type]
 
 	a = FRange(-2, 3)
 	assert a.index(0) == 2
@@ -213,31 +212,31 @@ def test_user_index_method():
 	# User-defined class with an __index__ method
 	class I:
 
-		def __init__(self, n):
+		def __init__(self, n):  # noqa: MAN001
 			self.n = int(n)
 
-		def __index__(self):
+		def __index__(self):  # noqa: MAN002
 			return self.n
 
-	assert list(FRange(I(smallnum), I(smallnum + 1))) == [smallnum]  # type: ignore
+	assert list(FRange(I(smallnum), I(smallnum + 1))) == [smallnum]  # type: ignore[call-overload]
 
 	# User-defined class with a failing __index__ method
 	class IX:
 
-		def __index__(self):
+		def __index__(self):  # noqa: MAN002
 			raise RuntimeError
 
 	with pytest.raises(RuntimeError):
-		FRange(IX())  # type: ignore
+		FRange(IX())  # type: ignore[call-overload]
 
 	# User-defined class with an invalid __index__ method
 	class IN:
 
-		def __index__(self):
+		def __index__(self):  # noqa: MAN002
 			return "not a number"
 
 	with pytest.raises(TypeError):
-		FRange(IN())  # type: ignore
+		FRange(IN())  # type: ignore[call-overload]
 
 
 def test_count():
@@ -259,7 +258,7 @@ def test_count():
 				(FRange(1, 2, 3), "FRange(1.0, 2.0, 3.0)"),
 				]
 		)
-def test_repr(value, expects):
+def test_repr(value: FRange, expects: str):
 	assert repr(value) == expects
 
 
@@ -276,7 +275,7 @@ def test_odd_bug():
 	# because the range validation step was eating the exception
 	# before NULL was returned.
 	with pytest.raises(TypeError):
-		FRange([], 1, -1)  # type: ignore
+		FRange([], 1, -1)  # type: ignore[call-overload]
 
 
 def test_strided_limits():
@@ -384,7 +383,7 @@ def test_contains():
 				(FRange(8, 0, -3), FRange(2, 11, 3)),
 				]
 		)
-def test_reverse_iteration(left, right):
+def test_reverse_iteration(left: FRange, right: FRange):
 	# assert reversed(left) == right
 	assert list(reversed(left)) == list(left)[::-1]
 
@@ -414,7 +413,7 @@ def test_comparison():
 			FRange(0, 5, 2),
 			FRange(0, 6, 2)
 			]
-	test_tuples = list(map(list, test_ranges))  # type: ignore
+	test_tuples = list(map(list, test_ranges))
 
 	# Check that equality of ranges matches equality of the corresponding
 	# tuples for each pair from the test lists above.
@@ -451,13 +450,13 @@ def test_comparison():
 
 	# Order comparisons are not implemented for ranges.
 	with pytest.raises(TypeError):
-		FRange(0) < FRange(0)  # type: ignore
+		FRange(0) < FRange(0)  # type: ignore[operator]
 	with pytest.raises(TypeError):
-		FRange(0) > FRange(0)  # type: ignore
+		FRange(0) > FRange(0)  # type: ignore[operator]
 	with pytest.raises(TypeError):
-		FRange(0) <= FRange(0)  # type: ignore
+		FRange(0) <= FRange(0)  # type: ignore[operator]
 	with pytest.raises(TypeError):
-		FRange(0) >= FRange(0)  # type: ignore
+		FRange(0) >= FRange(0)  # type: ignore[operator]
 
 
 @pytest.mark.parametrize(
@@ -475,7 +474,7 @@ def test_comparison():
 				(FRange(False, True, True), 0, 1, 1),
 				]
 		)
-def test_attributes(rangeobj, start, stop, step):
+def test_attributes(rangeobj: FRange, start: int, stop: int, step: int):
 	# test the start, stop and step attributes of range objects
 
 	assert rangeobj.start == start

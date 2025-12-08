@@ -1,5 +1,5 @@
 # stdlib
-from typing import Iterable
+from typing import Iterable, List
 
 # 3rd party
 import numpy
@@ -35,7 +35,7 @@ data = pytest.mark.parametrize(
 
 @data
 @pytest.mark.parametrize("threshold", [2, 3])
-def test_mad_outliers(data, advanced_data_regression: AdvancedDataRegressionFixture, threshold: int):
+def test_mad_outliers(data: List[int], advanced_data_regression: AdvancedDataRegressionFixture, threshold: int):
 	outliers, data_exc_outliers = mad_outliers(data, threshold=threshold)
 	advanced_data_regression.check({
 			"outliers": list(to_std_nums(outliers)),
@@ -44,7 +44,7 @@ def test_mad_outliers(data, advanced_data_regression: AdvancedDataRegressionFixt
 
 
 @data
-def test_two_stdev(data, advanced_data_regression: AdvancedDataRegressionFixture):
+def test_two_stdev(data: List[int], advanced_data_regression: AdvancedDataRegressionFixture):
 	outliers, data_exc_outliers = two_stdev(data)
 	advanced_data_regression.check({
 			"outliers": list(to_std_nums(outliers)),
@@ -53,7 +53,7 @@ def test_two_stdev(data, advanced_data_regression: AdvancedDataRegressionFixture
 
 
 @data
-def test_quartile_outliers(data, advanced_data_regression: AdvancedDataRegressionFixture):
+def test_quartile_outliers(data: List[int], advanced_data_regression: AdvancedDataRegressionFixture):
 	outliers, data_exc_outliers = quartile_outliers(data)
 	advanced_data_regression.check({
 			"outliers": list(to_std_nums(outliers)),
@@ -62,7 +62,7 @@ def test_quartile_outliers(data, advanced_data_regression: AdvancedDataRegressio
 
 
 @data
-def test_spss_outliers(data, advanced_data_regression: AdvancedDataRegressionFixture):
+def test_spss_outliers(data: List[int], advanced_data_regression: AdvancedDataRegressionFixture):
 	extremes, outliers, data_exc_outliers = spss_outliers(data)
 	advanced_data_regression.check({
 			"extremes": list(to_std_nums(extremes)),

@@ -10,9 +10,10 @@ Test functions in data_frames.py
 import copy
 import math
 import sys
+from typing import Any, Callable
 
 # 3rd party
-import pandas  # type: ignore
+import pandas
 import pytest
 
 # this package
@@ -35,7 +36,7 @@ from mathematical.data_frames import (
 
 
 @pytest.fixture()
-def base_df():
+def base_df() -> pandas.DataFrame:
 	return pandas.DataFrame(
 			[[2444, 8196, 6036, 1757, 5265]],
 			columns=["Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5"],
@@ -60,7 +61,7 @@ parametrize = [
 				("Sample Count", 5, df_count),
 				]
 		)
-def test_with_columns(col_name, expected, function, base_df):
+def test_with_columns(col_name: str, expected: Any, function: Callable, base_df: pandas.DataFrame):
 	# With Columns Specified
 	print(function)
 	base_df[col_name] = base_df.apply(
@@ -70,13 +71,13 @@ def test_with_columns(col_name, expected, function, base_df):
 
 
 @pytest.mark.parametrize("col_name, expected, function", parametrize)
-def test_without_columns(col_name, expected, function, base_df):
+def test_without_columns(col_name: str, expected: Any, function: Callable, base_df: pandas.DataFrame):
 	# Without Columns Specified
 	base_df[col_name] = base_df.apply(function, axis=1)
 	assert base_df[col_name][0] == expected
 
 
-def test_df_percentage(base_df):
+def test_df_percentage(base_df: pandas.DataFrame):
 	# With Columns Specified
 	df = copy.deepcopy(base_df)
 	df["Sample 1 Percentage"] = df.apply(
@@ -87,14 +88,14 @@ def test_df_percentage(base_df):
 	assert df["Sample 1 Percentage"][0] == 10.313106591273526
 
 
-def test_df_log(base_df):
+def test_df_log(base_df: pandas.DataFrame):
 	# With Columns Specified
 	df = copy.deepcopy(base_df)
 	df["Sample 1 Log"] = df.apply(df_log, args=(["Sample 1"], ), axis=1)
 	assert df["Sample 1 Log"][0] == 3.388101201570516
 
 
-def test_df_delta(base_df):
+def test_df_delta(base_df: pandas.DataFrame):
 	df = copy.deepcopy(base_df)
 	df["Sample 1/2 delta"] = df.apply(df_delta, args=("Sample 1", "Sample 2"), axis=1)
 	assert df["Sample 1/2 delta"][0] == -5752
@@ -104,7 +105,7 @@ def test_df_delta(base_df):
 	assert df["Sample 1/2 delta"][0] == 5752
 
 
-def test_df_delta_relative(base_df):
+def test_df_delta_relative(base_df: pandas.DataFrame):
 	df = copy.deepcopy(base_df)
 	df["Sample 1/2 rel. delta"] = df.apply(df_delta_relative, args=("Sample 1", "Sample 2"), axis=1)
 	assert df["Sample 1/2 rel. delta"][0] == -0.7018057589067838
@@ -130,7 +131,7 @@ def test_df_delta_relative(base_df):
 # assert df["Sample Count"][0] == 5
 
 
-def test_df_outliers(base_df):
+def test_df_outliers(base_df: pandas.DataFrame):
 	df = copy.deepcopy(base_df)
 
 	df["Sample 6"] = sys.maxsize

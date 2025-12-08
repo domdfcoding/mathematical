@@ -48,6 +48,7 @@
 # stdlib
 import string
 from itertools import count
+from typing import Tuple
 
 # 3rd party
 import numpy
@@ -68,7 +69,7 @@ class Data:
 	stderr = 0
 
 
-def _test_linreg(result):
+def _test_linreg(result: Tuple[float, float, float, float]) -> None:
 	a, b, r, stderr = result
 	assert round(abs(a - Data.a), 7) == 0
 	assert round(abs(b - Data.b), 7) == 0
@@ -93,19 +94,19 @@ def test_linear_regression_simple_perpendicular():
 
 def test_linear_regression_no_y_list():
 	x = list(zip(Data.x, Data.y))
-	result = linear_regression.linear_regression(x)  # type: ignore
+	result = linear_regression.linear_regression(x)  # type: ignore[arg-type]
 	_test_linreg(result)
 
 
 def test_linear_regression_no_y_list_vertical():
 	x = list(zip(Data.x, Data.y))
-	result = linear_regression.linear_regression_vertical(x)  # type: ignore
+	result = linear_regression.linear_regression_vertical(x)  # type: ignore[arg-type]
 	_test_linreg(result)
 
 
 def test_linear_regression_no_y_list_perpendicular():
 	x = list(zip(Data.x, Data.y))
-	result = linear_regression.linear_regression_perpendicular(x)  # type: ignore
+	result = linear_regression.linear_regression_perpendicular(x)  # type: ignore[arg-type]
 	_test_linreg(result)
 
 

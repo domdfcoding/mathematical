@@ -96,17 +96,17 @@ def linear_regression_vertical(
 		x = x[:, 0]
 
 	if a is not None and b is None:
-		y_array - a * x  # type: ignore
-		b = (y_array - a * x).mean()  # type: ignore
+		y_array - a * x
+		b = (y_array - a * x).mean()
 	elif a is not None and b is not None:
 		pass
 	else:
 		a, b = numpy.polyfit(x, y_array, 1)
 
 	r = numpy.corrcoef(x, y_array)[0, 1]
-	stderr = (y_array - a * x - b).std()  # type: ignore
+	stderr = (y_array - a * x - b).std()
 
-	return a, b, r, stderr  # type: ignore  # TODO
+	return a, b, r, stderr
 
 
 linear_regression = linear_regression_vertical

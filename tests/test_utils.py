@@ -51,6 +51,7 @@ Test functions in utils.py
 
 # stdlib
 import decimal
+from typing import Union
 
 # 3rd party
 import numpy
@@ -79,7 +80,7 @@ def test_magnitude():
 
 
 def test_remove_zero():
-	result = utils.remove_zero(data)  # type: ignore
+	result = utils.remove_zero(data)  # type: ignore[arg-type]
 	assert isinstance(result, list)
 	assert result == [1, 2, 3, 4, 5, "abc", numpy.nan]
 
@@ -87,7 +88,7 @@ def test_remove_zero():
 @pytest.mark.parametrize(
 		"value", [1, 3, 5, 7, 9, 90, 900, 9000000, 1.0, 3.0, 5.0, 7.0, 9.0, 90.0, 900.0, 9000000.0]
 		)
-def test_isint(value):
+def test_isint(value: float):
 	result = utils.isint(value)
 	assert isinstance(result, bool)
 	assert result
@@ -122,7 +123,7 @@ def test_isint(value):
 				9000000.0
 				]
 		)
-def test_RepresentsInt(value):
+def test_RepresentsInt(value: Union[str, float]):
 	result = utils.represents_int(value)
 	assert isinstance(result, bool)
 	assert result
@@ -183,7 +184,7 @@ def test_strip_none_bool_string():
 				("abc", False),
 				]
 		)
-def test_represents_int(value, result: bool):
+def test_represents_int(value: Union[float, str], result: bool):
 	assert represents_int(value) is result
 
 
@@ -199,7 +200,7 @@ def test_represents_int(value, result: bool):
 				([1, 3, 5, numpy.nan, None], 3),
 				]
 		)
-def test_nanmean(values, result):
+def test_nanmean(values: list, result: float):
 	assert nanmean(values) == result
 
 
@@ -219,7 +220,7 @@ def test_nanmean_allnan():
 				([1, 3, 5, numpy.nan, None], 1.632993161855452),
 				]
 		)
-def test_nanstd(values, result):
+def test_nanstd(values: list, result: float):
 	assert nanstd(values) == result
 
 
@@ -239,7 +240,7 @@ def test_nanstd_allnan():
 				([1, 3, 5, numpy.nan, None], 0.5443310539518174),
 				]
 		)
-def test_nanrstd(values, result):
+def test_nanrstd(values: list, result: float):
 	assert nanrsd(values) == result
 
 

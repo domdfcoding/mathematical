@@ -33,10 +33,11 @@ Outlier detection functions.
 #
 
 # stdlib
-from typing import List, Sequence, Tuple
+from typing import List, Sequence, Tuple, Union
 
 # 3rd party
 import numpy
+import pandas
 
 # this package
 from mathematical import stats, utils
@@ -45,7 +46,7 @@ __all__ = ["mad_outliers", "two_stdev", "stdev_outlier", "quartile_outliers", "s
 
 
 def mad_outliers(
-		dataset: Sequence,
+		dataset: Union[Sequence, pandas.Series],
 		strip_zero: bool = True,
 		threshold: int = 3,
 		) -> Tuple[List[float], List[float]]:
@@ -98,7 +99,7 @@ def mad_outliers(
 
 
 def two_stdev(
-		dataset: Sequence,
+		dataset: Union[Sequence, pandas.Series],
 		strip_zero: bool = True,
 		) -> Tuple[List[float], List[float]]:
 	"""
@@ -114,7 +115,7 @@ def two_stdev(
 
 
 def stdev_outlier(
-		dataset: Sequence,
+		dataset: Union[Sequence, pandas.Series],
 		strip_zero: bool = True,
 		rng: int = 2,
 		) -> Tuple[List[float], List[float]]:
@@ -152,7 +153,7 @@ def stdev_outlier(
 
 
 def quartile_outliers(
-		dataset: Sequence,
+		dataset: Union[Sequence, pandas.Series],
 		strip_zero: bool = True,
 		) -> Tuple[List[float], List[float]]:
 	"""
@@ -195,7 +196,7 @@ def quartile_outliers(
 
 
 def spss_outliers(
-		dataset: Sequence,
+		dataset: Union[Sequence, pandas.Series],
 		strip_zero: bool = True,
 		mode: str = "all",
 		) -> Tuple[List[float], List[float], List[float]]:

@@ -42,7 +42,7 @@ Functions for calculating statistics.
 
 # stdlib
 import warnings
-from typing import Callable, Optional, Sequence, Union, cast, overload
+from typing import Callable, List, Optional, Sequence, Tuple, Union, cast, overload
 
 # 3rd party
 import numpy
@@ -150,12 +150,12 @@ def percentile_none(dataset: Sequence[Union[float, bool, None]], percentage: flo
 
 	dataset = utils.strip_none_bool_string(dataset)
 	dataset = utils.remove_zero(dataset)
-	dataset = [x for x in dataset if not numpy.isnan(x)]
+	data_subset: List[float] = [x for x in dataset if not numpy.isnan(x)]
 
-	if len(dataset) < 2:
+	if len(data_subset) < 2:
 		raise ValueError("Dataset too small")
 
-	return float(numpy.percentile(dataset, percentage))
+	return float(numpy.percentile(data_subset, percentage))
 
 
 def pooled_sd(sample1: Sequence[float], sample2: Sequence[float], weighted: bool = False) -> float:
@@ -272,7 +272,7 @@ def interpret_d(d_or_g: float) -> str:
 		return f"{interpret_d(numpy.abs(d_or_g)).split(' ')[0]} Adverse Effect"
 
 
-def _contains_nan(a, nan_policy: NaNPolicies = "propagate"):
+def _contains_nan(a: numpy.ndarray, nan_policy: NaNPolicies = "propagate") -> Tuple[bool, NaNPolicies]:
 	policies = ["propagate", "raise", "omit"]
 	if nan_policy not in policies:
 		raise ValueError("nan_policy must be one of {%s}" % ", ".join(f"'{s}'" for s in policies))
@@ -304,7 +304,7 @@ def _contains_nan(a, nan_policy: NaNPolicies = "propagate"):
 
 
 @overload
-def median_absolute_deviation(
+def median_absolute_deviation(  # noqa: MAN001
 		x,
 		axis: None,
 		center: Callable = ...,
@@ -314,7 +314,7 @@ def median_absolute_deviation(
 
 
 @overload
-def median_absolute_deviation(
+def median_absolute_deviation(  # noqa: MAN001
 		x,
 		axis: int = ...,
 		center: Callable = ...,
@@ -323,7 +323,7 @@ def median_absolute_deviation(
 		) -> numpy.ndarray: ...
 
 
-def median_absolute_deviation(
+def median_absolute_deviation(  # noqa: MAN001
 		x,
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
@@ -406,11 +406,11 @@ def median_absolute_deviation(
 	else:
 		mad = numpy.median(ad, axis=axis)
 
-	return scale * mad
+	return scale * mad  # type: ignore[return-value]
 
 
 @overload
-def absolute_deviation(
+def absolute_deviation(  # noqa: MAN001
 		x,
 		axis: None,
 		center: Callable = ...,
@@ -419,7 +419,7 @@ def absolute_deviation(
 
 
 @overload
-def absolute_deviation(
+def absolute_deviation(  # noqa: MAN001
 		x,
 		axis: int = ...,
 		center: Callable = ...,
@@ -427,7 +427,7 @@ def absolute_deviation(
 		) -> numpy.ndarray: ...
 
 
-def absolute_deviation(
+def absolute_deviation(  # noqa: MAN001
 		x,
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
@@ -489,7 +489,7 @@ def absolute_deviation(
 
 
 @overload
-def absolute_deviation_from_median(
+def absolute_deviation_from_median(  # noqa: MAN001
 		x,
 		axis: None,
 		center: Callable = ...,
@@ -498,7 +498,7 @@ def absolute_deviation_from_median(
 
 
 @overload
-def absolute_deviation_from_median(
+def absolute_deviation_from_median(  # noqa: MAN001
 		x,
 		axis: int = ...,
 		center: Callable = ...,
@@ -506,7 +506,7 @@ def absolute_deviation_from_median(
 		) -> numpy.ndarray: ...
 
 
-def absolute_deviation_from_median(
+def absolute_deviation_from_median(  # noqa: MAN001
 		x,
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
@@ -552,7 +552,7 @@ def absolute_deviation_from_median(
 	else:
 		mad = numpy.median(ad, axis=axis)
 
-	return ad / mad
+	return ad / mad  # type: ignore[return-value]
 
 
 def within1min(value1: float, value2: float) -> bool:

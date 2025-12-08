@@ -82,13 +82,17 @@ import math
 from decimal import ROUND_HALF_UP, Decimal
 from math import log10
 from operator import eq, ge, gt, le, lt, ne
-from typing import Any, Iterator, List, Optional, Sequence, Union, overload
+from typing import TYPE_CHECKING, Any, Iterator, List, Optional, Sequence, Type, Union, overload
 
 # 3rd party
 import numpy
-import pandas  # type: ignore
+import pandas
 from domdf_python_tools.doctools import prettify_docstrings
 from domdf_python_tools.typing import PathLike
+
+if TYPE_CHECKING:
+	# stdlib
+	from typing import SupportsIndex
 
 pandas.DataFrame.__module__ = "pandas"
 
@@ -240,7 +244,7 @@ def rounders(val_to_round: Union[str, float, Decimal], round_format: str) -> Dec
 	return Decimal(Decimal(val_to_round).quantize(Decimal(str(round_format)), rounding=ROUND_HALF_UP))
 
 
-def strip_strings(ls: Sequence[Any]) -> List:
+def strip_strings(ls: Union[Sequence, pandas.Series]) -> List:
 	"""
 	Remove strings from a list.
 
@@ -252,7 +256,7 @@ def strip_strings(ls: Sequence[Any]) -> List:
 	return [x for x in ls if not isinstance(x, str)]
 
 
-def strip_booleans(ls: Sequence[Any]) -> List:
+def strip_booleans(ls: Union[Sequence, pandas.Series]) -> List:
 	"""
 	Remove booleans from a list.
 
@@ -264,7 +268,7 @@ def strip_booleans(ls: Sequence[Any]) -> List:
 	return [x for x in ls if not isinstance(x, bool)]
 
 
-def strip_nonetype(ls: Sequence[Any]) -> List:
+def strip_nonetype(ls: Union[Sequence, pandas.Series]) -> List:
 	"""
 	Remove :py:obj:`None` from a list.
 
@@ -276,7 +280,7 @@ def strip_nonetype(ls: Sequence[Any]) -> List:
 	return [x for x in ls if x is not None]
 
 
-def nanmean(ls: Sequence[Any], dtype=float) -> float:
+def nanmean(ls: Union[Sequence, pandas.Series], dtype: Type = float) -> float:
 	"""
 	Returns the mean of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
 
@@ -289,7 +293,7 @@ def nanmean(ls: Sequence[Any], dtype=float) -> float:
 	return float(numpy.nanmean(numpy.array(ls, dtype=dtype)))
 
 
-def nanstd(ls: Sequence[Any], dtype=float) -> float:
+def nanstd(ls: Union[Sequence, pandas.Series], dtype: Type = float) -> float:
 	"""
 	Returns the standard deviation of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
 
@@ -302,7 +306,7 @@ def nanstd(ls: Sequence[Any], dtype=float) -> float:
 	return float(numpy.nanstd(numpy.array(ls, dtype=dtype)))
 
 
-def nanrsd(ls: Sequence[Any], dtype=float) -> float:
+def nanrsd(ls: Union[Sequence, pandas.Series], dtype: Type = float) -> float:
 	"""
 	Returns the relative standard deviation of the given sequence, ignoring :py:obj:`None` and ``numpy.nan`` values etc.
 
@@ -316,7 +320,7 @@ def nanrsd(ls: Sequence[Any], dtype=float) -> float:
 	return float(std / abs(mean))
 
 
-def strip_none_bool_string(ls: Sequence) -> List:
+def strip_none_bool_string(ls: Union[Sequence, pandas.Series]) -> List:
 	"""
 	Remove :py:obj:`None`, boolean and string values from a list.
 
@@ -345,7 +349,7 @@ def gcd(a: int, b: int) -> int:
 	return math.gcd(a, b)
 
 
-def gcd_array(array) -> float:
+def gcd_array(array: Sequence["SupportsIndex"]) -> float:
 	"""
 	Returns the GCD for an array of numbers using Euclid's Algorithm.
 
@@ -443,7 +447,7 @@ def log_factorial(x: float) -> float:
 	"""
 
 	arr = numpy.array(x)
-	m: bool = (arr >= _precalc_fact.size)  # type: ignore
+	m: bool = (arr >= _precalc_fact.size)  # type: ignore[assignment]
 	out = numpy.empty(arr.shape)
 
 	out[~m] = _precalc_fact[arr[~m].astype(int)]
@@ -488,13 +492,13 @@ class FRange(Sequence[float]):
 
 	_init = False
 
-	def __setattr__(self, key, value):
+	def __setattr__(self, key, value) -> None:  # noqa: MAN001
 		if self._init:
 			raise AttributeError("Could not set attribute")
 		else:
 			super().__setattr__(key, value)
 
-	def __delattr__(self, key):
+	def __delattr__(self, key) -> None:  # noqa: MAN001
 		if self._init:
 			raise AttributeError("Could not delete attribute")
 		else:
@@ -506,7 +510,12 @@ class FRange(Sequence[float]):
 	@overload
 	def __init__(self, start: float, stop: float, step: float = ...) -> None: ...
 
-	def __init__(self, start=None, stop=None, step=1.0) -> None:  # type: ignore
+	def __init__(  # type: ignore[misc]  # TODO
+		self,
+		start: Optional[float] = None,
+		stop: Optional[float] = None,
+		step: float = 1.0
+		) -> None:
 		if start is not None and stop is None:
 			self.stop = float(start)
 			self.start = 0.0
@@ -542,7 +551,7 @@ class FRange(Sequence[float]):
 		else:
 			return 0
 
-	def index(self, value: float) -> int:  # type: ignore
+	def index(self, value: float) -> int:  # type: ignore[override]  # TODO
 		"""
 		Returns the index of ``value`` in the range.
 
@@ -602,12 +611,12 @@ class FRange(Sequence[float]):
 			count += 1
 
 	@overload
-	def __getitem__(self, i: int) -> int: ...
+	def __getitem__(self, i: int) -> float: ...
 
 	@overload
 	def __getitem__(self, s: slice) -> "FRange": ...
 
-	def __getitem__(self, item):
+	def __getitem__(self, item: Union[int, slice]) -> Union[float, "FRange"]:
 		"""
 		Returns the value in the range at index ``item``.
 
@@ -668,7 +677,7 @@ class FRange(Sequence[float]):
 				step=-self.step,
 				))
 
-	def __eq__(self, other) -> bool:
+	def __eq__(self, other) -> bool:  # noqa: MAN001
 		if isinstance(other, (range, FRange)):
 			# if self.stop < self.start and self.step > 0:
 			# 	self_stop = self.start
@@ -724,7 +733,7 @@ class FRange(Sequence[float]):
 		else:
 			return False
 
-	def __hash__(self):
+	def __hash__(self) -> int:
 		return hash(tuple(self))
 
 
