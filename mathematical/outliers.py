@@ -208,7 +208,8 @@ def spss_outliers(
 	"Extreme values" are more than ``3 × IQR`` from ``Q1`` or ``Q3``.
 
 	:param dataset:
-	:param mode: str
+	:param strip_zero:
+	:param mode:
 
 	:returns: A list of extreme outliers, a list of other outliers, and the remaining data points.
 	"""

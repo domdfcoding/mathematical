@@ -86,7 +86,8 @@ def test_remove_zero():
 
 
 @pytest.mark.parametrize(
-		"value", [1, 3, 5, 7, 9, 90, 900, 9000000, 1.0, 3.0, 5.0, 7.0, 9.0, 90.0, 900.0, 9000000.0]
+		"value",
+		[1, 3, 5, 7, 9, 90, 900, 9000000, 1.0, 3.0, 5.0, 7.0, 9.0, 90.0, 900.0, 9000000.0],
 		)
 def test_isint(value: float):
 	result = utils.isint(value)
@@ -120,8 +121,8 @@ def test_isint(value: float):
 				9.0,
 				90.0,
 				900.0,
-				9000000.0
-				]
+				9000000.0,
+				],
 		)
 def test_RepresentsInt(value: Union[str, float]):
 	result = utils.represents_int(value)
@@ -182,7 +183,7 @@ def test_strip_none_bool_string():
 				(4j, False),
 				("ABC", False),
 				("abc", False),
-				]
+				],
 		)
 def test_represents_int(value: Union[float, str], result: bool):
 	assert represents_int(value) is result
@@ -198,7 +199,7 @@ def test_represents_int(value: Union[float, str], result: bool):
 				([1, 3, 5, numpy.nan], 3),
 				([1, 3, 5, None], 3),
 				([1, 3, 5, numpy.nan, None], 3),
-				]
+				],
 		)
 def test_nanmean(values: list, result: float):
 	assert nanmean(values) == result
@@ -218,7 +219,7 @@ def test_nanmean_allnan():
 				([1, 3, 5, numpy.nan], 1.632993161855452),
 				([1, 3, 5, None], 1.632993161855452),
 				([1, 3, 5, numpy.nan, None], 1.632993161855452),
-				]
+				],
 		)
 def test_nanstd(values: list, result: float):
 	assert nanstd(values) == result
@@ -238,7 +239,7 @@ def test_nanstd_allnan():
 				([1, 3, 5, numpy.nan], 0.5443310539518174),
 				([1, 3, 5, None], 0.5443310539518174),
 				([1, 3, 5, numpy.nan, None], 0.5443310539518174),
-				]
+				],
 		)
 def test_nanrstd(values: list, result: float):
 	assert nanrsd(values) == result

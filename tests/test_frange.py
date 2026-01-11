@@ -114,18 +114,21 @@ c = int(50 * sys.maxsize)
 				(a, b, c),
 				(b, a, -c),
 				(-a, -b, -c),
-				]
+				],
 		)
 def test_large_operands_start(values: int):
 	with pytest.raises(ValueError, match="Value .* too large for 'start'"):
 		FRange(*values)  # type: ignore[misc]
 
 
-@pytest.mark.parametrize("values", [
-		(-2**100, ),
-		(0, -2**100),
-		(0, 2**100, -1),
-		])
+@pytest.mark.parametrize(
+		"values",
+		[
+				(-2**100, ),
+				(0, -2**100),
+				(0, 2**100, -1),
+				],
+		)
 def test_large_operands_stop(values: int):
 	with pytest.raises(ValueError, match="Value .* too large for 'stop'"):
 		FRange(*values)  # type: ignore[misc]
@@ -256,7 +259,7 @@ def test_count():
 				(FRange(1), "FRange(0.0, 1.0)"),
 				(FRange(1, 2), "FRange(1.0, 2.0)"),
 				(FRange(1, 2, 3), "FRange(1.0, 2.0, 3.0)"),
-				]
+				],
 		)
 def test_repr(value: FRange, expects: str):
 	assert repr(value) == expects
@@ -381,7 +384,7 @@ def test_contains():
 				(FRange(100, 100, -5), FRange(100, 100, 5)),
 				(FRange(1, 9, 3), FRange(7, -2, -3)),
 				(FRange(8, 0, -3), FRange(2, 11, 3)),
-				]
+				],
 		)
 def test_reverse_iteration(left: FRange, right: FRange):
 	# assert reversed(left) == right
@@ -411,7 +414,7 @@ def test_comparison():
 			FRange(2),
 			FRange(0, 4, 2),
 			FRange(0, 5, 2),
-			FRange(0, 6, 2)
+			FRange(0, 6, 2),
 			]
 	test_tuples = list(map(list, test_ranges))
 
@@ -472,7 +475,7 @@ def test_comparison():
 				(FRange(True), 0, 1, 1),
 				(FRange(False, True), 0, 1, 1),
 				(FRange(False, True, True), 0, 1, 1),
-				]
+				],
 		)
 def test_attributes(rangeobj: FRange, start: int, stop: int, step: int):
 	# test the start, stop and step attributes of range objects

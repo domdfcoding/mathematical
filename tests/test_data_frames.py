@@ -59,13 +59,15 @@ parametrize = [
 				*parametrize,
 				("Sample Data Points", [2444, 8196, 6036, 1757, 5265], df_data_points),
 				("Sample Count", 5, df_count),
-				]
+				],
 		)
 def test_with_columns(col_name: str, expected: Any, function: Callable, base_df: pandas.DataFrame):
 	# With Columns Specified
 	print(function)
 	base_df[col_name] = base_df.apply(
-			function, args=(["Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5"], ), axis=1
+			function,
+			args=(["Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5"], ),
+			axis=1,
 			)
 	assert base_df[col_name][0] == expected
 

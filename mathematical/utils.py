@@ -130,12 +130,18 @@ def intdiv(p: float, q: float) -> int:
 	Integer divsions which rounds toward zero.
 
 	**Examples**
-	>>> intdiv(3, 2)
-	1
-	>>> intdiv(-3, 2)
-	-1
-	>>> -3 // 2
-	-2
+
+	.. code-block:: pycon
+
+		>>> intdiv(3, 2)
+		1
+		>>> intdiv(-3, 2)
+		-1
+		>>> -3 // 2
+		-2
+
+	:param p:
+	:param q:
 	"""
 
 	r = p // q
@@ -152,12 +158,14 @@ def roman(num: float) -> str:
 
 	**Examples:**
 
-	.. code-block::
+	.. code-block:: pycon
 
 		>>> roman(4)
 		'IV'
 		>>> roman(17)
 		'XVII'
+
+	:param num:
 	"""
 
 	tokens = "M CM D CD C XC L XL X IX V IV I".split()
@@ -514,8 +522,8 @@ class FRange(Sequence[float]):
 		self,
 		start: Optional[float] = None,
 		stop: Optional[float] = None,
-		step: float = 1.0
-		) -> None:
+		step: float = 1.0,
+	) -> None:
 		if start is not None and stop is None:
 			self.stop = float(start)
 			self.start = 0.0
@@ -671,11 +679,12 @@ class FRange(Sequence[float]):
 		# difference between last value and self.stop
 		remainder = ((self.stop - self.start) % self.step) or self.step
 
-		return iter(FRange(
+		frange = FRange(
 				start=(self.stop - remainder),
 				stop=(self.start - self.step),
 				step=-self.step,
-				))
+				)
+		return iter(frange)
 
 	def __eq__(self, other) -> bool:  # noqa: MAN001
 		if isinstance(other, (range, FRange)):

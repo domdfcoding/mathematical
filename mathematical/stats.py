@@ -65,7 +65,7 @@ __all__ = [
 		"median_absolute_deviation",
 		"absolute_deviation",
 		"absolute_deviation_from_median",
-		"within1min"
+		"within1min",
 		]
 
 #: Type hint for allowed values for ``nan_values``.
@@ -294,7 +294,7 @@ def _contains_nan(a: numpy.ndarray, nan_policy: NaNPolicies = "propagate") -> Tu
 			warnings.warn(
 					"The input array could not be properly checked for nan "
 					"values. nan values will be ignored.",
-					RuntimeWarning
+					RuntimeWarning,
 					)
 
 	if contains_nan and nan_policy == "raise":
@@ -328,7 +328,7 @@ def median_absolute_deviation(  # noqa: MAN001
 		axis: Optional[int] = 0,
 		center: Callable = numpy.median,
 		scale: float = 1.4826,
-		nan_policy: NaNPolicies = "propagate"
+		nan_policy: NaNPolicies = "propagate",
 		) -> Union[float, numpy.ndarray]:
 	"""
 	Compute the median absolute deviation of the data along the given axis.
