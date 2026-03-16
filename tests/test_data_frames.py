@@ -117,7 +117,7 @@ def test_df_delta_relative(base_df: pandas.DataFrame):
 	assert df["Sample 1/2 rel. delta"][0] == 2.353518821603928
 
 	df = copy.deepcopy(base_df)
-	df["Sample 1"][0] = 0
+	df.loc[0, "Sample 1"] = 0
 	df["Sample 1/2 rel. delta"] = df.apply(df_delta_relative, args=("Sample 2", "Sample 1"), axis=1)
 	assert math.isinf(df["Sample 1/2 rel. delta"][0])
 

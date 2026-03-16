@@ -229,8 +229,10 @@ def df_log(row: pandas.Series, column_label_list: List[str], base: float = 10) -
 	:return: The logarithmic value.
 	"""  # noqa: D400
 
-	if all(row[column_label_list][i] > 0.0 for i in range(len(row[column_label_list]))):
-		return log(row[column_label_list], base)
+	assert len(column_label_list) == 1
+
+	if all(row[column_label_list].iloc[i] > 0.0 for i in range(len(row[column_label_list]))):
+		return log(row[column_label_list].iloc[0], base)
 	else:
 		return 0
 

@@ -205,8 +205,14 @@ def test_nanmean(values: list, result: float):
 	assert nanmean(values) == result
 
 
+@pytest.mark.filterwarnings("always::RuntimeWarning")
 def test_nanmean_allnan():
-	assert numpy.isnan(nanmean([numpy.nan, None, float("nan")]))
+	values = [numpy.nan, None, float("nan")]
+
+	with pytest.warns(RuntimeWarning, match="Mean of empty slice"):
+		rsd = nanmean(values)
+
+	assert numpy.isnan(rsd)
 
 
 @pytest.mark.parametrize(
@@ -224,9 +230,14 @@ def test_nanmean_allnan():
 def test_nanstd(values: list, result: float):
 	assert nanstd(values) == result
 
-
+@pytest.mark.filterwarnings("always::RuntimeWarning")
 def test_nanstd_allnan():
-	assert numpy.isnan(nanstd([numpy.nan, None, float("nan")]))
+	values = [numpy.nan, None, float("nan")]
+
+	with pytest.warns(RuntimeWarning, match="Degrees of freedom <= 0 for slice."):
+		std = nanstd(values)
+
+	assert numpy.isnan(std)
 
 
 @pytest.mark.parametrize(
@@ -245,5 +256,11 @@ def test_nanrstd(values: list, result: float):
 	assert nanrsd(values) == result
 
 
+@pytest.mark.filterwarnings("always::RuntimeWarning")
 def test_nanrstd_allnan():
-	assert numpy.isnan(nanrsd([numpy.nan, None, float("nan")]))
+	values = [numpy.nan, None, float("nan")]
+
+	with pytest.warns(RuntimeWarning, match="Mean of empty slice"):
+		rsd = nanrsd(values)
+
+	assert numpy.isnan(rsd)
