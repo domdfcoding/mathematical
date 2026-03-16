@@ -230,6 +230,7 @@ def test_nanmean_allnan():
 def test_nanstd(values: list, result: float):
 	assert nanstd(values) == result
 
+
 @pytest.mark.filterwarnings("always::RuntimeWarning")
 def test_nanstd_allnan():
 	values = [numpy.nan, None, float("nan")]
@@ -264,6 +265,7 @@ def test_nanrstd_allnan():
 		rsd = nanrsd(values)
 
 	assert numpy.isnan(rsd)
+
 
 def test_intdiv():
 	assert intdiv(3, 2) == 1
