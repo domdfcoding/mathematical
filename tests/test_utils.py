@@ -59,7 +59,7 @@ import pytest
 
 # this package
 from mathematical import utils
-from mathematical.utils import nanmean, nanrsd, nanstd, represents_int
+from mathematical.utils import intdiv, nanmean, nanrsd, nanstd, represents_int
 
 data = [1, 2, 3, 4, 5, 0, "abc", False, None, numpy.nan]
 
@@ -264,3 +264,7 @@ def test_nanrstd_allnan():
 		rsd = nanrsd(values)
 
 	assert numpy.isnan(rsd)
+
+def test_intdiv():
+	assert intdiv(3, 2) == 1
+	assert intdiv(-3, 2) == -1
