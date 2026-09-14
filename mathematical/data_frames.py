@@ -330,10 +330,10 @@ def df_count(row: pandas.Series, column_label_list: ColumnLabelList = None) -> i
 	.. code-block:: python
 
 		data_frame["Count"] = data_frame.apply(
-			func=df_count,
-			args=[["Bob", "Alice"]],
-			axis=1,
-			)
+				func=df_count,
+				args=[["Bob", "Alice"]],
+				axis=1,
+				)
 
 	:param row: Row of the data frame.
 	:param column_label_list: List of column labels to count occurrences in.
